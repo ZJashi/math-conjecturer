@@ -1,0 +1,304 @@
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[toc,page]{appendix}
+\usepackage{longtable,booktabs,array}
+\usepackage{anysize}
+\usepackage{amscd}
+\usepackage{stmaryrd}
+\usepackage{wasysym}
+\usepackage{mathrsfs}
+\usepackage[scr=boondox]{mathalfa}
+\usepackage{enumitem}
+\usepackage{accents}
+\usepackage{dsfont}
+\usepackage{soul}
+\usepackage{color}
+\usepackage[all]{xy}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{makecell}
+\usepackage{thmtools}      
+\usepackage{setspace}
+\usepackage{comment}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{mathdots}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage[myheadings]{fullpage}
+
+\usepackage[hypertexnames=false,colorlinks,linkcolor=black,citecolor=black]{hyperref}
+\usepackage[capitalize,nameinlink]{cleveref}
+
+\crefname{appendix}{Appendix}{Appendices}
+\Crefname{appendix}{Appendix}{Appendices}
+
+%Selecta's standard settings
+\textwidth=125mm
+\textheight=185mm
+\parindent=8mm
+\evensidemargin=0pt
+\oddsidemargin=0pt
+\frenchspacing
+
+\setcounter{tocdepth}{1} %makes table of contents not include subsections
+\numberwithin{equation}{section}
+\parskip=0.05in 
+\parindent=0.23in
+%\pagestyle{plain}
+\newcommand\mtop{.95in}
+\newcommand\mbottom{.95in}
+\newcommand\mleft{1in}
+\newcommand\mright{1in}
+\usepackage[top = \mtop, bottom = \mbottom, left = \mleft, right=\mright]{geometry}
+\DeclareMathOperator{\val}{val}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\law}{Law}
+\newtheorem{name}{Printed output}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{example}[thm]{Example}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+%\newtheorem{problem}[1]{\textbf{Problem #1}}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{notation}{Notation}
+\newtheorem{rmk}[thm]{Remark}
+\newcommand*{\problem}[1]{\textbf{Problem #1}}
+\newcommand*{\exercise}[1]{\textbf{Exercise #1}}
+%\usepackage{scalerel,stackengine}
+%\stackMath
+\newcommand\reallywidehat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+
+
+%makes table of contents indent properly, taken from https://tex.stackexchange.com/questions/51760/table-of-contents-with-indents-and-dots
+\makeatletter
+\def\@tocline#1#2#3#4#5#6#7{\relax
+  \ifnum #1>\c@tocdepth % then omit
+  \else
+    \par \addpenalty\@secpenalty\addvspace{#2}%
+    \begingroup \hyphenpenalty\@M
+    \@ifempty{#4}{%
+      \@tempdima\csname r@tocindent\number#1\endcsname\relax
+    }{%
+      \@tempdima#4\relax
+    }%
+    \parindent\z@ \leftskip#3\relax \advance\leftskip\@tempdima\relax
+    \rightskip\@pnumwidth plus4em \parfillskip-\@pnumwidth
+    #5\leavevmode\hskip-\@tempdima
+      \ifcase #1
+       \or\or \hskip 1em \or \hskip 2em \else \hskip 3em \fi%
+      #6\nobreak\relax
+    \hfill\hbox to\@pnumwidth{\@tocpagenum{#7}}\par% <---- \dotfill -> \hfill
+    \nobreak
+    \endgroup
+  \fi}
+\makeatother
+
+%Steve Miller's fix commands
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{(#1)}}}
+\newcommand{\fix}[1]{\textcolor{red}{\textbf{\large (#1)\normalsize}}}
+\newcommand{\fixed}[1]{\textcolor{green}{~\\ \textbf{\large #1\normalsize}}\\}
+
+%symbols
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mL}{\mathcal{L}}
+%\renewcommand{\H}{\mathbb{H}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\mH}{\mathcal{H}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\bb}{\mathbb}
+\newcommand{\mc}{\mathcal}
+\renewcommand{\sl}{\mathfrak{sl}}
+\renewcommand{\sp}{\mathfrak{sp}}
+\newcommand{\gl}{\mathfrak{gl}}
+\renewcommand{\o}{\mathfrak{o}}
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\bbone}{\mathbbold{1}}
+\renewcommand{\l}{\lambda}
+\newcommand{\eps}{\epsilon}
+\renewcommand{\Re}[1]{\text{Re}(#1)}
+\renewcommand{\Im}{\text{Im}}
+\newcommand{\cov}{\text{Cov}}
+\newcommand{\var}{\text{Var}}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)} 
+\newcommand{\bfrac}[2]{\left[\frac{#1}{#2}\right]}
+\renewcommand{\cfrac}[2]{\left\{\frac{#1}{#2}\right\}}
+\newcommand{\liminfty}{\lim_{n\rightarrow \infty}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\dd}[2]{\frac{d #1}{d #2}}
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\dderiv}[2]{\frac{d #1}{d #2}}
+\newcommand{\curleps}{\mathcal{E}}
+\newcommand{\op}{\oplus}
+\newcommand{\ot}{\otimes}
+\newcommand{\bad}{\text{bad}}
+\newcommand{\mm}{\mathfrak{m}}
+\newcommand{\ma}{\mathfrak{a}}
+\newcommand{\mb}{\mathfrak{b}}
+\newcommand{\mg}{\mathfrak{g}}
+\newcommand{\mn}{\mathfrak{n}}
+\newcommand{\mh}{\mathfrak{h}}
+\newcommand{\hmn}{\hat{\mathfrak{n}}}
+\newcommand{\hmg}{\hat{\mathfrak{g}}}
+\newcommand{\hmh}{\hat{\mathfrak{h}}}
+\newcommand{\hsl}{\widehat{\mathfrak{sl_2}}}
+\newcommand{\la}{\left\langle}
+\newcommand{\ra}{\right\rangle}
+\newcommand{\dla}{\langle \langle}
+\newcommand{\dra}{\rangle \rangle}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\tth}{^{th}} 
+\newcommand{\px}[1]{\pd{}{x_{#1}}}
+\newcommand{\py}[1]{\pd{}{y_{#1}}}
+\newcommand{\chr}[3]{\Gamma_{#1 #2}^{#3}}
+\renewcommand{\char}{\text{char}}
+\renewcommand{\div}{\text{div}}
+\newcommand{\bX}{\bar{X}}
+\newcommand{\bY}{\bar{Y}}
+\newcommand{\bZ}{\bar{Z}}
+\newcommand{\na}{\nabla}
+\newcommand{\cv}{\check{v}}
+\newcommand{\hv}{\hat{v}}
+\newcommand{\tnu}{\tilde{\nu}}
+\newcommand{\M}{\mu_{Haar}}
+\newcommand{\hP}{\hat{P}}
+\newcommand{\hQ}{\hat{Q}}
+\newcommand{\hc}{\hat{c}}
+\newcommand{\tkappa}{\tilde{\kappa}}
+\newcommand{\tl}{\tilde{\lambda}}
+\newcommand{\tm}{\tilde{\mu}} 
+\newcommand{\tk}{\tilde{\kappa}} 
+\newcommand{\tc}{\tilde{c}} 
+\newcommand{\bl}{{\bar{\lambda}}}
+\newcommand{\bk}{{\bar{\kappa}}}
+\renewcommand{\hl}{{\hat{\lambda}}}
+\renewcommand{\hm}{{\hat{\mu}}}
+\newcommand{\hk}{{\hat{\kappa}}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\dist}{\text{dist}}
+\newcommand{\Y}{\mathbb{Y}}
+\newcommand{\tP}{\tilde{P}}
+\newcommand{\tQ}{\tilde{Q}}
+\newcommand{\tT}{\tilde{T}}
+\newcommand{\G}{\mathbb{G}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\K}{K}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bd}{\mathbf{d}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\mbr}{M_D^{branch}}%probably want to go change these later
+\newcommand{\mcj}{M_D^{Cauchy}}
+\newcommand{\hx}{\hat{x}}
+\newcommand{\tv}{\tilde{v}}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\D}{\mathcal{D}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\barv}{\bar{v}}
+\newcommand{\tL}{\tilde{L}}
+\newcommand{\bsomega}{\boldsymbol{\omega}}
+\DeclareMathOperator{\Geom}{Geom}
+%end of weird random commands
+\DeclareMathOperator{\Len}{Len}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\comp}{comp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Alt}{Alt}
+\DeclareMathOperator{\Her}{Her}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\new}{new}
+\DeclareMathOperator{\Disc}{Disc}
+\DeclareMathOperator{\Nm}{Nm}
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator{\Cok}{Cok}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Der}{Der}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\wt}{wt}
+\DeclareMathOperator{\inv}{inv}
+\DeclareMathOperator{\nil}{nil}
+\DeclareMathOperator{\res}{res}
+\DeclareMathOperator{\tors}{tors}
+\DeclareMathOperator{\sym}{sym}
+\DeclareMathOperator{\alt}{alt}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\corank}{corank}
+\DeclareMathOperator{\tcok}{tcok}
+\DeclareMathOperator{\Expo}{Expo}
+\DeclareMathOperator{\Dep}{Dep}
+\DeclareMathOperator{\congsim}{\stackrel{\text{cong}}{\sim}}
+\DeclareMathOperator{\pair}{pair}
+\DeclareMathOperator{\rec}{rec}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Vol}{Vol}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\GSp}{GSp}
+%\DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\SU}{SU}
+\DeclareMathOperator{\Vir}{Vir}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Sig}{Sig}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\GT}{GT}
+\DeclareMathOperator{\tPr}{\tilde{Pr}}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\const}{const}
+\DeclareMathOperator{\SN}{SN}
+\DeclareMathOperator{\Cor}{Cor}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Sur}{Sur}
+
+\newcommand{\JC}[1]{{\color{purple} \sf $\clubsuit$ Jiahe's comment: [#1]}}
+
+\newcommand{\KC}[1]{{\color{green} \sf $\clubsuit$ Kevin's comment: [#1]}}

@@ -1,0 +1,1219 @@
+\documentclass[12pt,reqno]{amsart}
+
+\usepackage{amssymb, amsmath, amsfonts, latexsym}
+\usepackage{enumerate}
+
+\usepackage{color}
+\setlength{\topmargin}{0cm} \setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm} \setlength{\textwidth}{15truecm}
+\setlength{\textheight}{22.8truecm}
+
+\newtheorem{thm}{Theorem}[]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{prop}{Proposition}[]
+\newtheorem{exam}{Example}[section]
+\newtheorem{rmk}{Remark}[section]
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{assumption}{Assumption}[section]
+\numberwithin{equation}{section} \theoremstyle{remark}
+\newtheorem{rem}{Remark}[section]
+
+\title[Rightmost eigenvalue of chiral ]{\bf Deviation probabilities and Sharp Berry-Esseen bound for rightmost eigenvalue of large non-Hermitian chiral random matrices}
+
+\thanks{The research of Yutao Ma was supported in part by NSFC 12171038, 12571149 and 985 Projects.}
+
+\begin{document}
+
+
+\begin{abstract}
+This paper provides a quantitative analysis of the rightmost eigenvalue for a chiral non-Hermitian random Dirac matrix in the maximally non-Hermitian regime ($\tau=0$). Let $(\sigma_i)_{1\le i\le n}$ be the eigenvalues with positive real part. We define the normalization constants
+\[
+s_n = \frac{4n(n+v)}{2n+v}, \qquad
+\gamma_n = \frac{1}{2}\log s_n - \frac{5}{4}\log(\log s_n) - \log\bigl(2^{1/4}\pi\bigr),
+\]
+and the centered and scaled variable
+\[
+X_n = \sqrt{2s_n\log s_n}\,\bigl(\bigl(\tfrac{n}{n+v}\bigr)^{1/4}\,\max_{1\le i\le n}\Re\sigma_i \;-\; 1 \;-\; \frac{\gamma_n}{\sqrt{2s_n\log s_n}}\bigr).
+\]
+Our main result is the following sharp Berry--Esseen bound for the convergence of $X_n$ to the Gumbel distribution:
+\[
+\sup_{x \in \mathbb{R}} \bigl|\mathbb{P}(X_n \le x) - e^{-e^{-x}}\bigr|
+= \frac{25 (\log\log s_n)^2}{16 e \,\log s_n}\,\bigl(1 + o(1)\bigr),
+\]
+which holds as $n \to \infty$ for an arbitrary parameter $v \ge 0$ (which may depend on $n$). As a byproduct of our analysis, we also obtain precise large- and moderate-deviation principles for the scaled rightmost eigenvalue $\bigl(\frac{n}{n+v}\bigr)^{1/4} \max_{1\le i\le n}\Re\sigma_i$, characterizing its rate of convergence to the value $1$.
+\end{abstract}
+
+{\bf Keywords:} Gumbel distribution; rightmost eigenvalue; Berry-Esseen bound; large chiral non-Hermitian random matrix;  large deviations.
+
+{\bf AMS Classification Subjects 2020:} 60G70, 60B20, 60B10.
+
+\section{Introduction}\label{chap:intro}
+
+The study of extreme eigenvalues in non-Hermitian random matrices has been a topic of persistent interest, driven by its mathematical depth and applications in areas such as quantum chromodynamics (QCD) and the stability analysis of complex systems \cite{May, osborn, Stephanov}. A central and distinguishing feature of this field, compared to its Hermitian counterpart, is the emergence of the Gumbel distribution as a universal limit law. While the Tracy--Widom distribution governs the edge fluctuations of classical Hermitian ensembles, it was established that the spectral radius $\max_{1 \le j \le n} |\sigma_j|$ and the rightmost eigenvalue $\max_{1 \le j \le n} \Re \sigma_j$ of the Ginibre ensembles (real, complex, and quaternion) converge to the Gumbel distribution \cite{Rider03, Rider14}. This result was later extended to more general complex i.i.d. non-Hermitian matrices \cite{CipoErXu}, resolving a long-standing conjecture \cite{BCC18, BCG22, Chafaii18, Chafaii, Lacroix}. This universality reflects a fundamental phase in the rich diagram of non-Hermitian spectral statistics, which interpolates between Tracy--Widom and Poisson/Gumbel universality classes \cite{ErdosYau2012, Forrester2010}, with structured ensembles exhibiting critical transitions and multi-critical points \cite{AkemannKieburgViotti2013, ForresterHonner1999}.
+
+Against this backdrop of well-established limit laws, the focus has naturally shifted towards a \emph{quantitative understanding}. For the canonical Ginibre ensembles, a refined picture across different asymptotic scales has recently emerged. In the regime of \emph{typical fluctuations}, the precise rate of distributional convergence to the Gumbel law has been determined \cite{HuMa2025, MaMeng25}, building on foundational works \cite{Cipolloni22Directional, Rider03, Rider14}. In the complementary regimes of \emph{large and moderate deviations}, sharp asymptotics and full large deviation principles have also been obtained \cite{XuZeng24}. These works collectively provide a complete quantitative reference for the Ginibre model \cite{Byun 2025, Forrester2010}.
+
+A parallel line of research focuses on \emph{structured, physically motivated ensembles}. A paradigmatic model is the chiral non-Hermitian Dirac matrix $\mathcal{D}$, introduced in the context of QCD at finite chemical potential \cite{osborn}. For integers $n \ge 1$ and $v \ge 0$, let $P$ and $Q$ be $(n+v) \times n$ matrices with i.i.d. centered complex Gaussian entries of variance $1/(4n)$. The correlated matrices are defined as
+\[
+\Phi = \sqrt{1+\tau} \, P + \sqrt{1-\tau} \, Q, \qquad
+\Psi = \sqrt{1+\tau} \, P - \sqrt{1-\tau} \, Q,
+\]
+where $\tau \in [0,1]$ is the non-Hermiticity parameter. The $(2n+v) \times (2n+v)$ Dirac matrix is
+\[
+\mathcal{D} = \begin{pmatrix}
+0 & \Phi \\
+\Psi^* & 0
+\end{pmatrix}.
+\]
+Its spectrum consists of $2n$ complex eigenvalues $\{\pm \sigma_k\}_{k=1}^n$ and an eigenvalue of multiplicity $v$ at the origin. The joint density of the eigenvalues $(\sigma_1, \dots, \sigma_n)$ (with $\Re \sigma_j > 0$) is given by \cite{osborn}
+\begin{equation}\label{jpdf0}
+\prod_{1 \leq j<k \leq n}\bigl|z_j^{2}-z_k^{2}\bigr|^{2} \cdot \prod_{j=1}^{n}|z_j|^{2v+2}\,
+\exp\!\Bigl(\frac{2 \tau n \,\Re(z_j^{2})}{1-\tau^{2}}\Bigr)\,
+K_{v}\!\Bigl(\frac{2 n|z_j|^{2}}{1-\tau^{2}}\Bigr),
+\end{equation}
+where $K_{v}$ is the modified Bessel function of the second kind.
+
+The quantities $\max_{1 \le j \le n} |\sigma_j|$ and $\max_{1 \le j \le n} \Re(\sigma_j)$ are called the \textbf{spectral radius} and the \textbf{rightmost eigenvalue} of $\mathcal{D}$, respectively. The model exhibits a rich phase diagram: its spectral statistics, governed by $\tau$, interpolate between Tracy--Widom ($\tau=1$) and Poisson/Gumbel ($\tau \in [0,1)$) universality classes \cite{AB, Bender}. While the limiting global spectral distribution and multi-critical generalizations are well understood \cite{ABK, AkemannKieburgViotti2013}, obtaining equally precise \emph{quantitative} results for its extremal eigenvalues presents significant analytical challenges due to the correlated structure in \eqref{jpdf0}.
+
+For the case $\tau=0$, the limit theorems were established by Chang, Jiang, and Qi \cite{JQ}, who proved the weak convergence of the scaled spectral radius to the Gumbel distribution. Based on this foundation, subsequent quantitative analysis has been carried out by the first author with collaborators. Initial large and moderate deviation probabilities for the spectral radius were obtained in \cite{MaWang24}. Subsequently, the optimal rate of convergence for the spectral radius---quantified by both the Wasserstein distance and a Berry--Esseen bound---was established in \cite{MaWang25}. This work provided the first quantitative analogue of the Ginibre benchmarks for a structured non-Hermitian ensemble.
+
+However, the corresponding quantitative analysis for the model's \emph{rightmost eigenvalue} has remained open. Its statistical behavior is governed by a different edge geometry and correlation structure compared to the spectral radius \cite{Cipolloni22Directional}, and its convergence rate could not be inferred from existing results. Closing this gap is necessary to complete the quantitative description of the model's extremal statistics.
+
+In this paper, we address this question. Let $(\sigma_i)_{1\le i\le n}$ denote the eigenvalues of $\mathcal{D}$ (with $\tau=0$) having non-negative real part. Define
+\[
+s_n = \frac{4n(n+v)}{2n+v}, \qquad
+\gamma_n = \frac{1}{2}\log s_n - \frac{5}{4}\log\log s_n - \log\bigl(2^{1/4}\pi\bigr),
+\]
+and set
+\[
+X_n = \sqrt{2s_n\log s_n}\Bigl( \bigl(\tfrac{n}{n+v}\bigr)^{1/4} \max_{1\le i\le n}\Re \sigma_i \;-\; 1 \;-\; \frac{\gamma_n}{\sqrt{2s_n\log s_n}} \Bigr).
+\]
+
+Our main result is the following Berry--Esseen bound.
+
+\begin{thm}\label{main}
+For the chiral Dirac matrix $\mathcal{D}$ with $\tau=0$ and any $v \ge 0$ (which may depend on $n$), we have
+\[
+\sup_{x \in \mathbb{R}} \bigl| \mathbb{P}(X_n \le x) - e^{-e^{-x}} \bigr|
+= \frac{25 (\log\log s_n)^2}{16 e \,\log s_n}\,\bigl(1 + o(1)\bigr), \qquad n \to \infty.\]
+\end{thm}
+
+\begin{rmk}
+For fixed $v$, Theorem 3 of Akemann and Bender \cite{AB} implies the weak convergence of a similarly scaled variable to the Gumbel distribution. Theorem \ref{main} not only recovers this result--since $s_n = 2n(1+O(n^{-1}))$--but also provides the precise rate of convergence, showing that the $O(n^{-1})$ difference in scaling is absorbed by the much larger error term $O((\log \log s_n)^2/\log s_n)$.
+\end{rmk}
+
+Our proof leverages the determinantal point process (DPP) structure of the eigenvalues. Let
+\[
+A(t) = \Bigl\{ z \in \mathbb{C} : \Re z \ge \bigl(\tfrac{n+v}{n}\bigr)^{1/4}\bigl(1+\tfrac{\gamma_n+t}{\sqrt{2s_n\log s_n}}\bigr) \Bigr\}.
+\]
+A fundamental property of DPPs gives $\mathbb{P}(X_n \le t) = \det(1 - \mathbb{K}_n|_{A(t)})$, where $\mathbb{K}_n$ is the correlation kernel \cite{AB}. Using an operator norm estimate \cite{Gohberg}, the proof reduces to controlling the trace and Hilbert--Schmidt norms of the restricted kernel through precise asymptotic analysis (Lemma \ref{Kelem}, \ref{Trlem} and \ref{2Trlem}).
+
+On the other hand, by properties of DPP processes, we have for any \(t>0\)
+
+\[
+n^{-1}\,\mathbb{E}\,\#\{\sigma_i: \Re \sigma_i\ge t\}\le
+\mathbb{P}\!\bigl(\max\Re\sigma_i\ge t\bigr)\le
+\mathbb{E}\,\#\{\sigma_i: \Re \sigma_i\ge t\},
+\]
+
+and consequently
+
+\[
+\log \mathbb{P}\!\bigl(\max\Re\sigma_i\ge t\bigr)=
+\log \mathbb{E}\,\#\{\sigma_i: \Re \sigma_i\ge t\}+O(\log n),
+\]
+
+with
+
+\[
+\mathbb{E}\,\#\{\sigma_i: \Re \sigma_i\ge t\}=
+\int_{\Re z\ge t} \mathbb{K}_n(z, z)\,d^2 z.
+\]
+
+Thus, as a useful by-product of the estimates for \(\mathbb{K}_n\), we obtain the following large- and moderate-deviation results for \(\displaystyle\max_{1\le i\le n} \Re \sigma_i\), which quantify the rate at which \((\frac{n}{n+v})^{1/4}\max_{1\le i\le n} \Re \sigma_i\) tends to \(1\).
+Unfortunately, the \(O(\log n)\) error term prevents us from obtaining a corresponding small-deviation estimate.
+
+We now state the large- and moderate-deviation results.
+
+\begin{thm}\label{Large}
+Define $\alpha = \lim_{n\to\infty} v/n.$ Under the condition $\alpha\in [0, +\infty], $ we have
+\[
+\lim_{n\to\infty} \frac{1}{n} \log \mathbb{P}\Bigl( \bigl(\tfrac{n}{n+v}\bigr)^{1/4} \max_{1\le i\le n}\Re \sigma_i \ge t \Bigr) = -J_{\alpha}(t)
+\]
+for any $t > 1,$ where
+\[
+J_{\alpha}(t)= -2(1+\log t^2) +\frac{4(1+\alpha)t^4}{\alpha + \sqrt{\alpha^2+4(1+\alpha)t^4}}
+-\alpha \log \frac{\alpha + \sqrt{\alpha^2+4t^4(1+\alpha)}}{2(1+\alpha)}.
+\]  Meanwhile, given $d_n$ satisfying $\sqrt{\log n/n} \ll d_n \ll 1,$ we derive
+\[
+\lim_{n\to\infty} \frac{1}{n d_n^2} \log \mathbb{P}\Bigl( \bigl(\tfrac{n}{n+v}\bigr)^{1/4} \max_{1\le i\le n}\Re \sigma_i \ge 1 + t d_n \Bigr) = -\frac{8(1+\alpha)}{2+\alpha}\, t^2
+\]
+for any $t>0.$
+
+\end{thm}
+
+The paper is organized as follows. Section 2 collects necessary preliminaries concerning the correlation kernel. Section 3 is devoted to the proofs of Theorems \ref{main} and \ref{Large}. The proofs of lemmas related to correlation kernel are postponed to the forth section.
+
+We shall frequently use the following asymptotic notation:
+
+- \(t_n = O(z_n)\) means \(\displaystyle\lim_{n\to\infty} \frac{t_n}{z_n} = c \neq 0\);
+
+- \(t_n = o(z_n)\) means \(\displaystyle\lim_{n\to\infty} \frac{t_n}{z_n} = 0\);
+
+- \(t_n \lesssim z_n\) or $z_n\gtrsim t_n $ means that there exists a constant \(c > 0\) such that \(t_n \le c\, z_n\) for all sufficiently large \(n\);
+
+- \(t_n \ll z_n\) (equivalently \(z_n \gg t_n\)) stands for \(t_n = o(z_n)\);
+
+- \(t_n \asymp z_n\) means both $t_n\lesssim z_n$ and $z_n\lesssim t_n$ hold.
+
+\section{Preliminaries}
+ In this section, we collect several key lemmas.
+
+First, for the case \(\tau = 0\), the joint density function of the eigenvalues \((\sigma_k)_{1 \le k \le n}\)
+is
+\begin{equation}\label{jpdf}
+\prod_{1 \leq j<k \leq n}\bigl|z_j^{2}-z_k^{2}\bigr|^{2} \cdot \prod_{j=1}^{n}|z_j|^{2v+2}\,
+\exp\!\Bigl(\frac{2 \tau n \,\Re(z_j^{2})}{1-\tau^{2}}\Bigr)\,
+K_{v}\!\Bigl(\frac{2 n|z_j|^{2}}{1-\tau^{2}}\Bigr).
+\end{equation}
+According to the results in \cite{AB}, $(\sigma_1, \cdots, \sigma_n)$ forms a determinantal point process whose correlation kernel is given by
+
+\begin{equation} \label{kernel1}
+\mathbb{K}_n(z,w) = \frac{8n^{v+2}|z|^{v+1}|w|^{v+1}}{\pi} \sqrt{K_v(2n|z|^2)K_v(2n|w|^2)}
+\sum_{k=0}^{n-1} \frac{(nz\bar{w})^{2k}}{\Gamma(k+1)\Gamma(k+v+1)} .
+\end{equation}
+Recall that
+\[
+s_n = \frac{4n(n+v)}{2n+v} \quad \text{and} \quad
+\gamma_n = \frac{1}{2}\log s_n - \frac{5}{4}\log\log (s_n) - \log\bigl(2^{1/4}\pi\bigr).
+\]
+For simplicity, define
+\[
+h_n(t) = \frac{\gamma_n + t}{\sqrt{2s_n\log s_n}} \quad \text{and} \quad
+L_n(t) = \Bigl(\frac{n+v}{n}\Bigr)^{1/4}\bigl(1 + h_n(t)\bigr).
+\]
+Hereafter, when there is no risk of confusion, we simply write \(h_n\) and \(L_n\) for \(h_n(t)\) and \(L_n(t)\), respectively and we always utilize the asymptotics $$s_n=O(n)\quad \text{and} \quad  h_n=O((\frac{\log n}{s_n})^{1/2}).$$
+Review
+\[
+A(t) = \bigl\{ z\in \mathbb{C} : \Re z \ge L_n(t) \bigr\},
+\]
+a basic property of determinantal point processes yields
+\[
+\mathbb{P}\bigl( X_n \le t \bigr) = \det\!\bigl(1 - \mathbb{K}_n|_{A(t)}\bigr).
+\]
+Following formula (7.11) in \cite{Gohberg}, we have the estimate
+\begin{equation}\label{E2}
+\begin{aligned}
+&\bigl| \det\bigl(1 - \mathbb{K}_n|_{A(t)}\bigr) - \exp\!\bigl(-\operatorname{Tr}(\mathbb{K}_n|_{A(t)})\bigr) \bigr| \\
+&\quad \le \|\mathbb{K}_n|_{A(t)}\|_2 \;
+        \exp\!\Bigl\{ \tfrac12\bigl(\|\mathbb{K}_n|_{A(t)}\|_2 + 1\bigr)^2 - \operatorname{Tr}(\mathbb{K}_n|_{A(t)}) \Bigr\},
+\end{aligned}
+\end{equation}
+where
+\[
+\operatorname{Tr}(\mathbb{K}_n|_{A(t)}) = \int_{A(t)} \mathbb{K}_n(z, z) \, d^2 z, \qquad
+\|\mathbb{K}_n|_{A(t)}\|_2^2 = \int_{A(t)\times A(t)} |\mathbb{K}_n(z, w)|^2 \, d^2 z\, d^2 w .
+\]
+
+In order to capture suitable upper bounds for \(\|\mathbb{K}_n|_{A(t)}\|_2\) together with precise asymptotics for \(\operatorname{Tr}(\mathbb{K}_n|_{A(t)})\), we first derive a precise asymptotic for the sum appearing in the kernel \(\mathbb{K}_n(z, w)\) in \eqref{kernel1}.  We then state two lemmas concerning certain functions related to the Bessel function \(K_v\) as well as an auxiliary integral.  For readability, the proofs of these lemmas are deferred to the final section.
+	\begin{lem}\label{sumlem} Given $0<q_n=O(\sqrt{\log n/s_n}).$ For any $z$ in $\mathbb{C}$ satisfying $$|z|\ge(\frac{n+v}{n})^{1/2}(1+q_n),$$ we have
+		$$\sum_{k=0}^{n-1} \frac{(z n)^{2k}}{\Gamma(1+k)\Gamma(1+k+v)}=\frac{z^{2n}n^{n-\frac{1}{2}}e^{2n+v}}{2\pi (n+v)^{n+v+\frac{1}{2}}(\frac{z^2n}{n+v}-1)}(1+O(\frac{1}{\log n}))$$
+		for sufficiently large $n.$
+	\end{lem}
+
+Now, we present a lemma on a particular function related to $K_v(v x)$ when $v\gtrsim \log n.$
+
+\begin{lem}\label{taulem}
+ Suppose $\log n\lesssim v.$ Setting \begin{equation}\label{taunexp}
+	\tau_n(r) = \sqrt{1 + r^2} - \log(1 + \sqrt{1 + r^2}) + \frac{1}{4v} \log(1 + r^2) - \frac{2n + 1}{v} \log r
+	\end{equation}
+	and $w(r)=v\tau_n(\kappa_n(1+r))$ with $\kappa_n=\frac{2\sqrt{n(n+v)}}{v}(1+h_n)^2.$
+
+\begin{itemize}
+\item[(1)] For $n$ large enough, we have $$\aligned v\tau_n(\kappa_n)&=2n+v+2s_nh_n^2+\log \frac{v^{2n+v+1/2}}{2^{2n+v}(n+v)^{n+v}n^n\sqrt{s_n}}+O(\frac{\log\log s_n}{\log s_n}).\endaligned $$
+\item[(2)] Both $w$ and $w'$ are strictly increasing on $[0, +\infty)$ and
+$$w(r)\ge v\tau_n(\kappa_n)+2s_n h_n r (1+O(h_n)), \quad w'(r)\ge 2s_nh_n(1+O(h_n))$$	 for any $r>0.$
+\item[(3)] As $n$ tends to the infinity, we have
+$$w(r)=v\tau_n(\kappa_n)+2s_n h_n r                                                            +\frac{s_nr^2}{4}+o((\log n)^{-1})$$
+and $$w'(r)=2s_n h_n(1+\frac{r}{2h_n})(1+O(h_n))$$
+uniformly on $0\le r\lesssim (\log n/s_n)^{1/2}.$
+
+\end{itemize}
+\end{lem}
+
+Next, we give a lemma for the case $1\le v\ll \log n.$
+\begin{lem}\label{philem} Suppose $1\le v\ll \log n.$ Define $\phi(r)=2 r-(2+\frac{v+1/2}{n})\log r$ on $\mathbb{R}_+$ and $\beta(r):= \phi(L_n^2(1+r))$ with $L_n^2=\frac{\sqrt{n+v}}{\sqrt{n}}(1+h_n)^2.$
+\begin{itemize}
+\item[(1)] For $n$ large enough, we have $$n\phi(L_n^2)=2n(1+2h_n^2)+o((\log n)^{-1}).$$
+\item[(2)]  Both $\beta$ and $\beta'$ are strictly increasing on $[0, +\infty)$ and
+$$n \beta(r)\ge 2n(1+2h_n^2)+4n h_n r, \quad n\beta'(r)\ge 4nh_n$$ for any $r>0.$
+\item[(3)] As $n$ tends to the infinity, we have
+$$
+  n\beta(r) =2n(1+2h_n^2+2h_n r+\frac{1}{2}r^2)+o((\log n)^{-1}).
+$$
+and $$\beta'(r)=4h_n(1+o((\log n)^{-1}))$$
+uniformly on $0\le r\lesssim (\log n/s_n)^{1/2}.$
+\end{itemize}
+\end{lem}
+
+
+\begin{lem}\label{Kelem} Let $\mathbb{K}_n$ and $\tau_n$ be defined as in \eqref{kernel1} and  \eqref{taunexp}, respectively. Given $z, w\in\mathbb{C}$ satisfying for $z, w$ satisfying $|z|, |w|\ge (\frac{n+v}{n})^{1/4}(1+q_n)$ with $q_n=O(\sqrt{\log n/s_n}).$
+\begin{itemize}
+\item \; For the case $1\le v\ll \log n,$ we have
+$$
+		\mathbb{K}_n (z, w)=\frac{2\sqrt{n}|z\bar w|^{v+1/2}(e z\bar{w})^{2n}}{\pi^{3/2}(\frac{n(z\bar w)^2}{n+v}-1)}e^{-n(|z|^2+|w|^2)}(1+O((\log n)^{-1})).
+$$
+
+\item When $v\lesssim \log n,$	it holds
+$$
+		\mathbb{K}_n (z,w)=\frac{v^{2n+v+1/2}e^{2n+v}\exp(-v\tau_n(\frac{2n}{v} |z|^2))}{\pi^{3/2}2^{2n+v-1/2}n^{n-1/2} (n+v)^{n+v+1/2} (\frac{n (z\bar{w})^2}{n+v}-1)}(1+O((\log n)^{-1})).
+	$$
+\end{itemize}
+\end{lem}
+ \begin{proof}
+ 	Lemma \ref{sumlem} yields
+	\begin{equation}\label{expressionforK}
+		\mathbb{K}_n(z,w)
+		=\frac{4n^{n+v+3/2}|z \bar{w}|^{v+1}e^{2n+v}(z\bar{w})^{2n}}{\pi^2 (n+v)^{n+v+1/2} (\frac{n(z\bar{w})^2}{n+v}-1)}\sqrt{K_v(2n|z|^2)K_v(2n|w|^2)}(1+O((\log n)^{-1}))
+	\end{equation}
+	since the condition $|z|, |w|\ge (\frac{n+v}{n})^{1/4}(1+q_n)$ implying $$|z \bar{w}|\ge (\frac{n+v}{n})^{1/2}(1+q_n)^2\ge (\frac{n+v}{n})^{1/2}(1+q_n).$$
+For the case $1\le v\ll \log n,$
+$$K_v(x)=\sqrt{\frac{\pi}{2x}}e^{-x}(1+O(\frac1{x}))$$ for $x\gg 1$\;(\cite{AS}).	Since $2n |z|^2\gg 1$ and $2n|w|^2\gg 1,$ putting asymptotics of both $K_v(2n|z|^2)$ and $K_v(2n|w|^2)$ into \eqref{expressionforK}, we have
+	$$
+		\mathbb{K}_n(z, w)=\frac{2n^{n+v+1}|z\bar w|^{v+1/2}e^{2n+v}(z\bar{w})^{2n}}{\pi^{3/2}(n+v)^{n+v+1/2} (\frac{n(z\bar w)^2}{n+v}-1)}e^{-n(|z|^2+|w|^2)}(1+O((\log n)^{-1}))
+	$$
+	and then we use the condition $v\ll \log n$ to simplify $\mathbb{K}_n(z, w)$ as $$
+		\mathbb{K}_n (z, w)=\frac{2\sqrt{n} e^{2n}|z\bar w|^{2n+v+1/2}}{\pi^{3/2}(\frac{n(z\bar w)^2}{n+v}-1)}e^{-n(|z|^2+|w|^2)}(1+O((\log n)^{-1})).
+	$$
+	When $\log n\lesssim v,$
+$K_v(v x)$ (\cite{AS}) has the following  asymptotic
+\begin{equation}\label{Kvinfinite}
+K_v(vx) = \sqrt{\frac{\pi}{2v}}x^{-2n-1-v}\exp(-v\tau_n(x))(1 + O(v^{-1})).
+\end{equation}
+Putting  the expression \eqref{Kvinfinite} into \eqref{expressionforK}, we get
+	$$
+		\mathbb{K}_n (z,w)=\frac{v^{2n+v+1/2}e^{2n+v}(z\bar{w})^{2n}\exp(-\frac12v(\tau_n(\frac{2n}{v} |z|^2)+ \tau_n(\frac{2n}{v} |w|^2)))}{\pi^{3/2}2^{2n+v-1/2}n^{n-1/2} (n+v)^{n+v+1/2}|z\bar{w}|^{2n} (\frac{n(z\bar{w})^2}{n+v}-1)}(1+O((\log n)^{-1})).
+	$$
+	 \end{proof}
+
+
+\begin{lem}\label{intelem}
+	Given \( 0<u_n = O(\sqrt{n\log n}) \) and \(0< \delta_{n} = O( \big(\frac{\log n}{n}\big)^{1/4} ) \) and let $h_n$ be defined as above.   Then for positive constants \(k,  c_1, c_2 > 0 \), we have
+	\[
+	\int_{0}^{\delta_{n}} e^{ -u_n y^2 - c_1n y^4}
+	( 1 + \frac{y^2}{c_2 h_n} )^{\!-k}  dy
+	=\frac{\sqrt{\pi}}{2\sqrt{u_n}}(1+O((\log n)^{-1}))
+	\]
+	and
+	\[
+	\int_{\delta_n}^{+\infty} e^{ -u_n y^2 }dy\ll \frac{1}{\sqrt{u_n} \log n}.\]
+\end{lem}
+
+We now are  ready to present the lemma on ${\rm Tr}(\mathbb{K}_n|_{A(t)}).$
+
+\begin{lem}\label{Trlem} Let $\mathbb{K}_n$ and $A(t)$ be defined as above. We have
+	$$\operatorname{Tr}(\mathbb{K}_n|_{A(t)})=(1+O(\frac{\log\log s_n}{\log s_n}))\exp(-t-\frac{(t-c_n)^2}{\log s_n})$$ uniformly on $|t|\lesssim (\log n)^{1/4}$ for sufficiently large $n.$ Here, $$c_n:=\frac{5}{4}\log\log s_n+\log(2^{1/4}\pi).$$
+\end{lem}
+\begin{proof} Throughout the proof we assume \(|t| \lesssim (\log n)^{1/4}\), which guarantees
+\begin{equation}\label{h}
+h_n = \frac{\frac12\log s_n - c_n + t}{\sqrt{2s_n\log s_n}}
+     = \frac{1}{2}\Bigl(\frac{\log s_n}{2s_n}\Bigr)^{1/2}
+       \Bigl(1 + O\Bigl(\frac{\log\log n}{\log n}\Bigr)\Bigr),
+\end{equation}
+because \(s_n = \frac{4n(n+v)}{2n+v}\) and \(c_n - t = O(\log\log n)\).
+
+For any $z\in A(t),$ which suits the condition of Lemma \ref{Kelem} and then
+\begin{equation}\label{expreKsim}
+\begin{aligned}
+\mathbb{K}_n (z, z)
+&= \frac{2\sqrt{n}\,|z|^{4n+2v+1}e^{2n}}{\pi^{3/2}\bigl(\frac{n|z|^4}{n+v} - 1\bigr)}\,
+   e^{-2n|z|^2}\bigl(1+O((\log n)^{-1})\bigr)\\
+&= \frac{2\sqrt{n}\,e^{2n}}{\pi^{3/2}\bigl(\frac{n|z|^4}{n+v} - 1\bigr)}\,
+   e^{-n\phi(|z|^2)}\bigl(1+O((\log n)^{-1})\bigr),
+\end{aligned}
+\end{equation}
+where \(\phi(\cdot)\) is defined implicitly by the first line.
+Writing \(z = L_n (x + iy)\) and using the fact that \(\mathbb{K}_n(z,z)\) is even in \(y\), we obtain
+\begin{equation}\label{Trtotalfinite}
+\begin{aligned}
+\operatorname{Tr}(\mathbb{K}_n|_{A(t)})
+&= \int_{A(t)} \mathbb{K}_n(z,z) \, d^2z \\
+&= 4\pi^{-3/2}\sqrt{n}\,e^{2n}L_n^{2}\bigl(1+O((\log n)^{-1})\bigr)
+   \int_{0}^{\infty} dy \int_{1}^{\infty}
+   \frac{e^{-n\phi\bigl(L_n^2(x^2+y^2)\bigr)}}
+        {\bigl(1+h_n\bigr)^4(x^2+y^2)^2 - 1} \, dx .
+\end{aligned}
+\end{equation}
+
+Take \(\delta_n = (\log n / s_n)^{1/4}\).  We claim that for the trace \(\operatorname{Tr}\bigl(\sqrt{\chi_{A(t)}}\,\mathbb{K}_n\sqrt{\chi_{A(t)}}\bigr)\), the integral over \(0 \le y \le \delta_n\) and \(1 \le x < \infty\) in \eqref{Trtotalfinite} provides the dominant contribution, while the remaining part is negligible.  Lemma \ref{philem} justifies the use of Laplace's method (\cite{AAA}), yielding
+
+\begin{equation}\label{laplace1}
+\begin{aligned}
+I_F(y) &:=\int_{1}^{\infty}
+         \frac{e^{-n\phi\bigl(L_n^2(x^2+y^2)\bigr)}}
+              {\bigl(1+h_n\bigr)^4(x^2+y^2)^2 - 1} \, dx \\[2mm]
+&= \frac{e^{-n\phi\bigl(L_n^2(1+y^2)\bigr)}}
+       {n\,\partial_x\phi\bigl(L_n^2(1+y^2)\bigr)\big|_{x=1}
+        \,\bigl[(1+h_n)^4(x^2+y^2)-1\bigr]_{x=1}}
+       + O\bigl(e^{-n\phi\bigl(L_n^2(1+y^2)\bigr)} n^{-2}\bigr)\\[2mm]
+&= \frac{e^{-n\beta(y^2)}}
+       {2n\,\beta'(y^2)\,\bigl[(1+h_n)^4(1+y^2)-1\bigr]}
+       + O\bigl(e^{-n\beta(y^2)} n^{-2}\bigr)
+\end{aligned}
+\end{equation}
+for any fixed \(y\in\mathbb{R}\).
+
+Moreover, since $\delta_n=O(\sqrt{h_n}),$ for \(0 \le y \le \delta_n\), Lemma \ref{philem} together with the relation
+\begin{equation}\label{domieq}
+(1+h_n)^4(1+y^2)^2 - 1
+= 4h_n\Bigl(1+\frac{y^2}{2h_n}\Bigr)\bigl(1+O(h_n)\bigr)
+\end{equation}
+gives
+
+\[
+I_F(y)=\frac{\exp\bigl(-2n-4n h_n^2\bigr)}{32n h_n^2}\,
+e^{-4nh_n y^2 - ny^4}
+\bigl(1+\frac{y^2}{2h_n}\bigr)^{-1}
+\bigl(1+o((\log n)^{-1})\bigr).
+\]
+
+Since \(nh_n = O(\sqrt{s_n}\log n)\), Lemma \ref{intelem} implies
+
+\[
+\int_{0}^{\delta_n} I_F(y)\,dy
+= \frac{\sqrt{\pi}\,\exp\bigl(-2n-4n h_n^2\bigr)}{128\, n^{3/2} h_n^{5/2}}
+  \bigl(1+O((\log n)^{-1})\bigr).
+\]
+
+On the other hand, for \(y \ge \delta_n\) we use Lemma \ref{philem} and the lower bound
+
+\[
+(1+h_n)^4(1+y^2)^2 - 1 \ge (1+h_n)^4 - 1 \ge 4h_n
+\]
+
+to obtain
+
+\[
+I_F(y) \lesssim \frac{\exp\!\bigl(-2n-4n h_n^2\bigr)}{32n h_n^2}\,
+            e^{-4nh_n y^2}.
+\]
+Applying Lemma \ref{intelem} once more yields
+\[
+\int_{\delta_n}^{\infty} I_F(y)\,dy
+\ll \frac{\exp\!\bigl(-2n-4n h_n^2\bigr)}
+         {128\, n^{3/2} h_n^{5/2} \log n},
+\]
+and therefore
+\[
+\int_{0}^{\infty} I_F(y)\,dy
+= \frac{\sqrt{\pi}\,\exp\!\bigl(-2n-4n h_n^2\bigr)}{128\, n^{3/2} h_n^{5/2}}
+  \bigl(1+O((\log n)^{-1})\bigr).
+\]
+Substituting this integral back into \eqref{Trtotalfinite} gives
+\begin{equation}\label{onetolast}
+\operatorname{Tr}\bigl(\mathbb{K}_n|_{A(t)}\bigr)
+= \frac{e^{-4nh_n^{2}}}{32\pi\, n\, h_n^{5/2}}
+   \bigl(1+O((\log n)^{-1})\bigr).
+\end{equation}
+Recalling \eqref{h}, we have
+\begin{equation}\label{htrans}
+\begin{aligned}
+h_n^{2} &= \frac{1}{2s_n}\bigl(\frac14\log s_n + t - c_n
+            + \frac{(t-c_n)^{2}}{\log s_n}\bigr), \\[1mm]
+h_n^{5/2} &= \frac{1}{2^{5/2}}\bigl(\frac{\log s_n}{2s_n}\bigr)^{5/4}
+            \bigl(1+O\bigl(\frac{\log\log n}{\log n}\bigr)\bigr).
+\end{aligned}
+\end{equation}
+Inserting these asymptotics into \eqref{onetolast} and using
+\(c_n = \frac54\log\log s_n + \log\bigl(2^{1/4}\pi\bigr)\) and $s_n=2n(1+o(n^{-1}\log n))$, we obtain after simplification
+
+\[\aligned
+\operatorname{Tr}\bigl(\mathbb{K}_n|_{A(t)}\bigr)&=\frac{2^{5/2}(2s_n)^{5/4}}{32\pi n(\log s_n)^{5/4}}\exp(-\frac{1}{4}\log s_n-t+c_n-\frac{(t-c_n)^{2}}{\log s_n})\\
+&=\frac{2^{5/4+5/2+1/4} s_n}{32 n}\exp(-t - \frac{(t-c_n)^{2}}{\log s_n})
+  \bigl(1+O\bigl(\frac{\log\log n}{\log n}\bigr)\bigr)\\
+&= \exp(-t - \frac{(t-c_n)^{2}}{\log s_n})
+  \bigl(1+O\bigl(\frac{\log\log n}{\log n}\bigr)\bigr)
+  . \endaligned
+\]
+
+The factor \(e^{-t}\) corresponds to the leading exponential decay beyond the spectral edge, while the term \(\exp\!\big[-(t-c_n)^{2}/\log s_n\big]\) captures the Gaussian fluctuations of the edge location \(c_n\) and the error term is consistent with the logarithmic precision of the underlying saddle-point analysis.
+
+When $\log n\lesssim v,$ since Lemma \ref{Kelem} leads
+$$
+		\mathbb{K}_n (z, z)=\frac{v^{2n+v+1/2}e^{2n+v}\exp(-v\tau_n(\frac{2n}{v} |z|^2))(1+O((\log n)^{-1}))}{\pi^{3/2}2^{2n+v-1/2}n^{n-1/2} (n+v)^{n+v+1/2} (\frac{n(z\bar{w})^2}{n+v}-1)},
+	$$ whence similarly we have with the fact $L_n^2=\frac{\sqrt{n+v}}{\sqrt{n}}(1+O(h_n))$
+\begin{equation}\label{Trtotalinfinite}
+\begin{aligned}
+&\operatorname{Tr}(\mathbb{K}_n|_{A(t)})\\
+=&\frac{2 v^{2n+v+1/2}e^{2n+v}(1+O((\log n)^{-1}))}{\pi^{3/2}2^{2n+v-1/2}n^{n} (n+v)^{n+v} }
+    \int_0^{\infty} \mathrm{d}y \int_{1}^{\infty}\frac{\exp(-v\tau_n(\kappa_n(x^2+y^2)))}{(1+h_n)^4(x^2+y^2)^2 -1} \mathrm{d} x.
+    \end{aligned}
+\end{equation}
+Thus, similarly as \eqref{laplace1}, Lemma  \ref{taulem}, Laplace method and the definition of $w$ ensure that
+$$\aligned
+I_I(y):&=\int_{1}^{\infty}\frac{\exp(-v\tau_n(\kappa_n(x^2+y^2)))}{(1+h_n)^4(x^2+y^2)^2-1} \mathrm{d}x\\
+& =\frac{ e^{-w(y^2)}}{2 w'(y^2)((1+h_n)^4(1+y^2)^2-1)} +O(e^{-w(y^2)}v^{-2})\endaligned
+$$
+for any $y$ fixed. Thus, Lemma \ref{taulem} and \eqref{domieq} in further derive
+$$I_I(y)=\frac{\exp(-v\tau_n(\kappa_n))}{16s_n h_n^2}\exp(-2s_n h_n y^2-\frac{s_n}{4}y^4)(1+\frac{y^2}{2h_n})^{-1}(1+O((\log n)^{-1}))$$ uniformly on $0\le y\le \delta_n$ and by contrast when $y>\delta_n$ it holds
+$$I_I(y)\lesssim \frac{\exp(-v\tau_n(\kappa_n))}{s_n h_n^2}\exp(-2s_n h_n y^2).$$
+Similarly as for \eqref{onetolast}, we have
+\begin{equation}\label{onetolastinf}
+\begin{aligned}
+\operatorname{Tr}(\mathbb{K}_n|_{A(t)})
+&=\frac{\sqrt{\pi}e^{-v\tau_n(\kappa_n)+2n+v} v^{2n+v+1/2}(1+O((\log n)^{-1}))}{16s_n h_n^2\pi^{3/2}2^{2n+v}n^{n} (n+v)^{n+v}\sqrt{s_n h_n} }\exp(-2s_nh_n^2)\\
+&=\frac{1}{16\pi s_n h_n^{5/2}}\exp(-2s_n h_n^2)(1+O(\frac{\log\log s_n}{\log s_n})).
+    \end{aligned}
+\end{equation}
+Taking advantage of \eqref{htrans} again, we get the desired asymptotic $$\begin{aligned}
+   \operatorname{Tr}(\mathbb{K}_n|_{A(t)}) &=\exp(-t-\frac{(t-c_n)^2}{\log s_n}) (1+O(\frac{\log\log s_n}{\log s_n}))\end{aligned}
+$$ when $\log n\lesssim v.$ The proof is then completed.
+\end{proof}
+
+Now, we are going to give the last lemma, which together with \eqref{E2} allows us to reduce the target $\mathbb{P}(X_n\le t)$  to $\exp(-{\rm Tr}(\mathbb{K}_n|_{A(t)})).$
+
+\begin{lem}\label{2Trlem}
+	 Let $\mathbb{K}_n$ and $A(t)$ be defined as above. We have
+\[
+\|\mathbb{K}_n|_{A(t)}\|_2\lesssim e^{-t} n^{-1/2}\log n \] uniformly on $|t|\lesssim (\log n)^{1/4}$ for sufficiently large $n.$
+\end{lem}
+\begin{proof}
+By definition,
+\[
+\|\mathbb{K}_n|_{A(t)}\|_2^2 = \int_{A(t)\times A(t)} |\mathbb{K}_n(z,w)|^2 \, d^2z\, d^2w .
+\]
+When \(1 \le v \ll \log n\), Lemma \ref{Kelem} yields
+\begin{equation}\label{expreKfinite2}
+|\mathbb{K}_n(z,w)|^2 \lesssim
+\frac{n\, e^{\,4n - n\phi(|z|^2) - n\phi(|w|^2)}}
+     {\bigl|\frac{n(z\bar w)^2}{n+v} - 1\bigr|^{\,2}} .
+\end{equation}
+Set \(z = \bigl(\frac{n+v}{n}\bigr)^{1/4} r_1 e^{i\theta_1}\) and
+\(w = \bigl(\frac{n+v}{n}\bigr)^{1/4} r_2 e^{i\theta_2}\). Then
+\begin{equation}\label{zw}
+\bigl|\frac{n(z\bar w)^2}{n+v} - 1\bigr|^2
+= (1 + r_1^2 r_2^2)^2 - 4 r_1^2 r_2^2 \cos^2(\theta_1 - \theta_2).
+\end{equation}
+Using the standard integral (valid for \(b > 1\))
+\begin{equation}\label{theta}
+\iint_{[-\frac{\pi}{2},\frac{\pi}{2}]^2}
+\frac{d\theta_1\, d\theta_2}
+     {(1+b^2)^2 - 4b^2\cos^2(\theta_1 - \theta_2)}
+= \frac{\pi^2}{b^4-1}
+\lesssim \frac{1}{b-1},
+\end{equation}
+together with \eqref{expreKfinite2}, we obtain
+\begin{equation}\label{Kn2inte}
+\begin{aligned}
+&\iint_{A^2(t)} |\mathbb{K}_n(z,w)|^2 \, d^2z\, d^2w \\
+&\quad\lesssim n e^{4n} \iint_{r_1,r_2 \ge L_n}
+      \frac{e^{-n\phi(r_1^2) - n\phi(r_2^2)}\, r_1 r_2}
+           {r_1 r_2 - 1} \; dr_1\, dr_2 \\[1mm]
+&\quad\lesssim \frac{n e^{4n}}{h_n}
+      \bigl( \int_{L_n^2}^{\infty} e^{-2n x} x^{\,2n+v+1/2} \, dx \bigr)^2 .
+\end{aligned}
+\end{equation}
+The function \(f(x)=x\) is strictly increasing on \([L_n^2,\infty)\), applying Laplace's method gives
+\begin{equation}\label{expnophi}
+\int_{L_n^2}^{\infty} e^{-2n x} x^{\,2n+v+1/2} \, dx
+\lesssim \frac{1}{n} e^{-2n L_n^2} L_n^{4n+2v+1}
+= \frac{1}{n} \exp \bigl(-n\phi(L_n^2)\bigr).
+\end{equation}
+Combining \eqref{Kn2inte}, \eqref{expnophi} and Lemma \ref{philem}, we obtain
+\[
+\|\mathbb{K}_n|_{A(t)}\|_2^2
+\lesssim \frac{\exp\bigl(-2n\phi(L_n^2) + 4n\bigr)}{n h_n}
+\lesssim \frac{\exp \bigl(-8n h_n^2\bigr)}{n h_n},
+\]
+which implies
+\begin{equation}\label{upfinitef}
+\|\mathbb{K}_n|_{A(t)}\|_2
+\lesssim \frac{\exp\bigl(-4n h_n^2\bigr)}{\sqrt{n h_n}} .
+\end{equation}
+Comparing \eqref{upfinitef} with \eqref{onetolast} and using
+\[
+\frac{n h_n^{5/2}}{\sqrt{n h_n}} = \sqrt{n}\, h_n^{2}
+= O\Bigl(\sqrt{n}\,\frac{\log s_n}{n}\Bigr)
+= O\bigl(n^{-1/2}\log n\bigr),
+\]
+we finally arrive at
+\begin{equation}\label{upfinitefinal}
+\|\mathbb{K}_n|_{A(t)}\|_2
+\lesssim e^{-t}\, n^{-1/2}\log n .
+\end{equation}
+Inspecting the preceding argument, we observe that the extra factor \(n^{-1/2}\log n\) in \eqref{upfinitefinal} originates from the estimates \eqref{zw} and \eqref{theta}, which effectively replace a factor \(h_n^2\) by \(h_n\).  The same phenomenon persists in the regime \(\log n \lesssim v\).  This completes the proof.
+\end{proof}
+
+ \section{Proof of Theorems }
+This section is devoted to the proofs of Theorems \ref{main} and  \ref{Large}. The proofs are presented in the order in which the theorems appear.
+
+\subsection{Proof of Theorem \ref{main} }
+Choosing $\ell_1(n)=\frac14\log \log n$ and $\ell_2(n)=\log\log s_n,$ we cut the supremum on $\mathbb{R}$ into three parts.
+For $t\in [-\ell_1(n), \ell_2(n)]$ satisfying $|t|\lesssim (\log n)^{1/4},$
+Lemmas \ref{Trlem} and \ref{2Trlem}  guarantee that
+\begin{equation}\label{sumlast}|\mathbb{P}(X_n\le t)-e^{-e^{-t}}|=|e^{-{\rm Tr}(\mathbb{K}_n|_{A(t)})}-e^{-e^{-t}}|+O(e^{-2 t}n^{-1/2}\log n)\end{equation} and in particular
+$${\rm Tr}(\mathbb{K}_n|_{A(t)})-e^{-t}=-e^{-t}\frac{(t-c_n)^2}{\log s_n}\big(1+O\big(\frac{(t-c_n)^2+\log \log s_n}{\log s_n}\big)\big).$$
+The constraint $-\ell_1(n)\le t\le \ell_2(n)$ makes sure
+$${\rm Tr}(\mathbb{K}_n|_{A(t)})-e^{-t}=O((\log n)^{3/4}/\log n)=o(1),$$ which is exactly the reason why we choose $\ell_1(n)$ and $\ell_2(n)$ in such a specific way.
+Consequently, using $e^{x}=1+x+o(x^2)$ for $x=o(1),$ we have
+\begin{equation}\label{midd0}\aligned|e^{-{\rm Tr}(\mathbb{K}_n|_{A(t)})}-e^{-e^{-t}}|&=e^{-e^{-t}}|\exp(e^{-t}-{\rm Tr}(\mathbb{K}_n|_{A(t)}))-1|\\
+&=\frac{1+o(1)}{\log s_n}\exp(-e^{-t}-t)(t-c_n)^2. \endaligned \end{equation}
+The condition $-\ell_1(n)\le t\le \ell_2(n)\le \frac{4}{5}c_n$ indicates
+$$\frac{e^{-2t}  n^{-1/2}(\log n)^2}{\exp(-e^{-t}-t)(t-c_n)^2}\lesssim\frac{(\log n)^2\exp(e^{\ell_1(n)}+\ell_2(n)}{\sqrt{ n}(\log\log s_n)^2}\lesssim \frac{(\log n)^3 }{n^{1/4}(\log\log n)^2}\ll 1.$$
+Thus,
+the expressions \eqref{sumlast} and
+\eqref{midd0} imply
+$$|\mathbb{P}(X_n\le t)-e^{-e^{-t}}|=\frac{1+o(1)}{\log s_n}\exp(-e^{-t}-t)(t-c_n)^2.$$
+Since  $$\sup_{t\in\mathbb{R}} e^{-t-e^{-t}} |t^k|<+\infty, \quad k=1, 2 \quad \text{and} \quad \sup_{x\in\mathbb{R}} e^{-t-e^{-t}} =e^{-1},$$ and $c_n\gg 1,$ it holds  \begin{equation}\label{totallast}
+\sup_{x\in [-\ell_{1}(n), \ell_{2}(n)]}|\mathbb{P}(X_n\le t)-e^{-e^{-t}}|=\frac{c_n^2(1+o(1))}{e\log s_n}=\frac{25(\log\log s_n)^2}{16e\log s_n}(1+o(1)).
+\end{equation}
+Now
+	$$
+		\begin{aligned}
+			\sup_{t< -\ell_1(n)}\left|\mathbb{P}(X_{n}    \leq t)-e^{-e^{-t}} \right|&\leq \mathbb{P}(X_{n}    \leq -\ell_1(n))+e^{-e^{\ell_1(n)}}\\
+			\end{aligned}
+	$$
+	and then using \eqref{totallast},
+	we have
+	\begin{equation}\label{estleft}
+		\begin{aligned}		\sup_{t< -\ell_1(n)}\left|\mathbb{P}(X_{n}    \leq t)-e^{-e^{-t}} \right|&\lesssim \exp(-e^{\ell_1(n)})\lesssim \exp(-(\log n)^{1/4}).
+		\end{aligned}
+	\end{equation}
+	Similarly,
+	\begin{equation}\label{estright}\aligned
+	\sup_{t\ge \ell_2(n)}\left|\mathbb{P}(X_{n}   \leq t)-e^{-e^{-t}} \right|&\le \mathbb{P}(X_n>\ell_2(n))+1-e^{-e^{-\ell_2(n)}}\lesssim \frac{1}{\log n}. \endaligned
+	\end{equation}
+
+Combining (\ref{totallast}), (\ref{estleft}) and (\ref{estright}) together, we derive the desired Berry-Esseen bound as
+	$$
+	\sup_{t\in \mathbb{R}}\left|\mathbb{P}(X_{n}   \leq t)-e^{-e^{-t}} \right|= \frac{25(\log\log s_n)^2}{16e\log s_n}(1+o(1)).
+	$$
+
+
+\subsection{Proof of large deviation in Theorem \ref{Large}}
+For any $t>1,$ the elementary properties imply
+$$\begin{aligned}
+    \mathbb{P}(\max \Re \sigma_i \geq t)&\leq \mathbb{E}(\#\{1\leq i\leq n: \Re \sigma_i \geq t\})=\int_{\Re z\ge t}\mathbb{K}_n(z, z)d^2 z \end{aligned}$$
+    and by contrast
+    $$\mathbb{P}(\max \Re \sigma_i \geq t )\geq \frac{1}{n}\mathbb{E}(\#\{1\leq i\leq n: \Re \sigma_i \geq t\}).$$
+    Thus, to get the large deviation, we only need to capture the dominated term of
+    $$\frac{1}{n}\log \int_{\Re z \ge (\frac{n+v}{n})^{1/4} t}\mathbb{K}_n(z, z)d^2 z.$$
+    For the case $1\le v\ll \log n,$ Lemma \ref{Kelem} and the substitution $z=(\frac{n+v}{n})^{1/4}_{}(x+i y)$ lead
+$$
+\begin{aligned}
+	\int_{\Re z\ge (\frac{n+v}{n})^{1/4}_{}  t}\mathbb{K}_n(z, z)d^2 z&\asymp \sqrt{n}e^{2n}\int_{ 0}^{\infty} dy\int_{t}^{+\infty} e^{- 2\sqrt{n(n+v)}(x^2+y^2)}(x^2+y^2)^{2n+v+1/2}\mathrm{d}x
+\end{aligned}$$
+and then \eqref{expnophi}, together with the substitution $r= y/t,$ helps to get
+$$\aligned \int_{\Re z\ge (\frac{n+v}{n})^{1/4}_{}  t}\mathbb{K}_n(z, z)d^2 z&\asymp \frac{e^{2n} }{\sqrt{n} }\int_{0}^{+\infty} e^{-2\sqrt{n(n+v)} (y^2+t^2)} (y^2+t^2)^{2n+v+1/2} dy\\
+&\asymp\frac{e^{2n} }{\sqrt{n}}\int_{0}^{+\infty} e^{-\sqrt{n(n+v)}\phi(t^2(1+r^2))} dr. \endaligned $$
+On the one hand, since $\phi$ is a convex function, it is true that
+$$n\phi(t^2(1+r^2))\ge n\phi(t^2)+nt^2 r^2 \phi'(t^2)=2n t^2-(2n+v+\frac12)\log t^2+(2n(t^2-1)-(v+\frac12))r^2$$ for any $r>0.$
+Thus, the integral  \begin{equation}\label{norden}\int_0^{\infty} \exp(-ay^2)dy=\frac{\sqrt{\pi}}{2\sqrt{a}}\end{equation} for $a>0$
+derives $$\int_{0}^{+\infty} e^{-2\sqrt{n(n+v)} (y^2+t^2)} (y^2+t^2)^{2n+v+1/2} dy\lesssim n^{-1/2}\exp(-2 \sqrt{n(n+v)} t^2)t^{4n+2v}.  $$
+Meanwhile,
+$$\begin{aligned}
+	\int_{0}^{+\infty} e^{-2\sqrt{n(n+v)} (y^2+t^2)} (y^2+t^2)^{2n+v+1/2} dy&\gtrsim t^{4n+2v}\int_{0}^{+\infty} e^{-2\sqrt{n(n+v)} (y^2+t^2)}  dy\\
+	&\asymp n^{-1/2}t^{4n+2v} e^{-2\sqrt{n(n+v)} t^2}.
+\end{aligned}$$
+Thereby, we have
+\begin{equation}\label{intelarge}\aligned \int_{\Re z\ge (\frac{n+v}{n})^{1/4}_{}  t}\mathbb{K}_n(z, z)d^2 z
+&\asymp \frac{e^{2n} }{\sqrt{n}} t^{4n+2v} e^{-2\sqrt{n(n+v)} t^2}. \endaligned \end{equation}
+As a consequence, we have
+$$\lim_{n\to\infty}\frac1n\log \mathbb{P}(\max \Re \sigma_i \geq (\frac{n+v}{n})^{1/4} t )=-2(t^2-1-\log t^2).$$
+
+Now we work on the case where $v\gtrsim \log n.$ Setting $u_n(t)=2t^2\sqrt{n(n+v)}/v$ and using $z=(\frac{n+v}{n})^{1/4} t(x+i y),$ we have by Lemma \ref{Kelem} that   $$\begin{aligned}
+&\quad \int_{\Re z\ge (\frac{n+v}{n})^{1/4}_{}  t}\mathbb{K}_n(z, z)d^2 z
+&\asymp\frac{v^{2n+v+1/2}e^{2n+v}}{2^{2n+v}n^{n}(n+v)^{n+v}}\int_{0}^{+\infty}dy\int_1^{+\infty} e^{-v \tau_n(u_n(t)(x^2+y^2))} dx \end{aligned}$$  and then apply the Laplace method and \eqref{norden} to obtain
+ $$\begin{aligned}
+\int_{\Re z\ge (\frac{n+v}{n})^{1/4}_{}  t}\mathbb{K}_n(z, z)d^2 z&\asymp \frac{ v^{2n+v+1/2}\exp(2n+v-v \tau_n(u_n(t))) }{(v u_n(t) \tau_n'(u_n(t)))^{3/2} \;2^{2n+v}n^{n}(n+v)^{n+v}}.\\
+
+\end{aligned}$$
+According to \eqref{deritau}  below,
+$$\tau_{n}^{\prime}(u_n(t))=\frac{u_n(t)}{1+\sqrt{1+u_n^2(t)}}-\frac{2n}{v u_n(t)}(1+O(n^{-1}))\asymp \frac{\sqrt{n}}{\sqrt{n+v}},$$
+whence
+$$\int_{\Re z\ge (\frac{n+v}{n})^{1/4}_{}  t}\mathbb{K}_n(z, z)d^2 z\asymp \frac{ v^{2n+v+1/2}\exp(2n+v-v \tau_n(u_n(t))) }{2^{2n+v}n^{n+3/2}(n+v)^{n+v}}.$$
+Therefore, considering the form of $\tau_n$ and  combining alike terms we derive
+\begin{equation}\label{largeinf}
+\begin{aligned}
+\log \mathbb{P}(\max \Re \sigma_i \geq (\frac{n+v}{n})^{1/4} t)
+&= v\log \frac{v(1+\sqrt{1+u_n^2(t)})}{2(n+v)}-\frac{1}{4}\log \frac{v^2(1+u_n^2(t))}{(n+v)^2}\\
+&\quad +2n(1+\log t^2)+v(1-\sqrt{1+u_n^2(t)})+O(\log n).
+\end{aligned}
+\end{equation}
+Setting $\alpha:=\lim\limits_{n\to\infty}\frac{v}{n},$ since $1+u_n^2(t)=1+\frac{4n(n+v)}{v^2}t^4,$ it holds
+$$\lim_{n\to\infty}\frac{v}{n}\log \frac{v(1+\sqrt{1+u_n^2(t)})}{2(n+v)}=\alpha \log \frac{\alpha+\sqrt{\alpha^2+4t^4(1+\alpha)}}{2(1+\alpha)}$$
+and
+$$\lim_{n\to\infty}\frac{v}{n}(1-\sqrt{1+u_n^2(t)})=\frac{-4(1+\alpha) t^4}{\alpha+\sqrt{\alpha^2+4(1+\alpha)t^4}}$$
+as well as
+$$\lim_{n\to\infty}\frac{1}{n}\log \frac{v^2(1+u_n^2(t))}{(n+v)^2}=\lim_{n\to\infty}\frac{1}{n}\log \frac{v^2+4t^4n(n+v)}{(n+v)^2}=0.$$
+Finally, we get
+$$
+\aligned &\quad \lim_{n\to\infty}\frac{1}{n}\log \mathbb{P}(\max \Re \sigma_i \geq (\frac{n+v}{n})^{1/4} t)\\
+&=2(1+2 \log t)-\frac{4(1+\alpha) t^4}{\alpha+\sqrt{\alpha^2+4(1+\alpha)t^4}}+\alpha \log \frac{\alpha+\sqrt{\alpha^2+4t^4(1+\alpha)}}{2(1+\alpha)}.
+\endaligned $$
+
+\subsection{Proof of Moderate deviation in Theorem \ref{Large}}
+Recall $\frac{\sqrt{\log n}}{\sqrt{n}}\ll d_n \ll 1.$ When $1\le v\ll \log n,$ it follows the same arguments for $\mathbb{P}(\max_i \Re \sigma_i\ge (\frac{n+v}{n})^{1/4} t)$ as \eqref{intelarge} that
+	$$	\aligned \int_{\Re z\ge (\frac{n+v}{n})^{1/4}_{}  (1+t d_n)}\mathbb{K}_n(z, z)d^2 z&\asymp \frac{e^{2n} }{\sqrt{n}} (1+td_n)^{4n+2v} \exp(-2\sqrt{n(n+v)} (1+t d_n)^2)
+	\endaligned
+$$
+for any $t>0.$
+Thus,
+$$\log \mathbb{P}(\max_i \Re \sigma_i\ge (\frac{n+v}{n})^{1/4} (1+t d_n))=2n+4n\log(1+t d_n)-2n(1+t d_n)^2+O(\log n),$$
+which implies together with $\log (1+t d_n)=t d_n-\frac{t^2 d_n^2}{2}+O(d_n^3)$ and $nd_n^2\gg \log n $ that
+\begin{equation}\label{limitvbounded}
+	\lim_{n\to\infty}\frac{1}{n d_n^2}\log \mathbb{P}(\max_i \Re \sigma_i\ge (\frac{n+v}{n})^{1/4} (1+t d_n))=-4t^2. \end{equation}
+
+ Now for any $\log n\lesssim v,$  we have similarly as \eqref{largeinf} that  \begin{equation}\label{logpinf}
+\begin{aligned}
+&\quad  \log \mathbb{P}(\max_i \Re \sigma_i\ge (\frac{n+v}{n})^{1/4} (1+t d_n))\\
+&=v\log \frac{v(1+\sqrt{1+u_n^2(1+t d_n)})}{2(n+v)}-\frac{1}{4}\log \frac{v^2(1+u_n^2(1+t d_n))}{(n+v)^2}\\
+&\quad +2n+v+4n\log (1+t d_n)-v\sqrt{1+u_n^2(1+t d_n)}+O(\log n).\\
+\end{aligned}
+\end{equation}
+Using the Taylor formula on $\sqrt{1+x}$ for $|x|$ small enough and for simplicity denoting $z_n(t)=(1+t d_n)^4-1=O(d_n),$ we obtain $$\aligned v\sqrt{1+u_n^2(1+t d_n)}
+&=\sqrt{v^2+4n(n+v)(1+z_n(t))}\\
+&=(2n+v)(1+\frac{2n(n+v)}{(2n+v)^2}z_n(t)-\frac{2n^2(n+v)^2 z_n^2(t)}{(2n+v)^4 })+O(nd_n^3).\endaligned $$
+This is equivalent to
+$$2n+v-v\sqrt{1+u_n^2(1+t d_n)}=-\frac{2n(n+v)z_n(t)}{2n+v}+\frac{2n^2(n+v)^2z_n^2(t)}{(2n+v)^3}+O(n d_n^3)$$
+and then we have from the Taylor formula on $\log (1+x)=x-\frac{x^2}{2}+O(x^3)$ that
+$$\aligned &\quad v\log \frac{v(1+\sqrt{1+u_n^2(1+t d_n)})}{2(n+v)}+2n+v-v\sqrt{1+u_n^2(1+t d_n)}\\
+&=(2n+v-v\sqrt{1+u_n^2(1+t d_n)})\frac{2n+v}{2(n+v)}-\frac{v}{8(n+v)^2}(v\sqrt{1+u_n^2(1+t d_n)}-2n-v)^2\\
+&\quad +O(\frac{v n^3d_n^3}{(2n+v)^3})\\
+&=-nz_n(t) +\frac{n^2(n+v)}{(2n+v)^2  } z_n^2(t)-\frac{vn^2z_n^2(t)}{2(2n+v)^2}+O(nd_n^3).
+\endaligned $$
+By only picking up the terms related to $t d_n$ and $t^2 d_n^2,$ and the fact $$z_n(t)=4 t d_n+6 t^2 d_n^2+O(d_n^3),$$ the expression in the last line of above turns out to be
+$$-4n t d_n-\frac{8n^2+16 nv+6v^2}{(2n+v)^2}n t^2 d_n^2+O(n d_n^3).$$
+Putting this expression back into \eqref{logpinf}, applying the Taylor formula on $4n \log (1+t d_n)$, and combining alike terms, we have
+$$\log \mathbb{P}(\max_i \Re \sigma_i\ge (\frac{n+v}{n})^{1/4} (1+t d_n))=-\frac{8n(n+v)}{(2n+v)}t^2 d_n^2+O(nd_n^3),$$
+whence
+$$\lim_{n\to\infty}\frac{1}{nd_n^2}\log \mathbb{P}(\max_i \Re \sigma_i\ge (\frac{n+v}{n})^{1/4} (1+t d_n))=-\frac{8(1+\alpha)t^2}{2+\alpha}.$$
+This coincides with the limit \eqref{limitvbounded} for $\alpha=0.$
+The proof is completed.
+
+\begin{rmk} Let \(\widetilde{s}_n = \frac{n(n+v)}{2n+v}\) and define
+\[
+\widetilde{X}_n = 2\sqrt{\widetilde{s}_n\log \widetilde{s}_n}\Big(\Big(\frac{n}{n+v}\Big)^{1/2}\max_{i}|\sigma_i|^2 - 1 - \frac{\log \widetilde{s}_n - \log(\sqrt{2\pi}\log \widetilde{s}_n)}{2\sqrt{\widetilde{s}_n\log \widetilde{s}_n}}\Big).
+\]
+
+In \cite{MaWang25}, the quantity \(\max_{i}|\sigma_i|^2\) is interpreted as the maximum statistic of an independent random sequence, and by applying the central limit theorem they obtain the precise Berry-Esseen bound
+\begin{equation}\label{mawangradius}
+\sup_{x\in\mathbb{R}}\Big|\mathbb{P}(\widetilde{X}_n\le t) - \exp(-e^{-t})\Big| = \frac{(\log\log \widetilde{s}_n)^2}{2e\log \widetilde{s}_n}\big(1+o(1)\big)
+\end{equation}
+for sufficiently large \(n\).
+
+In fact, the correlation kernel approach also works well for studying the spectral radius. Define
+\[
+\widetilde{A}(t)=\Bigl\{z : |z|^2 \ge \Big(\frac{n+v}{n}\Big)^{1/2}\big(1 + \frac{\log \widetilde{s}_n-\log(\sqrt{2\pi}\log \widetilde{s}_n)}{2\sqrt{\widetilde{s}_n\log \widetilde{s}_n}}\big)\Big\},
+\]
+and then $$\mathbb{P}(\widetilde{X}_n\le t)={\rm det}(I-\mathbb{K}_n|_{\widetilde{A}(t)}).$$
+
+Similar (but simpler) calculations yield an exact expression for \(\operatorname{Tr}\big(\mathbb{K}_n|_{\widetilde{A}(t)}\big)\) as well as an upper bound for \(\|\operatorname{Tr}(\mathbb{K}_n|_{\widetilde{A}(t)})\|_2\). Consequently, the same Berry-Esseen bound \eqref{mawangradius} can be recovered, since for the set \(\widetilde{A}(t)\) we may directly use spherical coordinates to reduce the integral to \(\int_{\widetilde{L}_n(t)}^{+\infty} dr\) and then apply Laplace's method once.
+\end{rmk}
+
+ \section{Proofs of Lemmas }
+ In this section, we add the proofs of lemmas.
+ \begin{proof}[\bf Proof of Lemma \ref{sumlem}]
+ Recall $s_n=\frac{4n(n+v)}{2n+v}=O(n),$ $$0<q_n=O(\sqrt{\log n/s_n} ) \quad \text{and} \quad |z|\ge (\frac{n+v}{n})^{1/2}(1+q_n).$$
+ We separate the sum into two parts as
+    \begin{equation}\label{sum}
+        \sum_{k=0}^{n-1} \frac{(z n)^{2k}}{\Gamma(1+k)\Gamma(1+k+v)}=\big(\sum_{k=0}^{n-j_n}+\sum_{k=n-j_n+1}^{n-1}\big) \frac{(z n)^{2k}}{\Gamma(1+k)\Gamma(1+k+v)}
+    \end{equation}
+	 for $j_n=\lfloor n^{3/5}\rfloor.$ We will show that the sum $\sum_{k=n-j_n+1}^{n-1}$ contributes
+	the right hand side of \eqref{sum}  while the other sum $\sum_{k=0}^{n-j_n}$ is negligible. For simplicity, we set $\ell=n-k$ and $$A_{n, \ell}(z)=\frac{(z n)^{2n-2\ell }}{\Gamma(n+1-\ell)\Gamma(1+n+v-\ell)},$$ whence
+	$$\sum_{k=n-j_n+1}^{n-1}\frac{(z n)^{2k}}{\Gamma(1+k)\Gamma(1+k+v)}=\sum_{\ell=1}^{j_n}A_{n, \ell}(z).$$
+	    According to the Stirling formula, as $n$ tends to the positive infinity,  $$\Gamma(n+1-\ell)\Gamma(n+v+1-\ell)=2\pi (n-\ell)^{n-\ell+1/2}(n+v-\ell)^{n+v-\ell+1/2} e^{-(2n+v-2\ell)}(1+O(n^{-1}))$$ uniformly on $1\le \ell \le j_n.$
+		Thus, rearranging the terms yields
+		\begin{equation}\label{intersum}\aligned
+			A_{n, \ell}(z)=\frac{e^{2n+v-2\ell}(z n)^{2n-2\ell}(1+O(n^{-1}))}{2\pi n^{n+1/2-\ell}(n+v)^{n+v+1/2-\ell}}(1-\frac{\ell}{n})^{-(n-\ell+\frac12)}(1-\frac {\ell}{n+v})^{-(n+v+\frac12-\ell)} . \endaligned
+		\end{equation}
+		Using the Taylor expansion ($\ell\ll n$), we see clearly
+		$$\aligned  & \quad (1-\frac {\ell}{n+v})^{-(n+v+\frac12-\ell)}(1-\frac{\ell}{n})^{-(n-\ell+\frac12)}\\
+		&=\exp\big(-(n+v+\frac12-\ell)\log(1-\frac{\ell}{n+v})-(n+\frac{1}{2}-\ell)\log(1-\frac{\ell }{n})\big)\\
+		&=\exp(2\ell-\frac{\ell^2}{2n}-\frac{\ell^2}{2(n+v)})(1+O(\frac{\ell}{n}+\frac{\ell ^3}{n^2})).
+	\endaligned $$
+	Putting this expression into \eqref{intersum} and considering the condition $h\le j_n=\lfloor n^{3/5}\rfloor,$ one has
+	\begin{equation}\label{intersumnew}\aligned
+			A_{n, \ell}(z)=\frac{e^{2n+v}(z n)^{2n}(1+O(n^{-\frac{1}{10}}))}{2\pi n^{n+1/2}(n+v)^{n+v+1/2}}(\frac{n+v}{z^2 n})^{\ell}e^{-\frac{\ell^2}{2s_n}}. \endaligned
+		\end{equation}
+		Hence, we get
+		$$
+			\sum_{\ell=1}^{j_n}A_{n, \ell}(z)=\frac{e^{2n+v}(z n)^{2n}(1+O(n^{-\frac1{10}}))}{2\pi n^{n+1/2}(n+v)^{n+v+1/2}}\sum_{\ell=1}^{j_n}(\frac{n+v}{z^2 n})^{\ell}e^{-\frac{\ell^2}{2s_n}}.
+		$$
+		We claim that
+\begin{equation}
+\label{complexsum}
+\sum_{\ell=1}^{j_n}w^l \exp(-\frac{l^2}{2s_n})=\frac{w }{1-w}(1+O((\log n)^{-1}))
+\end{equation}
+for $w\in \mathbb{C}$ satisfying $|w|\le \frac{1}{1+q_n}.$ Observing  $$|\frac{n+v}{n z^2}|\le \frac{1}{(1+q_n)^2} \le \frac{1}{1+q_n} $$	when
+$|z|\ge (\frac{n+v}{n})^{1/2}(1+q_n),$
+hence \eqref{complexsum} indicates
+\begin{equation}\label{asum}
+			\sum_{\ell=1}^{j_n}A_{n, \ell}(z)=\frac{e^{2n+v}(z n)^{2n}(1+O((\log n)^{-1})}{2\pi n^{n+1/2}(n+v)^{n+v+1/2}(\frac{z^2n}{n+v}-1)},
+		\end{equation}
+		which is the precise asymptotic for the whole sum. Next, we  show
+ \begin{equation}\label{negligibleII}
+   J_{n}:= \big|\frac{\sum_{k=0}^{n-j_n}\frac{(z n)^{2k}}{\Gamma(1+k)\Gamma(1+k+v)}}{\sum_{\ell=1}^{j_n} A_{n, \ell}(z)}\big|\ll \frac{1}{\log n}. \end{equation}
+   Set, for simplicity, $\alpha_n=\frac{z^2n}{n+v}-1$ and
+\eqref{asum} derives
+\begin{equation}\label{negligibleI}\aligned
+   J_{n}\lesssim \frac{n^{n+1/2} (n+v)^{n+v+1/2}\alpha_n}{e^{2n+v}} \sum_{k=0}^{n-j_n}\frac{(|z| n)^{2(k-n)}}{\Gamma(1+k)\Gamma(1+k+v)}.\endaligned
+\end{equation}
+Note that the summand in the right hand side of \eqref{negligibleI}, denoted by $\beta_k,$ satisfies
+$$\frac{\beta_k}{\beta_{k+1}}=\frac{(k+1)(k+v+1)}{|z|^2n^2}\le \frac{(k+1)(k+v+1)}{n(n+v)}\le 1$$ uniformly on $0\le k\le n-j_n$ since
+$n^2|z|^2\ge n(n+v)(1+q_n)^2.$ This ensures
+$$\aligned\sum_{k=0}^{n-j_n}\frac{(|z| n)^{2(k-n)}}{\Gamma(1+k)\Gamma(1+k+v)}&\le \frac{n (|z| n)^{2(n-j_n-n)}}{\Gamma(1+n-j_n)\Gamma(1+n-j_n+v)}=\frac{n A_{n, j_n}(|z|)}{(|z| n)^{2n}}.
+\endaligned $$
+Thus, leveraging \eqref{intersumnew}, \eqref{negligibleI} and the fact $\alpha_n(1+\alpha_n)^{-j_n}\le 1$ to get
+$$J_n\lesssim n \alpha_n (1+\alpha_n)^{-j_n}\exp(-\frac{j_n^2}{2s_n})\lesssim n \exp(-\frac{1}{2} n^{1/5})\ll (\log n)^{-1},$$ which verifies
+\eqref{negligibleII}.
+
+It remains to prove the claim \eqref{complexsum}. Choosing $\varsigma_n=4\lfloor q_n^{-1}\rfloor$ such that $$1-\exp(-\frac{\ell^2}{2s_n})\le 1-\exp(-\frac{\varsigma_n^2}{2s_n})\lesssim\frac{1}{s_n q_n^2}\lesssim \frac{1}{\log n},$$
+whence we have
+\begin{equation}\label{decomforcomplexsum}\aligned \sum_{\ell=1}^{j_n}w^l \exp(-\frac{\ell^2}{2s_n})&=(1+O((\log n)^{-1}))\sum_{\ell=1}^{\varsigma_n}w^l+\sum_{\ell=\varsigma_n+1}^{j_n}w^l \exp(-\frac{\ell^2}{2s_n})\\
+&=(1+O((\log n)^{-1}))\sum_{\ell=1}^{j_n} w^l+\sum_{\ell=\varsigma_n+1}^{j_n}w^l (\exp(-\frac{\ell^2}{2s_n})-1).\\
+ \endaligned \end{equation}
+Now \begin{equation}\label{wjn}|w|^{j_n}\lesssim \exp(-j_n\log (1+q_n))\asymp \exp(-j_n q_n)\asymp \exp(-n^{1/10}\sqrt{ \log n}) \ll \frac{1}{\log n}\end{equation}
+and then
+$$\sum_{\ell=1}^{j_n}w^l =\frac{w}{1-w}(1+o((\log n)^{-1})).$$
+Thus, the decomposition \eqref{decomforcomplexsum} simplifies the claim \eqref{complexsum} to be
+\begin{equation}\label{negligible} R_{n}(w):=|\frac{\sum_{\ell=\varsigma_n+1}^{j_n}w^l (\exp(-\frac{\ell^2}{2s_n})-1)}{\frac{w}{1-w}}|\lesssim \frac{1}{\log n}.\end{equation}
+
+For this aim, we continue to cut the sum into two parts as
+$\sum_{\ell=\varsigma_n+1}^{p_n}+\sum_{p_n+1}^{j_n}$ for $p_n=\lfloor  \sqrt{s_n\log n } \rfloor.$ When $\ell\in ( p_n, j_n],$
+$$\exp(-\frac{\ell^2}{2s_n})\lesssim \exp(-\frac{\log n}{2})\ll 1,$$
+ then with the help of \eqref{wjn}, we get
+ $$\sum_{p_n}^{j_n}w^l(\exp(-\frac{\ell^2}{2s_n})-1)\asymp -\sum_{p_n}^{j_n} w^l\asymp -\frac{w^{p_n}}{1-w}. $$
+ For the sum $\sum_{\ell=\varsigma_n+1}^{p_n} w^l (\exp(-\frac{l^2}{2s_n})-1),$
+it follows the fact that $|\exp(-\frac{l^2}{2s_n})-1|$ is bounded and  $|w|^l$ decreases exponentially, the terms near $\varsigma_n$ contribute the dominated part of the sum. Hence
+$$\sum_{\ell=\varsigma_n+1}^{p_n} w^l (\exp(-\frac{l^2}{2s_n})-1)\asymp \frac1{s_n}\sum_{\ell=\varsigma_n+1}^{p_n} w^l l^2\asymp \frac{w^{\varsigma_n+1}\varsigma_n^2}{s_n (1-w)}.$$
+Thereby,
+$$
+\sum_{\ell=\varsigma_n+1}^{j_n} w^l (\exp(-\frac{l^2}{2s_n})-1)\asymp -\frac{w^{p_n}}{1-w}+	\frac{w^{\varsigma_n+1}\varsigma_n^2}{s_n (1-w)},
+$$
+which, together with $|w|\le (1+q_n)^{-1},$ derives
+$$R_n(w)\lesssim |w|^{p_n-1}+|w|^{\varsigma_n} \varsigma_n^2 s_n^{-1}\lesssim \exp(-p_n q_n)+\exp(-\varsigma_n q_n)(\log n)^{-1}\lesssim (\log n)^{-1}.$$
+This confirms \eqref{negligible} and then \eqref{complexsum}, which finishes the proof.
+
+
+          \end{proof}
+
+\begin{proof}[\bf Proof of Lemma \ref{taulem}]
+Recall  $$
+	\tau_n(r) = \sqrt{1 + r^2} - \log(1 + \sqrt{1 + r^2}) + \frac{1}{4v} \log(1 + r^2) - \frac{2n + 1}{v} \log r
+	$$
+	and $w(r)=v\tau_n(\kappa_n(1+r))$ with $\kappa_n=\frac{2\sqrt{n(n+v)}}{v}(1+h_n)^2.$
+
+It was proved in \cite{JQ, MaWang24} that \(\tau_n\) has a unique minimum \(r_n\) satisfying
+
+\[
+\frac{2\sqrt{n(n+v)}}{v} \leq r_n \leq \frac{2\sqrt{(n+1)(n+1+v)}}{v}
+\]
+and \(\tau_n\) is strictly increasing on \((r_n, +\infty)\). Since
+\[
+ \frac{2\sqrt{n(n+v)}}{v} \big(1 + \frac{\gamma_n + t}{\sqrt{2s_n \log s_n}}\big)^2 \geq \frac{2\sqrt{n(n+v)}}{v} \big(1 + O\big(\frac{1}{s_n}\big)\big),
+\]
+we know
+\[
+\kappa_n>r_n.
+\]
+Thus, $\tau_n(\kappa_n(1+r))$ is strictly increasing on $[0, +\infty).$
+
+For $0\le r\lesssim (\log s_n/n)^{1/2},$ we apply the Taylor expansion to get
+\begin{equation}\label{wr}
+	\aligned w(r)&=w(0)+r w'(0)+\frac{1}{2}w''(\zeta) r^2\\
+	&=v\tau_n(\kappa_n)+v r\kappa_n\tau_n'(\kappa_n)+O(\frac{n(n+v)r^2}{v}\tau_n''(\kappa_n(1+\zeta))),
+	\endaligned
+\end{equation}
+where $0\leq \zeta \leq r.$
+By definition, we have
+\[
+\tau_n'(r)=\frac{r}{1+\sqrt{1+r^{2}}}+\frac{r}{2v(1+r^{2})}-\frac{2n +1}{vr}
+\]
+and
+\[
+\tau_{n}^{\prime\prime}(r)=\frac{1}{\sqrt{1+r^{2}}(1+\sqrt{1+r^{2}})}+\frac{1-r ^{2}}{2v(1+r^{2})^{2}}+\frac{2n+1}{vr^{2}}.
+\]
+Note
+$$\frac{r}{v(1+r^{2})}\frac{vr}{n}\lesssim\frac{r^2}{n(1+r^{2})}\lesssim \frac{1}{n}\quad \text{and} \quad\frac{|1-r ^{2}|}{v(1+r^{2})^{2}} \frac{vr}{n}\le\frac{1}{2n},$$
+whence
+\begin{equation}\label{deritau}
+\tau_{n}^{\prime}(r)=\frac{r}{1+\sqrt{1+r^{2}}}-\frac{2n}{vr}(1+O(n^{-1}))
+\end{equation}
+and
+\begin{equation}\label{tau2}
+	\tau_{n}^{\prime\prime}(r)=\frac{1}{\sqrt{1+r^{2}}(1+\sqrt{1+r^{2}})}+\frac{2n}{vr^{2}}(1+O(n^{-1})).
+\end{equation}
+Since $h_n=O(\sqrt{\log s_n/s_n}),$ we are able to write
+\begin{equation}\label{1kappa}
+	\aligned
+	\sqrt{1+\kappa_{n}^2}&=\frac{2n+v}{v}(1+\frac{s_n(4h_n+6h_n^2+4h_n^3+h_n^4)}{2(2n+v)}-\frac{2s_n^2h_n^2}{(2n+v)^2}+O(h_n^3))\\
+	&=\frac{2n+v}{v}(1+\frac{2s_nh_n}{2n+v}+\frac{s_nh_n^2}{2n+v}(1+\frac{2v^2}{(2n+v)^2})+O(h_n^3)).
+	\endaligned
+\end{equation}
+For simplicity, denote
+$$t_n:=\frac{2s_nh_n}{2n+v}+\frac{s_nh_n^2}{2n+v}(1+\frac{2v^2}{(2n+v)^2})+O(h_n^3).$$
+Thus,
+$$1+\sqrt{1+\kappa_{n}^2}=1+\frac{2n+v}{v}+\frac{2n+v}{v}t_n=\frac{2(n+v)}{v}(1+\frac{2n+v}{2(n+v)}t_n),$$
+which implies
+\begin{equation}\label{tauprime}
+	\aligned
+	\tau_{n}^{\prime}(\kappa_{n})&=\frac{\kappa_{n}}{1+\sqrt{1+\kappa_{n}^2}}-\frac{2n}{v\kappa_{n}}(1+O(n^{-1}))\\
+	&=\sqrt{\frac{n}{n+v}}(1+h_n)^2(1+\frac{2n+v}{2(n+v)}t_n)^{-1}-\sqrt{\frac{n}{n+v}}(1+h_n)^{-2}(1+O(n^{-1}))\\
+	&=\sqrt{\frac{n}{n+v}}\left(2h_n-\frac{2n+v}{2(n+v)}t_n+2h_n+O(h_n^2) \right) \\
+	&=\frac{4\sqrt{n(n+v)}}{2n+v}h_n(1+O(h_n)).
+	\endaligned
+\end{equation}
+It follows that
+\begin{equation}\label{tau1}
+	vk_n\tau_{n}^{\prime}(\kappa_{n})=2s_nh_n(1+O(h_n)).
+\end{equation}
+For $0\leq \zeta\leq r\lesssim (\log s_n/n)^{1/2},$  it is straightforward to see that
+$$ \sqrt{1+\kappa_{n}^2(1+\zeta)^2}=\sqrt{1+\kappa_{n}^2(1+\frac{2\kappa_{n}^{2}(\zeta+O(\zeta^{2}))}{1+\kappa_{n}^2})}=\sqrt{1+\kappa_{n}^{2}}(1+\frac{\kappa_{n}^{2}(\zeta+O(\zeta^{2}))}{1+\kappa_{n}^2})$$
+and
+\begin{equation}\label{taylor}
+	1+\sqrt{1+\kappa_{n}^2(1+\zeta)^2}=(1+\sqrt{1+\kappa_{n}^2})(1+\frac{\kappa_{n}^{2}(\zeta+O(\zeta^{2}))}{(1+\sqrt{1+\kappa_{n}^2})\sqrt{1+\kappa_{n}^2}}).
+\end{equation}
+Thereby
+$$\tau_n''(\kappa_n(1+\zeta))=\tau_n''(\kappa_n) (1+O((\log s_n/n)^{1/2}))=\frac{v}{2n+v}(1+O(h_n)),$$
+which implies
+\begin{equation}\label{ntau2}
+	\aligned
+	\frac{n(n+v)}{v}\tau_n''(\kappa_n(1+\zeta))r^2=\frac{s_nr^2}{4}(1+O(h_n))=\frac{s_nr^2}{4}+O(\frac{(\log n)^{3/2}}{\sqrt{n}}).
+	\endaligned
+\end{equation}
+Combining \eqref{wr}, \eqref{tau1} and \eqref{ntau2}, we have
+$$ \aligned 	 w(r)&=v \tau_n(\kappa_n)+2s_n h_n r(1+O(h_n))                                                           +\frac{s_n r^2}{4}+O(n^{-1/2}(\log n)^{3/2})\\
+&=v\tau_n(\kappa_n)+2s_n h_n r                                                            +\frac{s_nr^2}{4}+o((\log n)^{-1}). \endaligned
+$$
+Note that
+\begin{equation}
+	\aligned w'(r)
+	&=v\kappa_n\tau'_n(\kappa_n(1+r)).
+	\endaligned
+\end{equation}
+Since $r\ll1,$ it follows from \eqref{taylor} that
+$$
+\begin{aligned}
+&\quad \tau'_n(\kappa_n(1+r))\\
+=&\frac{\kappa_n(1+r)}{1+\sqrt{1+\kappa_n^2(1+r)^2}}-\frac{2n(1+O(n^{-1}))}{v\kappa_n(1+r)}\\
+	=&[\frac{\kappa_n}{1+\sqrt{1+\kappa_n^2}}(1+r)(1-\frac{\kappa_n^2(r+O(r^2))}{\sqrt{1+\kappa_n^2}(1+\sqrt{1+\kappa_n^2})})]-\frac{2n}{v\kappa_n}(1-r+O(r^2))\\
+	=&[\frac{\kappa_n}{1+\sqrt{1+\kappa_n^2}}(1+\frac{r}{\sqrt{1+\kappa_n^2}}+O(\frac{2n}{2n+v}r^2))-\frac{2n}{v\kappa_n}(1-r)+O(\sqrt{\frac{n}{n+v}}r^2)\\
+	=&(\frac{\kappa_n}{1+\sqrt{1+\kappa_n^2}}-\frac{2n}{v\kappa_n})+(\frac{\kappa_n}{(1+\sqrt{1+\kappa_n^2})\sqrt{1+\kappa_n^2}}+\frac{2n}{v\kappa_n})r+O(\sqrt{\frac{n}{n+v}}r^2).
+\end{aligned}
+$$
+Now
+$$\frac{\kappa_n}{(1+\sqrt{1+\kappa_n^2})\sqrt{1+\kappa_n^2}}+\frac{2n}{v\kappa_n}=\frac{2\sqrt{n(n+v)}}{2n+v}(1+O(h_n))$$
+and combining this with \eqref{tauprime} gives
+$$
+\begin{aligned}
+	\tau'_n(\kappa_n(1+r))
+	=&\frac{4\sqrt{n(n+v)}}{2n+v}h_n(1+O(h_n))+\frac{2\sqrt{n(n+v)}r}{2n+v}(1+O(h_n))+O(\sqrt{\frac{n}{n+v}}\frac{\log s_n}{n})\\
+	=&\frac{4\sqrt{n(n+v)}}{2n+v}h_n(1+\frac{r}{2h_n})(1+O(h_n)).
+\end{aligned}
+$$
+Therefore,
+$$\aligned
+w'(r)
+&=4v\kappa_n\frac{\sqrt{n(n+v)}}{2n+v}h_n(1+\frac{r}{2h_n})(1+O(h_n))=2s_n h_n(1+\frac{r}{2h_n})(1+O(h_n)).
+\endaligned$$
+For property (3), the explicit expression for
+$\tau_{n}^{\prime}(\kappa_{n})$ is already given by \eqref{tauprime}.
+Now consider the explicit estimation of
+$v\tau_{n}(\kappa_{n}) $. Based on the definition of $t_n$ and \eqref{1kappa}, we have
+$$\aligned
+&\tau_n(\kappa_{n})\\ =& \sqrt{1 + \kappa_{n}^2} - \log(1 + \sqrt{1 + \kappa_{n}^2}) + \frac{1}{4v} \log(1 + \kappa_{n}^2) - \frac{2n + 1}{v} \log \kappa_{n}\\
+=&\frac{2n+v}{v}(1+t_n)-\log(1+\frac{2n+v}{v}(1+t_n))+\frac{1}{2v} \log(\frac{2n+v}{v}(1+t_n))\\
+&\quad  -\frac{2n + 1}{v}\log
+(\frac{2\sqrt{n(n+v)}}{v} (1 + h_n)^2 )\\
+=&\frac{2n+v}{v}(1+t_n)-\log\frac{2(n+v)}{v}+\frac{1}{2v} \log\frac{2n+v}{v}  -\frac{2n + 1}{v}\log
+\frac{2\sqrt{n(n+v)}}{v}\\
+&\quad\quad\quad\quad\quad\quad-\log(1+\frac{2n+v}{2(n+v)}t_n)+\frac{1}{2v} \log(1+t_n) -\frac{4n + 2}{v}\log (1 + h_n),
+\endaligned
+$$ whence
+$$\aligned & v\tau_n(\kappa_{n})=2n+v-v\log\frac{2(n+v)}{v}+\frac{1}{2} \log\frac{2n+v}{v}-(2n+1)\log
+\frac{2\sqrt{n(n+v)}}{v}
+\\&\quad\quad\quad+(2n+v)t_n-v\log(1+\frac{2n+v}{2(n+v)}t_n)+\frac{1}{2} \log(1+t_n) -(4n + 2)\log (1 + h_n).  \endaligned$$
+Since $t_n\lesssim h_n\lesssim \sqrt{\frac{\log s_n}{s_n}}\ll 1,$ applying the  Taylor expansion yields
+$$\aligned&(2n+v)t_n-v\log(1+\frac{2n+v}{2(n+v)}t_n)+\frac{1}{2} \log(1+t_n) -(4n + 2)\log (1 + h_n)\\
+=&(2n+v)t_n-v(\frac{2n+v}{2(n+v)}t_n-\frac{(2n+v)^2}{8(n+v)^2}t_n^2)-4n(h_n-\frac{h_n^2}{2})+O(vt_n^3+nh_n^3)\\
+=&2nt_n+\frac{v^2}{2(n+v)}t_n+\frac{v(2n+v)^2}{8(n+v)^2}t_n^2-4nh_n+2nh_n^2+O((\log s_n)^{3/2}s_n^{-1/2})).\endaligned$$
+Now \(\frac{s_n}{2n+v} = 1 - \frac{v^2}{(2n+v)^2}\) and  we have
+\[
+2nt_n - 4nh_n + 2nh_n^2 = -\frac{4nv^2h_n}{(2n+v)^2} + 4nh_n^2 + \frac{2nh_n^2v^2}{(2n+v)^2} - \frac{4nh_n^2v^4}{(2n+v)^4}.
+\]
+From the definition of \(t_n\),
+\[
+\begin{aligned}
+&\frac{v^2t_n}{2n+2v}+\frac{v}{2}\Bigl(\frac{(2n+v)t_n}{2n+2v}\Bigr)^2 \\
+=&\ \frac{4nv^2h_n}{(2n+v)^2}+\frac{2nv^2h_n^2}{(2n+v)^2}\Bigl(1+\frac{2v^2}{(2n+v)^2}\Bigr)+\frac{8n^2v}{(2n+v)^2}h_n^2+O\bigl((\log s_n)^{3/2}s_n^{-1/2}\bigr)\\
+=&\ \frac{4nv^2h_n}{(2n+v)^2}+\frac{2nv^2+8n^2v}{(2n+v)^2}h_n^2+\frac{4nv^4h_n^2}{(2n+v)^2}+O\bigl((\log s_n)^{3/2}s_n^{-1/2}\bigr).
+\end{aligned}
+\]
+Consequently,
+\[
+(2n+v)t_n - v\log\!\Bigl(1+\frac{2n+v}{2(n+v)}t_n\Bigr)+\frac12\log(1+t_n) - (4n+2)\log(1+h_n)=2s_nh_n^2,
+\]
+which yields
+\[
+\begin{aligned}
+v\tau_n(\kappa_n) &= 2n+v-v\log\frac{2(n+v)}{v}+\frac12\log\frac{2n+v}{v}-(2n+1)\log\frac{2\sqrt{n(n+v)}}{v} \\
+&\quad +2s_nh_n^2+o\bigl((\log n)^{-1}\bigr).
+\end{aligned}
+\]
+The conclusion follows by combining the logarithmic terms.
+
+Recall that
+\(\tau_n\) is strictly convex, so is  \(w\) and then we see clearly
+\[
+w(r)\ge w(0)+w'(0)r=v\tau_n(\kappa_{n})+2s_n h_n r\bigl(1+O(h_n)\bigr)
+\]
+and \[
+w'(r)\ge w'(0)=v\kappa_n\tau_n'(\kappa_{n})\ge 2s_nh_n(1+O(h_n)).
+\]
+The second part is verified and the proof is completed.
+     \end{proof}
+
+\begin{proof}[\bf Proof of Lemme \ref{philem}]
+Recall the definitions
+
+\[
+\phi(r)=2r-\Bigl(\frac{2n+v+\frac12}{n}\Bigr)\log r , \qquad
+\beta(r)=\phi\bigl(L_n^{2}(1+r)\bigr),
+\]
+
+where \(L_n=\bigl(\frac{n+v}{n}\bigr)^{1/4}(1+h_n)\).
+
+If \(1\le v\ll\log n\), then
+
+\[
+L_n=1+h_n+o\bigl(n^{-1}\log n\bigr).
+\]
+
+Using the expansion \(\log(1+x)=x-\frac{x^{2}}{2}+O(x^{4})\) for \(|x|\ll 1\), we obtain
+\[
+\begin{aligned}
+n\phi\bigl(L_n^{2}(1+r)\bigr)
+&=2nL_n^{2}(1+r)-(2n+v+\tfrac12)\bigl(\log L_n^{2}+r-\tfrac{r^{2}}{2}\bigr)+O\!\bigl(n(\log s_n/n)^{3/2}\bigr)\\[2mm]
+&=2n\Bigl(L_n^{2}-2\log L_n+(L_n^{2}-1)r+\frac{r^{2}}{2}\Bigr)+o\bigl((\log n)^{-1}\bigr).
+\end{aligned}
+\]
+Employing the asymptotic relations
+\[
+\log L_n = h_n-\frac{h_n^{2}}{2}+o\bigl(n^{-1}\log n\bigr),\quad
+L_n^{2}=1+2h_n+h_n^{2}+o\bigl(n^{-1}\log n\bigr),\quad
+L_n^{4}=1+4h_n+O(h_n^{2}),
+\]
+we further simplify to
+\[
+n\phi\bigl(L_n^{2}(1+r)\bigr)=2n\Bigl(1+2h_n^{2}+2h_n r+\frac{r^{2}}{2}\Bigr)+o\bigl((\log n)^{-1}\bigr).
+\]
+Similarly,
+\[
+n\phi(L_n^{2})=2n\bigl(L_n^{2}-2\log L_n\bigr)+O(vh_n)=2n\bigl(1+2h_n^{2}\bigr)+o\bigl((\log n)^{-1}\bigr).
+\]
+Now observe that
+\[
+\partial_x \phi\!\bigl(L_n^{2}(x^{2}+y^{2})\bigr)
+=4L_n^{2}x\bigl(1-\frac{1+\frac{2v+1}{4n}}{L_n^{2}(x^{2}+y^{2})}\bigr)>0
+\]
+for all \(x\ge 1\) and \(y\ge 0\), because \(L_n^{2}-1\gtrsim (\frac{\log s_n}{s_n})^{1/2}\gg \frac{v}{n}\). Hence, for fixed \(y\ge 0\), the function \(\phi\bigl(L_n^{2}(x^{2}+y^{2})\bigr)\) attains its maximum at \(x=1\).
+
+Next,
+\[
+\beta''(r)=L_n^{4}\,\phi''\!\bigl(L_n^{2}(1+r)\bigr)=\frac{2n+v+\frac12}{2(1+r)^{2}}>0,
+\]
+so \(\beta\) is strictly convex on its domain, and consequently \(\beta'\) is strictly increasing. The monotonicity gives \(\beta'(r)\ge\beta'(0)\) for every \(r\ge 0\). Using \(L_n^{2}=(1+h_n)^{2}\bigl(1+O(v/n)\bigr)\), and $h_n^2=O(\frac{\log n}{n})\gg \frac{v}{n},$
+\[
+\beta'(0)=L_n^{2}\phi'(L_n^{2})=2L_n^{2}-\Bigl(2+\frac{v+\frac12}{n}\Bigr)
+=4h_n+2h_n^{2}+o\bigl(\frac{\log n}{n}\bigr)>4h_n.
+\]
+
+Therefore, by the convexity of \(\beta\), statement (2) is proved.
+\end{proof}
+
+
+\begin{proof}[\bf Proof of Lemma \ref{intelem}]
+We note that
+\[
+\exp(-c_1 n y^{4}) \bigl( 1 + \tfrac{y^{2}}{c_2 h_n} \bigr)^{-k} \le 1 .
+\]
+Using the elementary inequalities \(e^{-x}\ge 1-x\) and \(\log(1+x)\le x\), we obtain
+\[
+\exp\bigl(-c_1 n y^{4} - k\log\bigl(1+\tfrac{y^{2}}{c_2 h_n}\bigr)\bigr)
+\ge 1 - c_1 n y^{4} - \frac{k y^{2}}{c_2 h_n}.
+\]
+Consequently,
+\[
+\int_{0}^{\delta_{n}} e^{ -u_n y^{2} - c_1 n y^{4}}
+\bigl(1 + \frac{y^{2}}{c_2 h_n}\bigr)^{-k} dy
+\;\le\; \int_{0}^{\delta_{n}} e^{ -u_n y^{2}} dy,
+\]
+and
+\[
+\int_{0}^{\delta_{n}} e^{ -u_n y^{2} - c_1 n y^{4}}
+\Bigl(1 + \frac{y^{2}}{c_2 h_n}\Bigr)^{-k} dy
+\;\ge\; \int_{0}^{\delta_{n}} e^{ -u_n y^{2}}
+\bigl(1 - c_1 n y^{4} - \frac{k y^{2}}{c_2 h_n}\bigr) dy .
+\]
+Performing the substitution \(t = \sqrt{u_n}\,y\),
+\[
+\int_{0}^{\delta_{n}} e^{ -u_n y^{2}} dy
+= \frac{1}{\sqrt{u_n}} \int_{0}^{\sqrt{u_n}\delta_{n}} e^{-t^{2}} dt
+= \frac{\sqrt{\pi}}{2\sqrt{u_n}}\,
+\operatorname{erf}\bigl(\sqrt{u_n}\,\delta_{n}\bigr).
+\]
+The condition \(\sqrt{u_n}\,\delta_{n} \gtrsim \sqrt{\log n} \gg 1\) gives
+\[
+\operatorname{erf}\bigl(\sqrt{u_n}\,\delta_{n}\bigr)
+= 1 + O\Bigl(\frac{e^{-u_n\delta_n^{2}}}{\sqrt{u_n}\,\delta_{n}}\Bigr)
+= 1 + o\bigl((\log n)^{-1}\bigr),
+\]
+whence
+\[
+\int_{0}^{\delta_{n}} e^{ -u_n y^{2}} dy
+= \frac{\sqrt{\pi}}{2\sqrt{u_n}} \bigl(1 + o((\log n)^{-1})\bigr). \tag{1}
+\]
+Applying the same substitution we also obtain
+\[
+\begin{aligned}
+\int_{0}^{\delta_n} e^{-u_n y^{2}}\, n y^{4}\, dy
+&\lesssim \frac{n}{u_n^{5/2}} \int_{0}^{\sqrt{2u_n}\delta_n} e^{-\frac{x^{2}}{2}} x^{4}\, dx
+\lesssim \frac{1}{\sqrt{u_n}\,\log n},\\[2mm]
+\int_{0}^{\delta_n} e^{-u_n y^{2}}\, h_n^{-1} y^{2}\, dy
+&= \frac{1}{u_n^{3/2} h_n} \int_{0}^{\sqrt{2u_n}\delta_n} e^{-\frac{x^{2}}{2}} x^{2}\, dx
+\lesssim \frac{1}{\sqrt{u_n}\,\log n},\\[2mm]
+\int_{0}^{\delta_n} e^{-u_n y^{2}}\, n h_n^{-1} y^{6}\, dy
+&\lesssim \frac{n}{u_n^{7/2} h_n} \int_{0}^{\sqrt{2u_n}\delta_n} e^{-\frac{x^{2}}{2}} x^{6}\, dx
+\ll \frac{1}{\sqrt{u_n}\,\log n}.
+\end{aligned}
+\]
+Therefore,
+\[
+\int_{0}^{\delta_{n}} e^{ -u_n y^{2} - c_1 n y^{4}}
+\bigl( 1 + \tfrac{y^{2}}{c_2 h_n} \bigr)^{-k}  dy
+= \frac{\sqrt{\pi}}{2\sqrt{u_n}} \bigl(1 + O((\log n)^{-1})\bigr).
+\]
+The proof is completed now.
+\end{proof}
+
+\subsection*{Acknowledgment}  The authors would like to thank Mr. Xinchen Hu for his helpful discussions during the completion of this research.
+
+\begin{thebibliography}{SOSL90}
+\bibitem{AS}
+M. Abramowitz and I. A. Stegun. \emph{Handbook of Mathematical Functions}, 2nd ed., Dover Publications, New York, 1972.
+
+\bibitem{Akemann}
+G. Akemann. The complex Laguerre symplectic ensemble of non-Hermitian matrices. \emph{Nuclear Phys. B}, \textbf{730}(2005), 253-299.
+
+\bibitem{ABDbook}
+G. Akemann, J. Baik, and P. Di Francesco. \emph{The Oxford Handbook of Random Matrix Theory}. Oxford University Press, Oxford, 2011.
+
+\bibitem{AB}
+G. Akemann and M. Bender. Interpolation between Airy and Poisson statistics for unitary chiral non-Hermitian random matrix theory. \emph{J. Math. Phys.}, \textbf{51}(2010), 103524.
+
+\bibitem{ABK}
+G. Akemann, S.-S. Byun, and N.-G. Kang, A non-Hermitian generalization of the Marchenko-Pastur distribution: from the circular law to multi-criticality, \emph{Ann. Henri. Poincar\'e}, \textbf{22}(2021), 1035-1068.
+
+\bibitem{AkemannKieburgViotti2013} G. Akemann, M. Kieburg and L. Viotti.
+Singular value correlation functions for products of Wishart random matrices.
+\emph{J. Phys. A: Math. Theor.}, \textbf{46}(27)(2013), 275205.
+
+\bibitem{AnG}
+G. Anderson, A. Guionnet, and O. Zeitouni. \emph{An Introduction to Random Matrices}. Cambridge University Press, Cambridge, 2010.
+
+\bibitem{BSbook}
+Z. D. Bai and J. Silverstein. \emph{Spectral Analysis of Large Dimensional Random Matrices}. 2nd ed., Springer, New York, 2009.
+
+\bibitem{BDSbook}
+J. Baik, P. Deift, and P. Suidan. \emph{Combinatorics and Random Matrix Theory}. American Mathematical Society, USA, 2016.
+
+\bibitem{Bender}
+M. Bender. Edge scaling limits for a family of non-Hermitian random matrix ensembles. \emph{Probab. Th. Relat. Fields}, \textbf{147}(2010), 241-271.
+
+\bibitem{BC12} C. Bordenave and D. Chafa$\ddot{\rm \imath}$. Around the circular law. \emph{Probab. Surv.}, \textbf{9}(2012), 1-89.
+\bibitem{BCC18} C. Bordenave, P. Caputo, D. Chafa$\ddot{\rm \imath}$, and K. Tikhomirov. On the spectral radius of a random matrix: An upper bound without fourth moment. \emph{Ann. Probab.}, \textbf{46}(2018), 2268-2286.
+\bibitem{BCG22} C. Bordenave, D. Chafa$\ddot{\rm \imath}$, and D. Garcia-Zelada. Convergence of the spectral radius of a random matrix through its characteristic polynomial. \emph{Probab. Th. Relat. Fields}, \textbf{182}(2022), 1163-1181.
+
+\bibitem{Byun2023}
+S.-S. Byun and C. Charlier.
+The real spectrum of the complex Ginibre ensemble: From the semi-circle law to the Ginibre distribution.
+\textit{arXiv preprint arXiv:2305.05055}, 2023.
+
+ \bibitem{Byun 2023}
+		S.-S. Byun and P. J. Forrester. \emph{Progress on the Study of the Ginibre Ensembles II: GinOE and GinSE}. arXiv.2301.05022.
+\bibitem{Byun 2025}
+ S.-S. Byun and P. J. Forrester. \emph{Progress on the Study of the Ginibre Ensembles}. 1st ed., Springer Singapore, 2025.
+\bibitem{Chafaii18} D. Chafa$\ddot{\rm \imath}$. Around the circular law: an update. (Webblog)
+https://djalil.chafai.net/blog/2018/11/04/around-the-circular-law-an-update.
+
+\bibitem{Chafaii} D. Chafa$\ddot{\rm \imath}$ and S. P\'ech\'e. A note on the second order universality at the edge of Coulomb gases on the plane. \emph{J. Stat. Phys.}, \textbf{156}(2014), 368-383.
+ \bibitem{JQ} S. Chang, T. Jiang, and Y. Qi.  Eigenvalues of large chiral non-Hermitian random matrices. \emph{J. Math. Phys.}, \textbf{61}(2020), 013508.
+
+ \bibitem{Charlier03} C. Charlier. Large gap asymptotics on annuli in the random normal matrix model. \emph{Math. Ann.}, \textbf{388}(2024), 3529-3587.
+ \bibitem{Charlier22} C. Charlier. Asymptotics of determinants with a rotation-invariant weight and discontinuities along circles. \emph{Adv. Math.}, \textbf{408}(2022), 108600.
+
+\bibitem{Cipolloni22Directional}\text{G. Cipolloni, L. Erd\"{o}s, D. Schr\"{o}der and Y. Xu.} Directional extremal statistics for Ginibre eigenvalues. \emph{J. Math. Phys.,} \textbf{63}(10)(2022), 103303.
+
+\bibitem{Cipolloni22rightmost}
+		G. Cipolloni, L. Erd$\ddot{o}$s, D. Schr$\ddot{o}$der and Y. Xu. On the rightmost eigenvalue of non-Hermitian random matrices. \emph{Ann. Probab.,} \textbf{51}(6)(2022), 2192-2242.
+\bibitem{CipoErXu} G. Cipolloni, L. Erd$\ddot{o}$s and Y. Xu. Universality of extremal eigenvalues of large random matrices. arXiv:2312.08325.
+
+\bibitem{ErdosYau2012}
+L. Erd$\ddot{o}$s and H.-T. Yau.
+Universality for random matrices with independent entries.
+\textit{arXiv preprint arXiv:1202.0065}, 2012.
+
+\bibitem{Fenzl}
+M. Fenzl and G. Lambert. Precise deviations for disk counting statistics of invariant determinantal processes. \emph{Int. Math. Res. Not.}, \textbf{2022}(10)(2022), 7420-7494.
+
+\bibitem{Forrester2010}
+P. J. Forrester. \emph{Log-gases and Random Matrices}, London Mathematical Society Monographs Series \textbf{34}, Princeton University Press, Princeton, NJ, 2010.
+
+\bibitem{ForresterHonner1999}
+P. J. Forrester and G. Honner.
+Exact statistical properties of the zeros of complex random polynomials.
+\textit{J. Phys. A: Math. Gen.}, \textbf{32}(16)(1999), 2961--2981.
+
+\bibitem{Gohberg} I. Gohberg, S. Goldberg, and N. Krupnik. \emph{Traces and determinants of linear operators. Operator Theory: Advances and Applications.} {\bf 116} Birkhauser, Basel, 2000.
+
+\bibitem{HuMa2025} X. Hu and Y-T. Ma. Convergence rate of extreme eigenvalue of Ginibre ensembles to Gumbel distribution.
+arXiv:2506.04560v3.
+\bibitem{Johansson}
+K. Johannsson. Shape fluctuations and random matrices. \emph{Comm. Math. Phys.}, \textbf{209}(2000), 437-476.
+
+\bibitem{KSbook}
+B. A. Khoruzhenko and H. J. Sommers. Non-Hermitian Random Matrix Ensembles, in: \emph{Oxford Handbook of Random Matrix Theory}. Oxford University Press, Oxford, 2011.
+
+ \bibitem{Kostlan}
+ E. Kostlan. On the spectra of Gaussian matrices. \emph{Lin. Alg. Appl.}, \textbf{162}(1992), 385-388.
+
+\bibitem{Lacroix}
+B. Lacroix-A-Chez-Toine, A. Grabsch, S. N. Majumdar, and G. Schehr. Extremes of 2D Coulomb gas: universal intermediate deviation regime. \emph{J. Stat. Mech.}(2018), 013203.
+
+\bibitem{MaMeng25}  Y. T. Ma and X. Meng. Exact convergence rate of spectral radius of complex Ginibre to Gumbel distribution. arXiv:2501.08039.
+\bibitem{MaWang24} Y.T. Ma and S. Wang. Deviation probabilities for extremal eigenvalues of large chiral non-Hermitian random matrices. \emph{Forum Math.}, \textbf{373}(3)(2025), 717-746.
+
+		\bibitem{MaWang25}  Y. T. Ma and S. Wang. Optimal $W_1$ and Berry-Esseen bound between the spectral radius of large Chiral non-Hermitian random matrices and Gumbel. 	arXiv:2501.08661.
+
+\bibitem{MP}
+V. A. Marchenko and L. A. Pastur. Distributions of some sets of random matrices. \emph{Math. USSR-Sb}, \textbf{1}(1967), 457-483.
+\bibitem{May} R. M. May. Will a large complex system be stable? \emph{Nature}, \textbf{238}(1972), 413-414.
+\bibitem{AAA} P. D. Miller. Applied Asymptotic Analysis. Graduate Studies in Mathematics, {\bf 75}. AMS providence, Rhode Island 2006.
+
+\bibitem{osborn}
+J. C. Osborn. Universal results from an alternate random matrix model for QCD with a baryon chemical potential. \emph{Phys. Rev. Lett.}, \textbf{93}(2004), 2220019.
+
+\bibitem{Rider03}
+B.C. Rider. A limit theorem at the edge of a non-Hermitian random matrix ensemble. \emph{J. Phys. A}, \textbf{36}(2003), 3401-3409.
+
+\bibitem{Rider14} B.C. Rider and C.D. Sinclair. Extremal laws for the real Ginibre ensemble. \emph{ Ann. Appl. Probab.}, \textbf{24}(4)(2014), 1621-1651.
+
+\bibitem{Stephanov} M. A. Stephanov. Random matrix model for qcd at finite density and the nature of the quenched limit.\emph{ Phys. Rev. Lett.}, \textbf{76}(1996), 4472-4475.
+\bibitem{XuZeng24}  Y. Xu and Q. Zeng. Large deviations for the extremal eigenvalues of Ginibre ensembles.
+\end{thebibliography}
+
+
+\end{document}

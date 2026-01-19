@@ -1,0 +1,423 @@
+\section{The symmetric pairing on the cokernel of a nonsingular symmetric matrix}\label{sec: cok of sym matrix}
+
+The goal of this section is to set up the structural input needed
+for the exposure-process argument in \Cref{sec: Proof of the symmetric case}. We first formalize the notion of a \emph{paired}
+finite abelian group (see \Cref{defi: symmetric abelian group}) and recall that the cokernel of a nonsingular symmetric integral (or $p$-adic)
+matrix carries a canonical perfect symmetric pairing. Working prime-by-prime, in \Cref{thm: add invertible to same cokernel with pairing}, we relate the
+resulting isomorphism class $(\Cok(M),\langle\cdot,\cdot\rangle)$ to congruence equivalence of symmetric
+matrices (up to adjoining invertible blocks), thereby reducing questions about cokernels with pairing
+to statements about congruence classes. Finally, in \Cref{defi: quasi pairing of Cok}, we pass to reductions modulo $a$ and introduce the
+notion of a \emph{cokernel with quasi-pairing} for symmetric matrices over $\mathbb{Z}/p^{e_p}\mathbb{Z}$.
+With a suitable choice of modulus $a$, this provides a finite state space that records exactly the
+$P$-primary cokernel together with its pairing, and it is the framework in which we later define and
+estimate the transition probabilities of the symmetric exposure process.
+
+\begin{defi}\label{defi: symmetric abelian group}
+Let $G$ be a finite abelian group, equipped with a bilinear symmetric pairing $\langle\cdot,\cdot\rangle_G:G\times G\rightarrow\Q/\Z$. We say that $(G,\langle\cdot,\cdot\rangle_G)$ is a \emph{paired abelian group} (or simply a \emph{paired group}) if the pairing $\langle\cdot,\cdot\rangle_G$ is perfect. Additionally, given a prime number $p$, we say $(G,\langle\cdot,\cdot\rangle_G)$ is a \emph{paired abelian $p$-group} (or simply a \emph{paired $p$-group}) if it is a paired abelian group and a $p$-group. We say that two paired abelian groups $(G,\langle\cdot,\cdot\rangle_G)$ and $(G',\langle\cdot,\cdot\rangle_{G'})$ are isomorphic and write $(G,\langle\cdot,\cdot\rangle_G)\simeq(G',\langle\cdot,\cdot\rangle_{G'})$, if there exists a group isomorphism that preserves the pairing.
+\end{defi}
+
+The group $G$ together with its pairing $\langle\cdot,\cdot\rangle_G$ in \Cref{thm: exponential convergence_sym} form a finite paired abelian group. From now on, all paired abelian groups are assumed to be finite. As discussed in \Cref{sec: intro}, paired abelian groups naturally emerge when considering the cokernel of a nonsingular symmetric integral matrix $M_n\in\Sym_n(\Z)$. Now, for a given prime $p$, we focus on the Sylow $p$-subgroup of this cokernel, where we regard the matrix entries as elements in the $p$-adic integers $\Z_p$. When $M_n$ is nonsingular, the $p$-torsion part of $\Cok(M_n)$, denoted by $\Cok(M_n)_p:=\Z_p^n/M_n\Z_p^n$, gives a paired abelian $p$-group. Indeed, its symmetric pairing, denoted by $\langle\cdot,\cdot\rangle_p$, is given by
+\begin{align}
+\begin{split}
+\langle\cdot,\cdot\rangle_p: \Cok(M_n)_p\times \Cok(M_n)_p&\rightarrow\Q_p/\Z_p\\
+(x,y)&\mapsto X^TM_n^{-1}Y\quad\mod \Z_p.
+\end{split}
+\end{align}
+Here, $X,Y\in\Z_p^n$ are the lifts of $x,y\in\Cok(M_n)_p$, respectively. 
+
+Whenever it is clear from the text that we are in the localized-at-$p$ setting where $M_n$ is regarded as a matrix with entries in $\Z_p$, we will sometimes drop the subscript $p$ and simply write $(\Cok(M_n),\langle\cdot,\cdot\rangle)$ for $(\Cok(M_n)_p,\langle\cdot,\cdot\rangle_p)$. For the global setting, we will be interested in the localizations of $M_n\in\Sym_n(\Z)$ at a finite set of primes, denoted by $P$. In this case, we write $(\Cok(M_n)_P,\langle\cdot,\cdot\rangle_P)$ for the restriction of $(\Cok(M_n),\langle\cdot,\cdot\rangle)$ to the primes in $P$, or equivalently, the collection of abelian groups with pairings $((\Cok(M_n)_p,\langle\cdot,\cdot\rangle_p))_{p\in P}$.
+
+Following the above definitions, it is clear that when $M_{n_1}\in\Sym_{n_1}(\Z_p)$ is nonsingular, and $M_{n-n_1}^c\in\Sym_{n-n_1}(\Z_p)\cap\GL_{n-n_1}(\Z_p)$, we have 
+$$(\Cok(M_{n_1}),\langle\cdot,\cdot\rangle)\congsim\left(\Cok\begin{pmatrix}M_{n-n_1}^c & 0 \\ 0 & M_{n_1}\end{pmatrix},\langle\cdot,\cdot\rangle\right).$$
+
+\begin{prop}\label{prop: same pairing matrix of same size}
+Let $n\ge 1$, and $M_n,M_n'\in\Sym_n(\Z_p)$ be nonsingular. Then, $(\Cok(M_n),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_n'),\langle\cdot,\cdot\rangle)$ if and only if there exists a nonsingular $M_n''\in\Sym_n(\Z_p)$, such that $M_n''\congsim M_n'$, and $M_n^{-1}-(M_n'')^{-1}\in\Sym_n(\Z_p)$.
+\end{prop}
+
+\begin{proof}
+On the one hand, suppose that such a matrix $M_n''$ exists. Then we have
+$$(\Cok(M_n),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_n''),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_n'),\langle\cdot,\cdot\rangle).$$
+On the other hand, suppose $(\Cok(M_n),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_n'),\langle\cdot,\cdot\rangle)$. By the definition of isomorphism between paired abelian $p$-groups given in \Cref{defi: symmetric abelian group}, there exists $U\in\GL_n(\Z_p)$ such that $M_n'':=UM_n'U^T$ and $M_n$ generate the same pairing that takes values in $\Q_p/\Z_p$, i.e., $M_n^{-1}-(M_n'')^{-1}\in\Sym_n(\Z_p)$. This completes the proof.
+\end{proof}
+
+\Cref{prop: same pairing matrix of same size} motivates us to ask for the simplest form of a symmetric matrix in $\Z_p$ under the congruence transformations of $\GL_n(\Z_p)$, which is given in the following proposition. 
+
+\begin{thm}\label{prop: simplest matrix_sym}
+Let $M_n\in\Sym_n(\Z_p)$ be nonsingular. 
+\begin{enumerate}
+\item If $p$ is odd, take a fixed non-square $\mathfrak{r}_p\in\Z_p^\times$. Then $M_n$ is congruent to a diagonal matrix of the form
+\begin{equation}\label{eq: simplest matrix sym odd}
+\diag_{n\times n}(p^{\l_1},\ldots,p^{\l_n})\cdot\diag(\varepsilon_1,\ldots,\varepsilon_n),\end{equation}
+where $\l:=(\l_1,\ldots,\l_n)\in\Y$, and $\varepsilon_1,\ldots,\varepsilon_n\in\{1,\mathfrak{r}_p\}$ such that for $1\le i\le n-1$ with $\l_i=\l_{i+1}$, we have $\varepsilon_i=1$. Furthermore, no two distinct matrices in \eqref{eq: simplest matrix sym odd} are congruent under the action of $\GL_n(\Z_p)$.
+\item If $p=2$, then $M_n$ is congruent to a block diagonal matrix whose diagonal blocks are one of the following form:
+\begin{equation}\label{eq: simplest matrix sym 2}
+(2^d),(3\times2^d),(5\times2^d),(7\times2^d),\begin{pmatrix}0 & 2^d\\ 2^d & 0\end{pmatrix},\begin{pmatrix}2^{d+1} & 2^d\\ 2^d & 2^{d+1}\end{pmatrix}.
+\end{equation}
+Here, $d\ge 0$ is a non-negative integer.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+For the $p>2$ part see \cite[Chapter 8.3]{cassels2008rational}, and for the $p=2$ part see \cite[Chapter 8.4]{cassels2008rational}.
+\end{proof}
+
+Note that when $p=2$, we do not assert that the simplest form is unique expressed by the components listed in \eqref{eq: simplest matrix sym 2}. 
+
+\begin{prop}\label{prop: locally congruent equivalence at p} 
+Let $p$ be a prime number. Let $n\ge 1$, and $M_n\in\Sym_n(\Z_p)$ be nonsingular. When $p$ is odd, let $e_p=\Dep_p(\Cok(M_n))+1$, and when $p=2$, let $e_2=\Dep_2(\Cok(M_n))+3$. Then for all $\Delta M_n\in\Sym_n(p^{e_p}\Z_p)$, we have $M_n\congsim M_n+\Delta M_n$.
+\end{prop}
+
+\begin{proof}
+Applying a congruence transformation by $\GL_n(\Z_p)$, there is no loss of generality to assume that $M_n$ is already the simplest form given in \Cref{prop: simplest matrix_sym}. We will only give the proof of the case $p=2$, and the odd prime case follows similarly but more straightforwardly. 
+
+We have already assumed that $M_n$ is a diagonal block matrix, whose diagonal blocks are one of the forms in \eqref{eq: simplest matrix sym 2}. Each block has an exponent $d$, and $\Dep_2(\Cok(M_n))$ is the maximum of all these exponents. Turning to $M_n+\Delta M_n$, we can use the diagonal blocks in the corresponding positions as pivots to clear the off-block-diagonal entries, and under such simultaneous row-column eliminations, each entry in the diagonal blocks varies only $2^{e_2}\Z_2$. 
+% Equivalently, each ``simultaneous row--column'' elimination step is a congruence operation:
+% adding $\lambda$ times row $i$ to row $j$ and, at the same time, adding $\lambda$ times column $i$ to
+% column $j$ replaces $M$ by
+% \[
+% M \longmapsto E_{ji}(\lambda)\, M\, E_{ji}(\lambda)^{\mathsf T},
+% \qquad
+% E_{ji}(\lambda)\coloneqq I+\lambda\, e_{j}e_i^{\mathsf T}\in \GL_n(\Z_2),
+% \]
+% where $\lambda\in \Z_2$ and $e_k$ denotes the $k$th standard basis vector. In particular, all the
+% pivoting/elimination operations used below stay within $\GL_n(\Z_2)$-congruence and introduce no
+% denominators.
+Thus, we have $M_n+\Delta M_n\congsim M_n+\Delta M_n'$ for some $\Delta M_n'\in\Sym_n(2^{e_2}\Z_2)$, which has the same block structure as $M_n$ (i.e., the diagonal blocks occur in the same positions and have the same sizes).
+
+Now, we only need to show that, for any block listed in \eqref{eq: simplest matrix sym 2}, modifying its entries by elements of $2^{e_2}\Z_2$ while maintaining symmetry does not affect its congruent equivalence class. Since every entry contains a factor $2^d$ such that $e_2\ge d+3$, we may assume $d=0,e_2=3$ without loss of generality by factoring it out, thereby reducing the situation to the following cases.
+\begin{enumerate}
+\item For $b\in\Z_2$, we have congruent equivalence
+$$(1)\congsim (1+8b),(3)\congsim (3+8b),(5)\congsim (5+8b),(7)\congsim (7+8b)$$ 
+due to the fact that $(\Z_2^\times)^2=1+8\Z_2$.
+\item For $\xi,b_1,b_2\in\Z_2$, we claim congruent equivalence $\begin{pmatrix}0 & 1\\ 1 & 0\end{pmatrix}\congsim\begin{pmatrix}8b_1 & 1+8\xi\\ 1+8\xi & 8b_2\end{pmatrix}$. In fact, applying Hensel's lemma, we can find $\eta\in\Z_2$ that satisfies 
+$$8b_2\eta^2-2(1+8\xi)\eta+8b_1=0$$
+due to the fact that the quadratic term and constant term have valuation $\ge 3$, and the linear term has valuation $1$. Therefore, we have
+\begin{align}
+\begin{split}
+\begin{pmatrix}8b_1 & 1+8\xi\\ 1+8\xi & 8b_2\end{pmatrix}&\congsim\begin{pmatrix}8b_2\eta^2-2(1+8\xi)\eta+8b_1 & 1+8\xi-8b_2\eta\\ 1+8\xi-8b_2\eta & 8b_2\end{pmatrix}\\
+&=\begin{pmatrix}0 & 1+8\xi-8b_2\eta\\ 1+8\xi-8b_2\eta & 8b_2\end{pmatrix}\\
+&\congsim\begin{pmatrix}0 & 1+8\xi-8b_2\eta\\ 1+8\xi-8b_2\eta & 0\end{pmatrix}\\
+&\congsim\begin{pmatrix}0 & 1\\ 1 & 0\end{pmatrix}.
+\end{split}
+\end{align}
+Here, in the congruence transformations used in the first, third, and fourth line, the matrices multiplied on the left are 
+$$\begin{pmatrix}1 & -\eta\\ 0 & 1\end{pmatrix},\begin{pmatrix}1 & 0\\ -4b_2(1+8\xi-8b_2\eta)^{-1} & 1\end{pmatrix},\begin{pmatrix}1 & 0\\\ 0 & (1+8\xi-8b_2\eta)^{-1} \end{pmatrix},$$
+respectively.
+\item For $\xi,b_1,b_2\in\Z_2$, we claim congruent equivalence $\begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}\congsim\begin{pmatrix}2+8b_1 & 1+8\xi\\ 1+8\xi & 2+8b_2\end{pmatrix}$. In fact, we can find $\eta_1\in\Z_2,\eta_2\in\Z_2^\times$ such that $$(2+8b_2)\eta_1^2-2(1+8\xi)\eta_1+8b_1=0,\quad\det\begin{pmatrix}2+8b_1 & 1+8\xi\\ 1+8\xi & 2+8b_2\end{pmatrix}\cdot\eta_2^2=\det\begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}=3.$$
+Therefore, we have
+\begin{align}
+\begin{split}
+\begin{pmatrix}2+8b_1 & 1+8\xi\\ 1+8\xi & 2+8b_2\end{pmatrix}&\congsim\begin{pmatrix}(2+8b_2)\eta_1^2-2(1+8\xi)\eta_1+2+8b_1 & 1+8\xi-8b_2\eta_1\\ 1+8\xi-8b_2\eta_1 & 2+8b_2\end{pmatrix}\\
+&=\begin{pmatrix}2 & 1+8\xi-8b_2\eta_1\\ 1+8\xi-8b_2\eta_1 & 2+8b_2\end{pmatrix}\\
+&\congsim\begin{pmatrix}2 & (1+8\xi-8b_2\eta_1)\eta_2\\ (1+8\xi-8b_2\eta_1)\eta_2 & (2+8b_2)\eta_2^2\end{pmatrix}\\
+&\congsim\begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}.
+\end{split}
+\end{align}
+Here, in the congruence transformations used in the first, third, and fourth line, the matrices multiplied on the left are 
+$$\begin{pmatrix}1 & -\eta_1\\ 0 & 1\end{pmatrix},\begin{pmatrix}1 & 0\\ 0 & \eta_2\end{pmatrix},\begin{pmatrix}1 & 0\\\ (1-(1+8\xi-8b_2\eta_1)\eta_2)/2 & 1\end{pmatrix},$$
+respectively.
+\end{enumerate}
+Now, we complete the proof.
+\end{proof}
+
+It is clear that when two nonsingular matrices in $\Sym_n(\Z_p)$ are congruent, they induce the same paired $p$-group. However, one has to be careful for the converse assertion, because two nonsingular matrices in $\Sym_n(\Z_p)$ might induce the same paired $p$-group even if they do not lie on the same orbit under the congruence transformation of $\GL_n(\Z_p)$. Let us consider the following four sets of block matrices in \eqref{eq: simplest matrix sym 2}, where $p=2$:
+\begin{equation}\label{eq: same pairing block}
+\mathcal{T}_1=\{(2),(6),(10),(14)\},\mathcal{T}_2=\left\{\begin{pmatrix}0 & 2\\ 2 & 0\end{pmatrix},\begin{pmatrix}4 & 2\\ 2 & 4\end{pmatrix}\right\},\mathcal{T}_3=\{(4),(20)\},\mathcal{T}_4=\{(12,28)\}.
+\end{equation}
+The readers can verify that for $1\le i\le 4$, the matrices in $\mathcal{T}_i$ are pairwise non-congruent but still induce the same symmetric pairing.
+
+%For instance, consider the case $p=2$, and two $1\times 1$ matrices $(2)$ and $(6)$. They do not lie on the same orbit under the congruence transformation of $\GL_1(\Z_2)=\Z_2^\times$, but both give the paired $2$-group $\Z/2\Z$ with the non-degenerate pairing. Therefore, it is necessary to further analyze the pairings generated by the simplest matrices in \Cref{prop: simplest matrix_sym}; this is the purpose of the following proposition.
+
+\begin{prop}\label{prop: same pairing for block congruence}
+\begin{enumerate}
+\item ($p$ odd) Let $\alpha,\alpha'\in p\Z_p$ be nonzero, such that $\alpha^{-1}-(\alpha')^{-1}\in\Z_p$. Then, there exists $u\in\Z_p^\times$ such that $\alpha'=\alpha u^2$.
+\item ($p=2$) Let $M$ be one of the matrix in \eqref{eq: simplest matrix sym 2} with $d\ge 1$. Furthermore, suppose $M'$ is symmetric, nonsingular, has the same size as $M$, and $M^{-1}-(M')^{-1}$ has entries in $\Z_p$. In this case, if $M$ is contained in $\mathcal{T}_i$ for some $1\le i\le 4$, then $M'$ is congruent to a matrix in $\mathcal{T}_i$; otherwise, we have $M\congsim M'$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+When $p$ is odd, we have
+$$\val(\frac{\alpha'}{\alpha}-1)=\val(\alpha^{-1}-(\alpha')^{-1})+\val(\alpha')\ge 1,$$
+and therefore $\frac{\alpha'}{\alpha}\in1+p\Z_p$ is a square in $\Z_p^\times$.
+
+When $p=2$, we proceed by a case-by-case discussion according to the congruence class of $M$. If $M\in\mathcal{T}_1$, the only entry of $(M')^{-1}$ lies in $1/2+\Z_2$. The cases in which this entry lies in 
+$$1/2+4\Z_2,3/2+4\Z_2,5/2+4\Z_2,7/2+4\Z_2$$
+correspond to the congruence classes $(2),(6),(10),(14)$, respectively.
+
+If $M\in\mathcal{T}_2$, then we have $M'\in\begin{pmatrix}0 & 1/2 \\ 1/2 & 0\end{pmatrix}+\Sym_2(\Z_2)$. When $(M')^{-1}$ lies in 
+$$\left\{\begin{pmatrix}1+2b_1 & 1/2+b_2 \\ 1/2+b_2 & 1+2b_3\end{pmatrix}:b_1,b_2,b_3\in\Z_2\right\},$$
+we have $(M')^{-1}\congsim\begin{pmatrix}1 & 1/2 \\ 1/2 & 1\end{pmatrix}$, and therefore $M'\congsim\begin{pmatrix}4 & 2 \\ 2 & 4\end{pmatrix}$; otherwise, we have $M'\congsim\begin{pmatrix}0 & 2 \\ 2 & 0\end{pmatrix}$.
+
+If $M\in\mathcal{T}_3$, the only entry of $(M')^{-1}$ lies in $1/4+\Z_2$. The cases in which this entry lies in $1/4+2\Z_2,5/4+2\Z_2$ correspond to the congruence classes $(4),(20)$, respectively.
+
+If $M\in\mathcal{T}_4$, the only entry of $(M')^{-1}$ lies in $3/4+\Z_2$. The cases in which this entry lies in $3/4+2\Z_2,7/4+2\Z_2$ correspond to the congruence classes $(12),(28)$, respectively.
+
+If $M=\begin{pmatrix}0 & 4\\ 4 & 0\end{pmatrix}$, then $(M')^{-1}\in\begin{pmatrix}0 & 1/4\\ 1/4 & 0\end{pmatrix}+\Sym_2(\Z_2)$. Therefore, we have $(M')^{-1}\congsim\begin{pmatrix}0 & 1/4\\ 1/4 & 0\end{pmatrix}$, and $M'\congsim M$.
+
+If $M=\begin{pmatrix}8 & 4\\ 4 & 8\end{pmatrix}$, then 
+$$(M')^{-1}\in\begin{pmatrix}1/6 & -1/12\\ -1/12 & 1/6\end{pmatrix}+\Sym_2(\Z_2)=\begin{pmatrix}1/2 & 1/4\\ 1/4 & 1/2\end{pmatrix}+\Sym_2(\Z_2).$$ 
+Therefore, we have $(M')^{-1}\congsim\begin{pmatrix}1/2 & 1/4\\ 1/4 & 1/2\end{pmatrix}\congsim M^{-1}$, and $M'\congsim M$.
+
+If $M$ is one of the matrix in \eqref{eq: simplest matrix sym 2} such that $d\ge 3$, we deduce that $2^d M^{-1}$ is invertible with entries in $\Z_p$, $\Dep_2(\Cok(2^d M^{-1}))=0$, and that $2^d M^{-1}-2^d (M')^{-1}$ has entries in $2^d\Z_p$. By \Cref{prop: locally congruent equivalence at p}, we have $2^d M^{-1}\congsim 2^d(M')^{-1}$, and therefore $M\congsim M'$. This completes the discussion and ends the proof.
+\end{proof}
+
+\begin{prop}\label{thm: add invertible to same cokernel with pairing}
+Let $n_1,n_2\ge 1$, and $M_{n_1}\in\Sym_{n_1}(\Z_p),M_{n_2}'\in\Sym_{n_2}(\Z_p)$ be nonsingular. Then, the following are equivalent:
+\begin{enumerate}
+\item We have $(\Cok(M_{n_1}),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_{n_2}'),\langle\cdot,\cdot\rangle)$. \label{item: same cokernel with pairing} 
+\item There exists $m\le \min\{n_1,n_2\}$, and
+$$M_{n_1}^{\inv}\in\Sym_{n_1-m}(\Z_p)\cap\GL_{n_1-m}(\Z_p),M_{n_1}^{\nil}\in\Sym_m(p\Z_p),$$
+$$M_{n_2}'^{\inv}\in\Sym_{n_2-m}(\Z_p)\cap\GL_{n_2-m}(\Z_p),M_{n_2}'^{\nil}\in\Sym_m(p\Z_p),$$
+such that $(M_{n_1}^{\nil})^{-1}-(M_{n_2}'^{\nil})^{-1}\in\Sym_m(\Z_p)$, and
+$$M_{n_1}\congsim\begin{pmatrix}M_{n_1}^{\inv} & 0 \\ 0 & M_{n_1}^{\nil}\end{pmatrix},\quad M_{n_2}'\congsim\begin{pmatrix}M_{n_2}'^{\inv} & 0 \\ 0 & M_{n_2}'^{\nil}\end{pmatrix}.$$ \label{item: difference of inverse}
+\item There exists $n\ge\max\{n_1,n_2\}$, and
+$$M_{n-n_1}^c\in\Sym_{n-n_1}(\Z_p)\cap\GL_{n-n_1}(\Z_p),M_{n-n_2}'^c\in\Sym_{n-n_2}(\Z_p)\cap\GL_{n-n_2}(\Z_p),$$ 
+such that $\begin{pmatrix}M_{n-n_1}^c & 0 \\ 0 & M_{n_1}\end{pmatrix}\congsim\begin{pmatrix}M_{n-n_2}'^c & 0 \\ 0 & M_{n_2}'\end{pmatrix}$. \label{item: add matrix congruent}
+\end{enumerate}
+\end{prop}
+
+\begin{proof}[Proof of \Cref{thm: add invertible to same cokernel with pairing}]
+First, notice that adding a new invertible block at the upper-left corner and congruent transformations do not change the cokernel with pairing. Therefore, we have \eqref{item: difference of inverse} implies \eqref{item: same cokernel with pairing}, and \eqref{item: add matrix congruent} implies \eqref{item: same cokernel with pairing}.
+
+Next, we prove that \eqref{item: same cokernel with pairing} implies \eqref{item: difference of inverse}. Suppose that we already have $(\Cok(M_{n_1}),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_{n_2}'),\langle\cdot,\cdot\rangle)$. In this case, the two matrices $M_{n_1}/p\in\Sym_{n_1}(\F_p),M_{n_2}'/p\in\Sym_{n_2}(\F_p)$ have the same corank, which is exactly the $m$ we take. Applying \Cref{lem: full rank principal minor}, there exists a $(n_1-m)\times (n_1-m)$ principal minor of $M_{n_1}$ with determinant in $\Z_p^\times$. There is no loss of generality to assume that the $(n_1-m)\times (n_1-m)$ upper-left block is invertible, so that
+$$M_{n_1}=\begin{pmatrix}B & C \\ C^T & D\end{pmatrix}, B\in\Sym_{n_1-m}(\Z_p)\cap\GL_{n_1-m}(\Z_p),C\in\Mat_{(n_1-m)\times m}(\Z_p),D\in\Sym_{m}(\Z_p).$$
+In this case, we have
+$$M_{n_1}\congsim\begin{pmatrix}B & 0 \\ 0 & D-C^TB^{-1}C\end{pmatrix},$$
+where $D-C^TB^{-1}C\in\Sym_{m}(p\Z_p)$. Let $M_{n_1}^{\inv}=B$, and $M_{n_1}^{\nil}=D-C^TB^{-1}C\in\Sym_{m}(p\Z_p)$. Moreover, $M_{n_1}^{\nil}$ is nonsingular, and 
+$(\Cok(M_{n_1}),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_{n_1}^{\nil}),\langle\cdot,\cdot\rangle)$. We construct $M_{n_2}'^{\inv},M_{n_2}'^{\nil}$ in the analogous way, so that 
+$$(\Cok(M_{n_1}^{\nil}),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_{n_1}),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_{n_2}'),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_{n_2}'^{\nil}),\langle\cdot,\cdot\rangle).$$
+Applying \Cref{prop: same pairing matrix of same size}, we can adjust $M_{n_2}'^{\nil}$ by a congruent transformation (with a slight abuse of notation, we denote the adjusted matrix again by $M_{n_2}'^{\nil}$), so that $(M_{n_1}^{\nil})^{-1}-(M_{n_2}'^{\nil})^{-1}\in\Sym_n(\Z_p)$.
+
+In the end, we prove that \eqref{item: difference of inverse} implies \eqref{item: add matrix congruent}. Suppose that the property in \eqref{item: difference of inverse} holds. It suffices to show that we can adjoin invertible matrices of the same size to the upper-left corners of $M_{n_1}^{\nil}$ and $M_{n_2}'^{\nil}$, respectively, so that the resulting enlarged matrices are congruent.
+
+Applying the same congruence transformation to $M_{n_1}^{\nil}$ and $M_{n_2}'^{\nil}$, there is no loss of generality to assume that $M_{n_1}^{\nil}$ is already a diagonal block matrix given in \Cref{prop: simplest matrix_sym}. In this case, $(M_{n_1}^{\nil})^{-1}$ is block-diagonal with the same block structure (i.e., the diagonal blocks occur in the same positions and have the same sizes). Turning to $(M_{n_2}'^{\nil})^{-1}$, we can use the diagonal blocks in the corresponding positions as pivots to clear the off-block-diagonal entries, and under such simultaneous left-right elementary matrix operations, each entry in the diagonal blocks changes only by an element of $\Z_p$. 
+
+Now, we have adjusted $M_{n_2}'^{\nil}$, so that it not only satisfies $(M_{n_1}^{\nil})^{-1}-(M_{n_2}'^{\nil})^{-1}\in\Sym_m(\Z_p)$, but also has the same block structure as $M_{n_1}^{\nil}$. Therefore, it suffices to treat the diagonal blocks in each corresponding position separately. By \Cref{prop: same pairing for block congruence}, if $p$ is odd, we already have $M_{n_1}^{\nil}\congsim M_{n_2}'^{\nil}$; and if $p=2$, we only need to deal with matrices in the sets $\mathcal{T}_1,\mathcal{T}_2,\mathcal{T}_3,\mathcal{T}_4$. For the rest of the proof, we will treat these four sets one by one. Specifically, in each case we enlarge the matrix by adding an invertible block in the upper-left corner, and then derive the required congruence relation.
+
+For the matrices in $\mathcal{T}_1$, we have
+$$\begin{pmatrix}1 & 0 \\ 0 & 2\end{pmatrix}\congsim\begin{pmatrix}3 & 2 \\ 2 & 2\end{pmatrix}\congsim\begin{pmatrix}3 & 0 \\ 0 & 2/3\end{pmatrix}\congsim \begin{pmatrix}3 & 0 \\ 0 & 6\end{pmatrix},$$
+$$\begin{pmatrix}9 & 0 \\ 0 & 6\end{pmatrix}\congsim\begin{pmatrix}15 & 6 \\ 6 & 6\end{pmatrix}\congsim\begin{pmatrix}15 & 0 \\ 0 & 18/5\end{pmatrix}\congsim \begin{pmatrix}15 & 0 \\ 0 & 10\end{pmatrix},$$
+$$\begin{pmatrix}5 & 0 \\ 0 & 10\end{pmatrix}\congsim\begin{pmatrix}15 & 10 \\ 10 & 10\end{pmatrix}\congsim\begin{pmatrix}15 & 0 \\ 0 & 10/3\end{pmatrix}\congsim \begin{pmatrix}15 & 0 \\ 0 & 14\end{pmatrix},$$
+$$\begin{pmatrix}1 & 0 \\ 0 & 14\end{pmatrix}\congsim\begin{pmatrix}15 & 14 \\ 14 & 14\end{pmatrix}\congsim\begin{pmatrix}15 & 0 \\ 0 & 14/15\end{pmatrix}\congsim \begin{pmatrix}15 & 0 \\ 0 & 2\end{pmatrix}.$$
+Therefore, we deduce that
+$$\begin{pmatrix}1 & 0 & 0\\ 0 & 9 & 0\\ 0 & 0 & 2\end{pmatrix}\congsim\begin{pmatrix}3 & 0 & 0\\ 0 & 9 & 0\\ 0 & 0 & 6\end{pmatrix}\congsim\begin{pmatrix}3 & 0 & 0\\ 0 & 15 & 0\\ 0 & 0 & 10\end{pmatrix},$$
+$$\begin{pmatrix}9 & 0 & 0\\ 0 & 5 & 0\\ 0 & 0 & 6\end{pmatrix}\congsim\begin{pmatrix}15 & 0 & 0\\ 0 & 5 & 0\\ 0 & 0 & 10\end{pmatrix}\congsim\begin{pmatrix}15 & 0 & 0\\ 0 & 15 & 0\\ 0 & 0 & 14\end{pmatrix}.$$
+
+For the matrices in $\mathcal{T}_2$, we have 
+$$\begin{pmatrix}1 & 0 & 0\\ 0 & 0 & 2\\ 0 & 2 & 0\end{pmatrix}\congsim\begin{pmatrix}1 & 0 & 0\\ 0 & 0 & 2\\ 0 & 2 & 4\end{pmatrix}\congsim\begin{pmatrix}1 & 2 & 0\\ 2 & 4 & 2\\ 0 & 2 & 4\end{pmatrix}\congsim\begin{pmatrix}-1/3 & 0 & 0\\ 0 & 4 & 2\\ 0 & 2 & 4\end{pmatrix}\congsim\begin{pmatrix}5 & 0 & 0\\ 0 & 4 & 2\\ 0 & 2 & 4\end{pmatrix}.$$
+
+For the matrices in $\mathcal{T}_3$, we have
+$$\begin{pmatrix}1 & 0 \\ 0 & 4\end{pmatrix}\congsim\begin{pmatrix}5 & 4 \\ 4 & 4\end{pmatrix}\congsim\begin{pmatrix}5 & 0 \\ 0 & 4/5\end{pmatrix}\congsim \begin{pmatrix}5 & 0 \\ 0 & 20\end{pmatrix}.$$
+
+For the matrices in $\mathcal{T}_4$, we have
+$$\begin{pmatrix}1 & 0 \\ 0 & 12\end{pmatrix}\congsim\begin{pmatrix}13 & 12 \\ 12 & 12\end{pmatrix}\congsim\begin{pmatrix}13 & 0 \\ 0 & 12/13\end{pmatrix}\congsim \begin{pmatrix}13 & 0 \\ 0 & 28\end{pmatrix}.$$
+
+This completes the discussion and ends the proof.
+\end{proof} 
+
+\begin{cor}\label{cor: new added row and column cokernel with pairing_sym}
+Let $n_1,n_2\ge 1$, and $M_{n_1}\in\Sym_{n_1}(\Z_p),M_{n_2}'\in\Sym_{n_2}(\Z_p)$ be nonsingular, such that $(\Cok(M_{n_1}),\langle\cdot,\cdot\rangle)\simeq(\Cok(M_{n_2}'),\langle\cdot,\cdot\rangle)$. Let $z,\xi_1,\xi_2,\ldots$ be i.i.d. Haar-distributed in $\Z_p$, and let $\bm{\xi}_1:=(\xi_1,\ldots,\xi_{n_1})\in\Z_p^{n_1},\bm{\xi}_2:=(\xi_1,\ldots,\xi_{n_2})\in\Z_p^{n_2}$. Then, we have 
+$$\left(\Cok\begin{pmatrix}M_{n_1} & \bm{\xi}_1 \\ \bm{\xi_1}^T &z \end{pmatrix},\langle\cdot,\cdot\rangle\right)\stackrel{d}{=}\left(\Cok\begin{pmatrix}M_{n_2}' & \bm{\xi}_2 \\ \bm{\xi_2}^T &z \end{pmatrix},\langle\cdot,\cdot\rangle\right).$$
+\end{cor}
+
+\begin{proof}
+By \Cref{thm: add invertible to same cokernel with pairing}, we can find $n\ge\max\{n_1,n_2\}$, and
+$$M_{n-n_1}^c\in\Sym_{n-n_1}(\Z_p)\cap\GL_{n-n_1}(\Z_p),M_{n-n_2}'^c\in\Sym_{n-n_2}(\Z_p)\cap\GL_{n-n_2}(\Z_p),$$ 
+such that $\begin{pmatrix}M_{n-n_1}^c & 0 \\ 0 & M_{n_1}\end{pmatrix}\congsim\begin{pmatrix}M_{n-n_2}'^c & 0 \\ 0 & M_{n_2}'\end{pmatrix}$. Let $$\bm{\xi}_1^c=(\xi_{n_1+1},\ldots,\xi_n)\in\Z_p^{n-n_1},\bm{\xi}_2^c(\xi_{n_2+1},\ldots,\xi_n)\in\Z_p^{n-n_2},$$ 
+so that $(\bm{\xi}_1^c,\bm{\xi}_1),(\bm{\xi}_2^c,\bm{\xi}_2)\in\Z_p^n$ are Haar-distributed. Notice that the Haar probability measure over $\Z_p^n$ is invariant under the action of $\GL_n(\Z_p)$. Therefore, we have
+\begin{align}
+\begin{split}
+\left(\Cok\begin{pmatrix}M_{n_1} & \bm{\xi}_1 \\ \bm{\xi_1}^T &z \end{pmatrix},\langle\cdot,\cdot\rangle\right)&\stackrel{d}{=}\left(\Cok\begin{pmatrix}M_{n-n_1}^c & 0 & \bm{\xi_1}^c\\
+0 & M_{n_1} & \bm{\xi}_1 \\ (\bm{\xi_1}^c)^T & \bm{\xi_1}^T & z \end{pmatrix},\langle\cdot,\cdot\rangle\right)\\
+&\stackrel{d}{=}\left(\Cok\begin{pmatrix}M_{n-n_2}'^c & 0 & \bm{\xi_2}^c\\
+0 & M_{n_2}' & \bm{\xi}_2 \\ (\bm{\xi_2}^c)^T & \bm{\xi_2}^T & z \end{pmatrix},\langle\cdot,\cdot\rangle\right)\\
+&\stackrel{d}{=}\left(\Cok\begin{pmatrix}M_{n_2}' & \bm{\xi}_2 \\ \bm{\xi_2}^T &z \end{pmatrix},\langle\cdot,\cdot\rangle\right).
+\end{split}
+\end{align}
+Here, the first line holds because we can use the block matrix in the upper-left corner to eliminate $\bm{\xi}_1^c$ and $(\bm{\xi}_1^c)^T$ on the new added column and row, and similarly, the third line also holds.
+\end{proof}
+
+Based on \Cref{cor: new added row and column cokernel with pairing_sym}, we are able to give the following definition.
+
+\begin{defi}
+Let $p$ be a prime number, and $(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}}),(G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}})$ be two paired $p$-groups. Take a nonsingular matrix $M_n\in\Sym_n(\Z_p)$ for some $n\ge 1$, such that $(\Cok(M_n),\langle\cdot,\cdot\rangle)\simeq(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}})$. Let $z,\xi_1,\xi_2,\ldots$ be i.i.d. Haar-distributed in $\Z_p$, and let $\bm{\xi}:=(\xi_1,\xi_2,\ldots.\xi_n)\in\Z_p^n$. Then, the \emph{transition probability} from $(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}})$ to $(G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}})$ is defined as
+\begin{multline}
+\mathbf{P}\left(\left(G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}}\right)\bigg|\left(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}}\right)\right):=\\
+\mathbf{P}\left(\begin{pmatrix}M_n & \bm{\xi} \\ \bm{\xi}^T &z \end{pmatrix}\text{ nonsingular, }\left(\Cok\begin{pmatrix}M_n & \bm{\xi} \\ \bm{\xi}^T &z \end{pmatrix},\langle\cdot,\cdot\rangle\right)\simeq(G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}})\right).
+\end{multline}
+\end{defi}
+
+Indeed, by \Cref{cor: new added row and column cokernel with pairing_sym}, the transition  probability $\mathbf{P}\left((G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}})\mid(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}})\right)$ does not rely on the matrix $M_n$ we choose, and therefore is well defined.
+
+Although our approach does not involve the surjection moment method, we still transfer matrices in $\Sym_n(\Z)$ to $\Sym_n(\Z/a\Z)$ by taking the reduction mod $a$. Suppose that we have chosen $(G,\langle\cdot,\cdot\rangle_G),P$ in the same way as in \Cref{thm: exponential convergence_sym}. Then, the integer $a$ we pick has to be large enough to distinguish the matrices in $\Sym_n(\Z)$ that generate the pairing $(G,\langle\cdot,\cdot\rangle_G)$ under the prime set $P$. When we do not care about the pairing structure, it suffices to take $a=\prod_{p\in P}p^{\Dep_p(G)+1}$, see the proof of \cite[Corollary 9.2]{wood2017distribution} for instance. Nevertheless, one has to be more careful when taking the pairing into account, which is the main concern of the following proposition. 
+
+\begin{prop}\label{cor: globally same pairing}
+Let $(G,\langle\cdot,\cdot\rangle_G)$ be a paired abelian group, and $P=\{p_1,\ldots,p_l\}$ be a finite set of primes that includes all those that divide $\#G$. Let $a:=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$, where for all $1\le i\le l$, we have
+$$e_{p_i}=\begin{cases}
+\Dep_{p_i}(G)+3 & p_i=2\\
+\Dep_{p_i}(G)+1 & p_i>2.
+\end{cases}.$$
+Let $M_n\in\Sym_n(\Z)$ be nonsingular, such that $(\Cok(M_n)_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G)$. Then for all $\Delta M_n\in\Sym_n(a\Z)$, we also have $M_n+\Delta M_n$ is nonsingular, and
+$$(\Cok(M_n+\Delta M_n)_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G).$$
+\end{prop}
+
+\begin{proof}
+This immediately follows from \Cref{prop: locally congruent equivalence at p} since everything naturally factors over $p_1,\ldots,p_l$.
+\end{proof}
+
+We now turn to symmetric matrices with entries in $\Z/a\Z$. Let $H_n\in\Sym_n(\Z/a\Z)$, then we naturally get a $\Z/a\Z$-module $\Cok(H_n)=(\Z/a\Z)^n/H_n(\Z/a\Z)^n$. Nevertheless, it can be impractical to talk about the pairing structure of $\Cok(H_n)$. Let us consider this simple example: take $n=1$, $a=3$ is a prime number, then the matrix $H_1=(0)$ gives the cokernel $\Z/3\Z=\F_3$, but we cannot naturally equip this cokernel with a perfect pairing structure. Thus, we need to introduce the following definition, which is inspired by \Cref{thm: add invertible to same cokernel with pairing}.
+
+\begin{defi}\label{defi: quasi pairing of Cok}
+Let $p$ be a prime number, and $e_p\ge 1$. We define an equivalence relation over the set of symmetric matrices with entries in $\Z/p^{e_p}\Z$ and use the notation $\Cok_*^{(p^{e_p})}$ for an equivalence class, which we call a cokernel with \emph{quasi-pairing} as follows. Given two matrices $H_{n_1}\in\Sym_{n_1}(\Z/p^{e_p}\Z),H_{n_2}'\in\Sym_{n_2}(\Z/p^{e_p}\Z)$, we say that the cokernels with quasi-pairing induced by $H_{n_1},H_{n_2}'$ are isomorphic, and write
+$$\Cok_*^{(p^{e_p})}(H_{n_1})\simeq\Cok_*^{(p^{e_p})}(H_{n_2}'),$$ if there exist $n\ge\max\{n_1,n_2\}$, and
+$$H_{n-n_1}^c\in\Sym_{n-n_1}(\Z/p^{e_p}\Z)\cap\GL_{n-n_1}(\Z/p^{e_p}\Z),H_{n-n_2}'^c\in\Sym_{n-n_2}(\Z/p^{e_p}\Z)\cap\GL_{n-n_2}(\Z/p^{e_p}\Z),$$ 
+such that $\begin{pmatrix} H_{n-n_1}^c & 0\\ 0 & H_{n_1}\end{pmatrix}$ is congruent to $\begin{pmatrix} H_{n-n_2}'^c & 0\\ 0 & H_{n_2}'\end{pmatrix}$ under the action of $\GL_n(\Z/p^{e_p}\Z)$. Furthermore, for $a\ge 2$ with the prime factorization $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$, we also define the cokernel with quasi-pairing $\Cok_*^{(a)}$ as follows. Given two matrices $H_{n_1}\in\Sym_{n_1}(\Z/a
+\Z),H_{n_2}'\in\Sym_{n_2}(\Z/a\Z)$, we say that the cokernels with quasi-pairing induced by $H_{n_1},H_{n_2}'$ are isomorphic, and write
+$$\Cok_*^{(a)}(H_{n_1})\simeq\Cok_*^{(a)}(H_{n_2}'),$$ 
+if $\Cok_*^{(p_i^{k_i})}(H_{n_1}/p_i^{k_i})\simeq\Cok_*^{(p_i^{k_i})}(H_{n_2}'/p_i^{k_i})$ for all $1\le i\le l$.
+\end{defi}
+
+$\Cok_*^{(a)}$ is not a true pairing structure, since we do not equip the cokernel with a bilinear form. In particular, when $H_n,H_n'\in\Sym_n(\Z/a\Z)$ are congruent under the action of $\GL_n(\Z/a\Z)$, we have $\Cok_*^{(a)}(H_n)\simeq\Cok_*^{(a)}(H_n')$. Also, we must have $\Cok_*^{(a)}(H)\simeq\Cok_*^{(a)}\begin{pmatrix}H^c & 0\\ 0 & H\end{pmatrix}$ when the symmetric matrix $H^c$ is invertible. Furthermore, for $H_{n_1}\in\Sym_{n_1}(\Z/a\Z),H_{n_2}'\in\Sym_{n_2}(\Z/a\Z)$ such that $\Cok_*^{(a)}(H_{n_1})\simeq\Cok_*^{(a)}(H_{n_2}')$, we have an isomorphism of finite abelian groups $\Cok(H_{n_1})\simeq\Cok(H_{n_2}')$. %From now on, we will use the notation $(G,\langle\cdot,\cdot\rangle_*^{(a)})$ for an equivalence class of $\Cok_*^{(a)}$ over the symmetric matrices with entries in $\Z/a\Z$, where $G$ is exactly the cokernel (which is a finite $\Z/a\Z$-module) of an arbitrary matrix in that equivalence class. In this way, for all prime factors $p$ of $a$, we naturally regard $\Dep_p,\Len_p$ as nonnegative integer-valued functions over the equivalence classes given by $\Cok_*^{(a)}$.
+
+\begin{prop}\label{prop: same quasi pairing implies same pairing}
+Let $(G,\langle\cdot,\cdot\rangle_G)$ be a paired abelian group, and $P=\{p_1,\ldots,p_l\}$ be a finite set of primes that includes all those that divide $\#G$. Let $a\ge 2$ be an integer with prime factorization $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$, where for all $1\le i\le l$, we have $e_{p_i}\ge\Dep_{p_i}(G)+3$ if $p_i=2$, and $e_{p_i}\ge\Dep_{p_i}(G)+1$ if $p_i>2$. Suppose $M_{n_1}\in\Sym_{n_1}(\Z)$ such that $(\Cok(M_{n_1})_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G)$. Then, for all $M_{n_2}'\in\Sym_{n_2}(\Z)$ such that $\Cok_*^{(a)}(M_{n_1}/a)\simeq\Cok_*^{(a)}(M_{n_2}'/a)$, the matrix $M_{n_2}'$ is also nonsingular, and $(\Cok(M_{n_2}')_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G)$.
+\end{prop}
+
+\begin{proof}
+Notice that the primes $p_1,\ldots,p_l$ naturally factors. Thus, there is no loss of generality to assume $a=p_1^{e_{p_1}}$. Since $\Cok_*^{(p_1^{e_{p_1}})}(M_{n_1}/p_1^{e_{p_1}})\simeq\Cok_*^{(p_1^{e_{p_1}})}(M_{n_2}'/p_1^{e_{p_1}})$, there exists $n\ge\max\{n_1,n_2\}$, $\Delta M\in\Sym_n(p_1^{e_{p_1}}\Z_{p_1})$, and
+$$M_{n-n_1}^c\in\Sym_{n-n_1}(\Z_{p_1})\cap\GL_{n-n_1}(\Z_{p_1}),M_{n-n_2}'^c\in\Sym_{n-n_2}(\Z_p)\cap\GL_{n-n_2}(\Z_{p_1}),$$
+such that $\begin{pmatrix}M_{n-n_1}^c & 0 \\ 0 & M_{n_1}\end{pmatrix}\congsim\begin{pmatrix}M_{n-n_2}'^c & 0 \\ 0 & M_{n_2}'\end{pmatrix}+\Delta M$. Thus, the matrix $\begin{pmatrix}M_{n-n_2}'^c & 0 \\ 0 & M_{n_2}'\end{pmatrix}+\Delta M$ is nonsingular, and induces the same paired $p_1$-group $(G,\langle\cdot,\cdot\rangle_G)$. By \Cref{cor: globally same pairing}, the matrix $\begin{pmatrix}M_{n-n_2}'^c & 0 \\ 0 & M_{n_2}'\end{pmatrix}$ is nonsingular, and therefore $M_{n_2}'$ is nonsingular. Moreover, 
+$$(\Cok(M_{n_2}')_{p_1},\langle\cdot,\cdot\rangle_{p_1})\simeq\left(\Cok\begin{pmatrix}M_{n-n_2}'^c & 0 \\ 0 & M_{n_2}'\end{pmatrix}_{p_1},\langle\cdot,\cdot\rangle_{p_1}\right)\simeq(G,\langle\cdot,\cdot\rangle_G).$$
+This completes the proof.
+\end{proof}
+
+Based on \Cref{prop: same quasi pairing implies same pairing}, we have the following definition.
+
+\begin{defi}\label{defi: quotient version of paired group}
+Let $(G,\langle\cdot,\cdot\rangle_G)$ be a paired abelian group, and $P=\{p_1,\ldots,p_l\}$ be a finite set of primes that includes all those that divide $\#G$. Let $a\ge 2$ be an integer with prime factorization $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$, where for all $1\le i\le l$, we have $e_{p_i}\ge\Dep_{p_i}(G)+3$ if $p_i=2$, and $e_{p_i}\ge\Dep_{p_i}(G)+1$ if $p_i>2$. We denote by $(G,\langle\cdot,\cdot\rangle_*^{(a)})$ the equivalence class under $\Cok_*^{(a)}$, given by the set of matrices
+$$\{M/a:M\in\Sym_n(\Z)\text{ for some }n\ge 1, M\text{ nonsingular, } (\Cok(M)_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G)\}.$$
+\end{defi}
+
+% \begin{cor}\label{cor: union of cokernel with quasi-pairing}
+% Suppose $(G,\langle\cdot,\cdot\rangle_G),P$ are the same as in \Cref{thm: exponential convergence_sym}, and let $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$ be the same as in \Cref{cor: globally same pairing}. Then, the set 
+% $$\{M/a:M\in\Sym_n(\Z)\text{ for some }n\ge 1, M\text{ nonsingular, } (\Cok(M)_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G)\}$$
+% is an equivalence class given by $\Cok_*^{(a)}$. 
+% \end{cor}
+
+% \begin{proof}
+% \JC{Rewrite}
+% We are only left to show finiteness. Notice that the primes $p_1,\ldots,p_l$ naturally factors. Thus, there is no loss of generality to assume $a=p_1^{e_{p_1}}$. In this case, it is clear that the finite set $\Sym_{\Len_{p_1}(G)}(\Z/p_1^{e_{p_1}}\Z)$ contains all the equivalence classes we want. 
+% \end{proof}
+
+The motivation for us to define the quasi-pairing $\Cok_*^{(a)}$ is the following proposition, which claims that when we add a new uniformly random row and column to a fixed $n\times n$ symmetric matrix over $\Z/a\Z$, the distribution of the cokernel with quasi-pairing of the new $(n+1)\times(n+1)$ matrix only relies on the cokernel with quasi-pairing of the original $n\times n$ corner.
+
+\begin{prop}\label{prop: transition probability relies on cokernel_sym}
+Let $a\ge 2$, and $n_1,n_2\ge 1$. Suppose that we have fixed matrices $M_{n_1}\in\Sym_{n_1}(\Z),M_{n_2}'\in\Sym_{n_2}(\Z)$ such that $\Cok_*^{(a)}(M_{n_1}/a)\simeq\Cok_*^{(a)}(M_{n_2}'/a)$.  Let $z,\xi_1,\xi_2,\ldots$ be independent and uniformly distributed in $\{0,1,\ldots,a-1\}$. Then we have
+$$\Cok_*^{(a)}
+\left(
+\begin{array}{c|c}
+M_{n_1}/a & 
+\begin{matrix}
+\xi_1/a \\
+\vdots \\
+\xi_{n_1}/a
+\end{matrix}
+\\ \hline
+\begin{matrix}
+\xi_1/a & \cdots & \xi_{n_1}/a
+\end{matrix}
+& z/a
+\end{array}
+\right)\stackrel{d}{=}\Cok_*^{(a)}
+\left(
+\begin{array}{c|c}
+M_{n_2}'/a & 
+\begin{matrix}
+\xi_1/a \\
+\vdots \\
+\xi_{n_2}/a
+\end{matrix}
+\\ \hline
+\begin{matrix}
+\xi_1/a & \cdots & \xi_{n_2}/a
+\end{matrix}
+& z/a
+\end{array}
+\right).$$
+\end{prop}
+
+\begin{proof}
+Notice that the primes that divide $a$ naturally factor. Thus, there is no loss to assume $a=p^{e_p}$. In this case, the proof follows the same as \Cref{cor: new added row and column cokernel with pairing_sym}.
+\end{proof}
+
+% Based on \Cref{prop: transition probability relies on cokernel_sym}, we are able to give the following definition.
+
+% \begin{defi}
+% \JC{Confusing. Are $G_1,G_2$ pairing groups?}
+% Let $a\ge 2$, and $(G_1,\langle\cdot,\cdot\rangle_*^{(a)}),(G_2,\langle\cdot,\cdot\rangle_*^{(a)})$ be equivalence classes in $\Cok_*^{(a)}$. We take a matrix $H_n\in\Sym_n(\Z/a\Z)$ such that $\Cok_*^{(a)}(H_n)\simeq(G_1,\langle\cdot,\cdot\rangle_*^{(a)})$, and denote the transition probability $$\mathbf{P}\left((G_2,\langle\cdot,\cdot\rangle_*^{(a)})\Big|(G_1,\langle\cdot,\cdot\rangle_*^{(a)})\right):=\mathbf{P}\left(
+% \Cok_*^{(a)}\left(
+% \begin{array}{c|c}
+% H_n & 
+% \begin{matrix}
+% \xi_1 \\
+% \vdots \\
+% \xi_n
+% \end{matrix}
+% \\ \hline
+% \begin{matrix}
+% \xi_1 & \cdots & \xi_n
+% \end{matrix}
+% & z
+% \end{array}\right)\simeq(G_2,\langle\cdot,\cdot\rangle_*^{(a)})\right),$$
+% which does not rely on the matrix $H_n$ we choose.
+% \end{defi}
+
+\begin{defi}
+Let $a\ge 2$, and $n\ge 1$. Let $H_n\in\Sym_n(\Z/a\Z)$ be uniformly distributed. Denote by 
+$$\mu_{n}^{\sym,(a)}:=\mathcal{L}(\Cok_*^{(a)}(H_n))$$
+as the law of $\Cok_*^{(a)}(H_n)$.
+\end{defi}
+
+The following proposition shows that for the uniform random model, when the size $n$ of the random matrix goes to infinity, the cokernel with quasi-pairing gives exponential convergence.
+
+\begin{prop}\label{prop: uniform model exponential convergence_sym} 
+Let $a\ge 2$. When $n$ goes to infinity, $\mu_n^{\sym,(a)}$ weakly converges to a limiting probability measure, denoted by $\mu_\infty^{\sym,(a)}$. Furthermore, we have
+$$D_{L_1}\left(\mu_n^{\sym,(a)},\mu_\infty^{\sym,(a)}\right)=O_a(\exp(-\Omega_a( n))).$$
+\end{prop}
+
+\begin{proof}
+Suppose $a$ has prime factorization $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$. In this case, we have
+$$\mu_n^{\sym,(a)}=\mu_n^{\sym,(p_1^{e_{p_1}})}\times\cdots\times\mu_n^{\sym,(p_l^{e_{p_l}})}.$$
+Notice that the assertions
+$$\mu_n^{\sym,(p_i^{e_{p_i}})}\stackrel{d}{\rightarrow}\mu_\infty^{\sym,(p_i^{e_{p_i}})},D_{L_1}\left(\mu_n^{\sym,(p_i^{e_{p_i}})},\mu_\infty^{\sym,(p_i^{e_{p_i}})}\right)=O_{p_i^{e_{p_i}}}(\exp(-\Omega_{p_i^{e_{p_i}}}( n))),\quad 1\le i\le l,$$
+directly implies the conclusion
+$$\mu_n^{\sym,(a)}\stackrel{d}{\rightarrow}\mu_\infty^{\sym,(a)}:=\mu_\infty^{\sym,(p_1^{e_{p_1}})}\times\cdots\times\mu_\infty^{\sym,(p_l^{e_{p_l}})},D_{L_1}\left(\mu_n^{\sym,(a)},\mu_\infty^{\sym,(a)}\right)=O_a(\exp(-\Omega_a( n))).$$
+Thus, there is no loss of generality to assume that $a$ only has one prime factor, i.e., $a=p^{e_p}$.
+
+Now, we claim that for all integers $0\le k\le n$,
+and fixed matrix $B_n\in\Sym_n(\F_p)$ such that $\corank(B_n)=k$, we have 
+\begin{equation}\label{eq: distribution conditioned on residue}
+\mathcal{L}\left(\Cok_*^{(p^{e_p})}(H_n)\bigg| H_n/p=B_n\right)=\mathcal{L}\left(\Cok_*^{(p^{e_p})}(H_k)\bigg| H_k\in\Sym_k(p\Z/p^{e_p}\Z)\right).
+\end{equation}
+Here, on the right hand side, $H_k$ is also uniformly distributed. To see this, first recall from \Cref{lem: full rank principal minor} that there exists a $(n-k)\times(n-k)$ principal minor of $B_n$ that is invertible. There is no loss of generality to assume that the $(n-k)\times(n-k)$ upper-left block of $B_n$ is invertible. In this case, when we uniformly randomly sample a matrix $H_n\in\Sym_n(\Z/p^{e_p}\Z)$ such that $H_n/p=B_n$, we can always use its $(n-k)\times(n-k)$ upper-left block to eliminate adjacent rows and columns, and the remaining $k\times k$ lower-right block is uniformly distributed in $\Sym_k(p\Z/p^{e_p}\Z)$. Thus, we have confirmed \eqref{eq: distribution conditioned on residue}. As a consequence, when $B_n$ runs through all the matrices in $\Sym_n(\F_p)$ of corank $k$, we deduce that 
+$$\mathcal{L}\left(\Cok_*^{(p^{e_p})}(H_n)\bigg|\corank(H_n/p)=k\right)=\mathcal{L}\left(\Cok_*^{(p^{e_p})}(H_k)\bigg| H_k\in\Sym_k(p\Z/p^{e_p}\Z)\right).$$
+Denote $\nu_n^{\sym,p}:=\mathcal{L}(\corank(H_n/p))$. Then, for all $0\le k\le n$ and fixed matrices $H_k'\in\Sym_k(p\Z/p^{e_p}\Z)$, we have
+\begin{equation}\label{eq: distribution of quasi of size n}
+\mu_n^{\sym,(p^{e_p})}\left(\Cok_*^{(p^{e_p})}(H_k')\right)=\nu_n^{\sym,p}(k)\cdot\mathbf{P}\left(\Cok_*^{(p^{e_p})}(H_k)\simeq\Cok_*^{(p^{e_p})}(H_k')\bigg| H_k\in\Sym_k(p\Z/p^{e_p}\Z)\right).
+\end{equation}
+Furthermore, by \cite[Theorem 4.1]{fulman2015stein}\footnote{In the notation of \cite[Theorem 4.1]{fulman2015stein}, we are taking $q=p$, $\mathcal{Q}_q=\nu_\infty^{\sym,p}$, and $\mathcal{Q}_{q,n}=\nu_n^{\sym,p}$.}, we have 
+$$D_{L_1}(\nu_n^{\sym,p},\nu_\infty^{\sym,p})=O_p(\exp(-\Omega_p(n))),$$
+where limit distribution $\nu_\infty^{\sym,p}$ is given by
+$$\nu_\infty^{\sym,p}(k)=
+\lim_{n\rightarrow\infty}\nu_n^{\sym,p}(k)=\frac{\prod_{i=0}^{\infty}(1-p^{-(2i+1)})}{\prod_{i=1}^k(p^i-1)},\quad\forall k\ge 0.$$
+Therefore, when $n$ goes to infinity, $\mu_n^{\sym,(p^{e_p})}$ weakly converges to the limit distribution $\mu_\infty^{\sym,(p^{e_p})}$ given by
+\begin{equation}\label{eq: distribution of quasi of size infinity}
+\mu_\infty^{\sym,(p^{e_p})}\left(\Cok_*^{(p^{e_p})}(H_k')\right)=\nu_\infty^{\sym,p}(k)\cdot\mathbf{P}\left(\Cok_*^{(p^{e_p})}(H_k)\simeq\Cok_*^{(p^{e_p})}(H_k')\bigg| H_k\in\Sym_k(p\Z/p^{e_p}\Z)\right)
+\end{equation}
+for all $k\ge 0$ and fixed matrices $H_k'\in\Sym_k(p\Z/p^{e_p}\Z)$. Furthermore, comparing \eqref{eq: distribution of quasi of size n} and \eqref{eq: distribution of quasi of size infinity}, we have
+\begin{equation}
+D_{L_1}\left(\mu_n^{\sym,(p^{e_p})},\mu_\infty^{\sym,(p^{e_p})}\right)=D_{L_1}\left(\nu_n^{\sym,p},\nu_\infty^{\sym,p}\right)=O_p(\exp(-\Omega_p(n))).
+\end{equation}
+This completes the proof.
+\end{proof}
+

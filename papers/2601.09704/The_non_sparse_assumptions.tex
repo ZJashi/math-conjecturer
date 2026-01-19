@@ -1,0 +1,220 @@
+\section{The non-sparse assumptions}\label{sec: nonsparse}
+
+In this section, we introduce the non-sparsity hypotheses that will be used throughout the
+Fourier-analytic estimates for the exposure process. As explained in the outline of the paper,
+these conditions serve as the technical input that allows us to compare the one-step transition
+kernel of the $\epsilon$-balanced process with the corresponding uniform model. 
+
+\begin{defi}\label{defi: non sparse_sym}
+(Symmetric case) Let $p$ be a prime number, and $n\ge 1$. We say that a matrix $M_n\in\Sym_n(\Z)$ satisfies
+$\mathcal{E}_{n,p}^{\sym}$, if its quotient $M_n/p\in\Sym_n(\F_p)$ has the following properties:
+\begin{enumerate}[label=(S\arabic*)]
+\item $\corank(M_n/p)\le n^{2/3}$. \label{item: large rank_sym}
+\item Suppose $\bm{\xi}\in\F_p^n$ is nonzero, such that $\#I_{\bm{\xi},1}\le n^{3/4}$. Here
+$$I_{\bm{\xi},1}:=\{j\in[n]:\frac{n}{1000}<j\le n,\text{ the $j$th row of } M_n/p \text{ is not orthogonal to }\bm{\xi}\}.$$
+then $\bm{\xi}$ has at least $\frac{n}{100}$ nonzero entries. \label{item: ortho nonsparse_sym}
+\end{enumerate}
+\end{defi}
+
+\begin{defi}\label{defi: non sparse_alt}
+(Alternating case) Let $p$ be a prime number, and $n\ge 1$. We say that a matrix $A_n\in\Alt_n(\Z)$ satisfies
+$\mathcal{E}_{n,p}^{\alt}$, if its quotient $A_n/p\in\Alt_n(\F_p)$ has the following properties:
+\begin{enumerate}[label=(A\arabic*)]
+\item $\corank(A_n/p)\le n^{2/3}$. \label{item: large rank_alt}
+\item Suppose $\bm{\xi}\in\F_p^n$ is nonzero, such that $\#I_{\bm{\xi},1}\le n^{3/4}$. Here
+$$I_{\bm{\xi},1}:=\{j\in[n]:1\le j\le n,\text{ the $j$th row of } A_n/p \text{ is not orthogonal to }\bm{\xi}\}.$$
+Then $\bm{\xi}$ has at least $\frac{n}{100}$ nonzero entries.
+\label{item: ortho nonsparse_alt}
+\end{enumerate}
+\end{defi}
+
+\begin{defi}\label{defi: revised sym p=2}
+(Revised symmetric $p=2$ case) 
+Let $n\ge 1$. We say that a matrix $M_n\in\Sym_n(\Z)$ satisfies $\mathcal{E}_n^{\text{\textdagger}}$, if its quotient $M_n/2\in\Sym_n(\F_2)$ has the following properties:
+\begin{enumerate}[label=(S\arabic*')]
+\item $\corank(M_n/2)\le n^{1/4}$. \label{item: large rank_r2}
+% \item Suppose $\bm{\xi}\in\F_2^n$ is nonzero, such that $\#I_{\bm{\xi},1}\le n^{3/4}$. Here
+% $$I_{\bm{\xi},1}:=\{j\in[n]:\frac{n}{1000}<j\le n,\text{ the $j$th row of } M_n/p \text{ is not orthogonal to }\bm{\xi}\}.$$
+% then $\bm{\xi}$ has at least $\frac{n}{100}$ nonzero entries. \label{item: ortho nonsparse_r2}
+\item For all $I_2\subset[n]$ of size $\le n^{1/4}$, one of the following holds:
+\begin{enumerate}
+\item $(M_n/2)_{I_2^c\times I_2^c}$ has determinant zero. 
+\item $(M_n/2)_{I_2^c\times I_2^c}$ is invertible. Denote $\bm{\zeta}_{I_2^c}\in\F_2^{n-\#I_2}$ as the diagonal of $(M_n/2)_{I_2^c\times I_2^c}^{-1}$. Any nonzero linear combination of the columns of 
+$(M_n/2)_{I_2^c\times I_2^c}^{-1}(M_n/2)_{I_2^c\times I_2}$ and $\bm{\zeta}_{I_2^c}$ has at least $\frac{1}{2}n^{1/2}$ nonzero entries.
+\end{enumerate} 
+\label{item: nonsparse combination of inverse diagonal and column}
+\end{enumerate}
+\end{defi}
+
+Moreover, when $M_n\in\Sym_n(\Z)$ is randomly distributed as in \Cref{thm: exponential convergence_sym}, we can naturally regard $\mathcal{E}_{n,p}^{\sym}$ (here $p$ is a given prime) and $\mathcal{E}_n^{\text{\textdagger}}$ as random events. Similarly, when $A_n\in\Alt_n(\Z)$ is randomly distributed as in \Cref{thm: exponential convergence_alt}, we can naturally regard $\mathcal{E}_{n,p}^{\alt}$ as a random event.
+
+\begin{rmk}\label{rem:S2-vs-A2}
+The non-sparsity events in \Cref{defi: non sparse_sym} and \Cref{defi: non sparse_alt} are stated in slightly different forms.
+In the symmetric case, our Fourier-analytic estimates involve quadratic terms (coming
+from the diagonal and the symmetry constraint), and we control them via a decoupling step that
+reduces quadratic expressions to bilinear ones, see the first case of the proof of \Cref{prop: universal transition_sym}. For this technical reason, in \ref{item: ortho nonsparse_sym} we only impose the relevant non-sparsity requirement on
+a tail window of indices (e.g.\ $j\in(n/1000,n]$).
+
+By contrast, in the alternating case the diagonal vanishes identically and the corresponding Fourier
+analysis does not produce quadratic terms. No decoupling is needed, and the argument works with the
+more straightforward non-sparsity condition \ref{item: ortho nonsparse_alt} imposed across all indices.
+\end{rmk}
+
+The following theorems are the main results of this section. Roughly speaking, except with exponentially small probability, we can assume the property $\mathcal{E}_{n,p}^{\sym}$ (resp. $\mathcal{E}_{n,p}^{\alt}$) for $\epsilon$-balanced symmetric (resp. alternating) matrices.
+
+\begin{thm}\label{thm: not sparse}
+(Symmetric case and alternating case) Let $M_n\in\Sym_n(\Z)$ be randomly distributed as in \Cref{thm: exponential convergence_sym}, and let $A_n\in\Alt_n(\Z)$ be randomly distributed as in \Cref{thm: exponential convergence_alt}. Then we have 
+$$\mathbf{P}(M_n\text{ satisfies }\mathcal{E}_{n,p}^{\sym})=1-O_{p,\epsilon}(\exp(-\epsilon\Omega_{p}(n))),$$
+and
+$$\mathbf{P}(A_n\text{ satisfies }\mathcal{E}_{n,p}^{\alt})=1-O_{p,\epsilon}(\exp(-\epsilon\Omega_{p}(n))).$$
+\end{thm}
+
+\begin{thm}\label{thm: not sparse revised p=2}
+(Revised symmetric $p=2$ case) Let $M_n\in\Sym_n(\Z)$ be randomly distributed as in \Cref{thm: exponential convergence_sym}. Then we have 
+$$\mathbf{P}(M_n\text{ satisfies }\mathcal{E}_n^{\text{\textdagger}})=1-O_{\epsilon}(\exp(-\Omega_\epsilon(n^{1/2}))).$$
+\end{thm}
+
+\begin{lemma}\label{lem: small corank}
+Let $M_n\in\Sym_n(\Z)$ be randomly distributed as in \Cref{thm: exponential convergence_sym}, and let $A_n\in\Alt_n(\Z)$ be randomly distributed as in \Cref{thm: exponential convergence_alt}. Let $p$ be a prime number, and $c>0$ be an absolute constant. Then we have
+$$\mathbf{P}(\corank(M_n/p)\ge n^c)=O_{\epsilon,c}(\exp(-\Omega_{\epsilon,c}(n^{2c}))),$$
+and
+$$\mathbf{P}(\corank(A_n/p)\ge n^c)=O_{\epsilon,c}(\exp(-\Omega_{\epsilon,c}(n^{2c}))).$$
+\end{lemma}
+
+\begin{proof}
+We will only prove the symmetric case, and the alternating case is similar. Suppose $\mathbf{P}(\corank(M_n/p)\ge n^c)$. By \Cref{lem: full rank principal minor}, there exist $n^c\le j\le n$ and a subset $I_p\subset [n]$ of size $j$, such that $(M_n/p)_{J_p^c}$ is invertible, and
+$$(M_n/p)_{I_p\times I_p}=(M_n/p)_{I_p\times I_p^c}(M_n/p)_{I_p^c\times I_p^c}(M_n/p)_{I_p^c\times I_p}.$$
+For each $I_p$, this gives probability $\le (1-\epsilon)^{\frac{1}{2}\#I_p(I_p+1)}\le \exp(-\frac{1}{2}\epsilon(\#I_p)^2)$. Therefore, when $n$ is sufficiently large (depending on $\epsilon,c$), we have
+\begin{align}
+\begin{split}
+\mathbf{P}\left(\corank(M_n/p)\ge n^c\right)&\le\sum_{j=n^c}^{n}\sum_{\#I_p=j}\exp\left(-\frac{1}{2}\epsilon(\#I_p)^2\right)\\
+&\le\sum_{j=n^c}^{n} n^j\exp\left(-\frac{1}{2}\epsilon j^2\right)\\
+&\le n\cdot \exp\left(-\frac{1}{2}\epsilon n^{2c}-n^c\log n\right)\\
+&=O_{\epsilon,c}(\exp(-\Omega_{\epsilon,c}(n^{2c}))).
+\end{split}
+\end{align}
+Here, for the second line, we use the fact that the number of subsets of $[n]$ of size $j$ is $\binom{n}{j}\le n^j$, and for the third line, we replace $j$ in all summation terms with $n^c$ due to monotonicity.
+\end{proof}
+
+\subsection{Proof of the symmetric case and alternating case}
+
+\begin{lemma}
+Let $\epsilon>0$ be a real number, and  $M_n\in\Sym_n(\Z),A_n\in\Alt_n(\Z)$ be the same as in \Cref{thm: exponential convergence_sym} and \Cref{thm: exponential convergence_alt}. Then, the probability that the requirement \ref{item: ortho nonsparse_sym} (resp. \ref{item: ortho nonsparse_alt}) is not satisfied is $O_{p,\epsilon}(\exp(-\epsilon\Omega_{p}(n)))$.
+\end{lemma}
+
+\begin{proof}
+We will only prove the symmetric case, and the alternating case is similar. Suppose the requirement \ref{item: ortho nonsparse_sym} does not hold. We will discuss two possible cases:
+\begin{enumerate}
+\item We have a $\bm{\xi}\in\F_p^n$ with $1\le \wt(\bm{\xi})\le n^{3/4}$, such that $\#I_{\bm{\xi},1}\le n^{3/4}$. For each choice of such $\bm{\xi}$ and $I_{\bm{\xi},1}$, we can find a set $I_{\bm{\xi},0}\ge\frac{n}{2}$ that does not intersect with $[\frac{n}{1000}]\bigcup I_{\bm{\xi},1}\bigcup\supp(\bm{\xi})$. Notice that the entries with row index in $I_{\bm{\xi},0}$ and column index in $\supp(\bm{\xi})$ are independent. The rows with index in $I_{\bm{\xi},0}$ have to be orthogonal to $\bm{\xi}$, each of them having probability $\le 1-\epsilon$. Thus, each choice of $\bm{\xi}$ and $I_{\bm{\xi},1}$ contributes probability $\le (1-\epsilon)^{n/2}\le \exp(-\epsilon n/2)$. On the other hand, there are at most $ n^{3/4}\cdot\binom{n}{n^{3/4}}\le n^{n^{3/4}+1}$ choices for such $\bm{\xi}$, and at most $\le n^{n^{3/4}+1}$ choices for such $I_{\bm{\xi},1}$. In conclusion, this case contributes probability $\le n^{2n^{3/4}+2}\exp(-\epsilon n/2)=O_{\epsilon}\exp(-\epsilon\Omega(n)).$
+\item We have a $\bm{\xi}\in\F_p^n$ with $n^{3/4}<\wt(\bm{\xi})\le \frac{n}{100}$, such that $\#I_{\bm{\xi},1}\le n^{3/4}$. Similar to the above case, for each choice of such $\bm{\xi}$ and $I_{\bm{\xi},1}$, we can find a set $I_{\bm{\xi},0}\ge\frac{n}{2}$ that does not intersect with $[\frac{n}{1000}]\bigcup I_{\bm{\xi},1}\bigcup\supp(\bm{\xi})$. In this case, we can take $n$ sufficiently large (depending on $\epsilon$), such that for all $r\in\F_p$ and independent $\epsilon$-stable random integers $\xi_1,\ldots,\xi_{n^{3/4}}$,
+$$\mathbf{P}(\xi_1+\cdots+\xi_{n^{3/4}}\equiv r \mod p)\le \frac{1}{p-0.001}.$$
+In this case, each choice of $\bm{\xi}$ and $I_{\bm{\xi},1}$ contributes probability $\le\frac{1}{(p-0.1)^{n/2}}$. On the other hand, by \Cref{prop: asymptotic of Hamming ball}, there are at most 
+$$\Vol_p(n,n/100)\le p^{H_p(0.01)n}\le p^{n/10}$$
+choices for such $\bm{\xi}$, and at most $n^{n^{3/4}+1}$ choices for such $I_{\bm{\xi},1}$. In conclusion, when $n$ is sufficiently large (depending on $\epsilon$), this case contributes probability $\le\frac{p^{n/10}n^{n^{3/4}+1}}{(p-0.001)^{n/2}}=O_{p,\epsilon}\exp(-\Omega_p(n))$.
+\end{enumerate}
+The above two cases together complete the proof.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{thm: not sparse}]
+For the symmetric case, each of the requirements \ref{item: large rank_sym}, \ref{item: ortho nonsparse_sym} holds with probability at least $1-O_{p,\epsilon}\exp(-\epsilon\Omega_p(n))$. Therefore, the probability that both requirements hold is also at least $1-O_{p,\epsilon}\exp(-\epsilon\Omega_p(n))$. The alternating case is analogous. 
+\end{proof}
+
+\subsection{Proof of the revised symmetric $p=2$ case}
+
+\begin{lemma}\label{lem: inverse nonzero diagonal}
+Suppose $M_n/2\in\Sym_n(\F_2)$ is invertible. Then the following are equivalent:
+\begin{enumerate}
+\item The entries on the diagonal of $M_n/2$ are all zero.
+\item The entries on the diagonal of $(M_n/2)^{-1}$ are all zero.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We only need to prove that the first assertion implies the second. Suppose that the entries on the diagonal of $M_n/2$ are all zero. In this case, $M_n/2$ can also be regarded as an alternating matrix. Since $M_n/2$ is invertible, $n$ must be even. The entries on the diagonal of $(M_n/2)^{-1}$ are exactly the $(n-1)\times(n-1)$ principal minors of $M_n/2$, which must be zero because they are of odd size.
+\end{proof}
+
+The following lemma provides an asymptotic for the transition probability of corank when adding a new random row and column. Although we state the lemma for a general prime number $p$, in this subsection we only use the case $p=2$. The proof can be deduced in the same way as in Step 1 of \cite[Lemma 3.2]{ferber2023random} or the unpublished work of Maples \cite[Proposition 3.1]{Maples_symma_2013}, so we omit it here.
+
+\begin{lemma}\label{lem: lower bound of corank decrease probability}
+
+Let $\epsilon>0$ be a real number, and $p$ be a prime number. Suppose $M_j\in\Sym_j(\Z)$ is a fixed matrix that satisfies $\mathcal{E}_{j,p}^{\sym}$. Let $M_{j+1}\in\Sym_{j+1}(\Z)$ be the random matrix adding a new independent $\epsilon$-balanced row and column to $M_j$. Then we have 
+$$\corank(M_{j+1}/p)-\corank(M_j/p)\in\{-1,0,1\}.$$ 
+Moreover, we have
+$$\mathbf{P}(\corank(M_{j+1}/p)-\corank(M_j/p)=-1)\ge 1-\frac{1}{p^2}-O_{p,\epsilon}(\exp(-\Omega_{p,\epsilon}(n)))$$
+when $\corank(M_j/p)\ge 2$, and
+$$\mathbf{P}(\corank(M_{j+1}/p)-\corank(M_j/p)=-1)\ge 1-\frac{1}{p}-O_{p,\epsilon}(\exp(-\Omega_{p,\epsilon}(n)))$$
+when $\corank(M_j/p)=1$.
+\end{lemma}
+
+\begin{rmk}
+In fact, when $p$ is odd, \cite[Lemma 3.2]{ferber2023random} also provides asymptotics of the transition probabilities that $\corank(M_{j+1}/p)-\corank(M_j/p)=0$ and $\corank(M_{j+1}/p)-\corank(M_j/p)=1$, which all match the uniform model. However, these asymptotics rely on Fourier analysis estimate over the quadratic form, which requires $p\ne 2$. Nevertheless, the transition probability that $\corank(M_{j+1}/2)-\corank(M_j/2)=-1$ only depends on linear form, so the case $p=2$ still applies.
+\end{rmk}
+
+\begin{lemma}\label{lem: det zero or invertible at the end}
+Let $M_n$ be the same as in \Cref{thm: exponential convergence_sym}. Let $J\subset[n]$ such that $\# J\le n^{1/2}$. With probability no less than $1-O_{\epsilon}(\exp(-\Omega_\epsilon(n^{1/2})))$, at least one of the following holds:
+\begin{enumerate}
+\item $M_n/2$ has determinant zero. \label{item: determinant zero global}
+\item There exists $j\in J$, such that the $j$th principal minor (i.e., the $(n-1)\times(n-1)$ principal minor obtained by removing the $j$th row and column) of $M_n/2$ is invertible. \label{item: principal minor at the end}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+It suffices to prove the case $J=\{j\in[n]:n-n^{1/2}\le j\le n\}$. By \Cref{lem: small corank}, with probability at least $1-O_{\epsilon}(\exp(-\Omega_{\epsilon}(n^{1/2})))$, $(M_n/2)_{n-n^{1/2}}$ has rank $\le n^{1/3}$. By \Cref{thm: not sparse}, with probability at least $1-O_{\epsilon}(\exp(-\epsilon\Omega(n))$, the events $$\mathcal{E}_{j,2}^{\sym},n-n^{1/2}\le j<n-\frac{1}{2}n^{1/2}$$
+all happen. Therefore, by a straightforward comparison argument using \Cref{lem: lower bound of corank decrease probability}, we can apply a standard Hoeffding
+large-deviation bound to deduce that with probability at least $1-O_{\epsilon}(\exp(-\Omega_\epsilon(n^{1/2})))$, there exists $n-n^{1/2}\le j_0<n-\frac{1}{2}n^{1/2}$ such that $M_{j_0}/2$ is invertible. When this happens, we use the $j_0\times j_0$ upper-left block to eliminate adjacent rows and columns via elementary transform, and the lower-right block will be transformed to
+$$M':=(M_n/2)_{[j_0]^c\times[j_0]^c}-(M_n/2)_{[j_0]^c\times [j_0]}\times(M_n/2)_{[j_0]\times [j_0]}^{-1}\times(M_n/2)_{[j_0]\times [j_0]^c}\in\Sym_{n-j_0}(\F_2).$$
+With probability at least $1-(1-\epsilon)^{n-j_0}=1-O_{\epsilon}(\exp(-\Omega_\epsilon(n^{1/2})))$, the matrix $M'$ has a $1$ on the diagonal. 
+
+In summary, with probability at least $1-O_{\epsilon}(\exp(-\Omega_\epsilon(n^{1/2})))$, there exists $n-n^{1/2}\le j_0<n-\frac{1}{2}n^{1/2}$ such that $j_0\times j_0$ upper-left block of $M_n/2$ is invertible, and after we use this block to eliminate adjacent rows and columns via elementary transform, with probability at least $1-(1-\epsilon)^{n-j_0}=1-O_{\epsilon}(\exp(-\Omega_\epsilon(n^{1/2})))$, the remaining lower-right block $M'\in\Sym_{n-j_0}(\F_2)$ has a $1$ on the diagonal. Now, if $M'$ has determinant zero, then $M_n/2$ also has determinant zero. Otherwise, if $M'$ is invertible, by \Cref{lem: inverse nonzero diagonal} there exists $j\in[j_0+1,n]$, such that the $(j-j_0)$-th  principal minor of $M'$ is invertible. As a consequence, the $j$-th  principal minor of $M_n/2$ is invertible. This completes the proof.
+\end{proof}
+
+\begin{cor}\label{cor: non-sparse diagonal of inverse}
+With probability no less than $1-O_\epsilon(\exp(-\Omega_\epsilon(n^{1/2})))$, at least one of the following holds:
+\begin{enumerate}
+\item $M_n/2$ has determinant zero. 
+\item Among all the $n$ principal minors of size $n-1$, at least $n^{1/2}$ of them are invertible.
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+We partition the set $[n]$ into $n^{1/2}$ intervals, each of them having size $n^{1/2}$. Applying \Cref{lem: det zero or invertible at the end} to each interval, we deduce that with probability $1-n^{1/2}O_\epsilon(\exp(-\Omega_\epsilon(n^{1/2})))=1-O_\epsilon(\exp(-\Omega_\epsilon(n^{1/2})))$, at least one of the two properties appearing in the statement of the Corollary is satisfied.
+\end{proof}
+
+\begin{lemma}\label{lem: non-sparse diagonal of inverse and new columns}
+Let $M_n/2\in\Sym_n(\F_2)$ be fixed and invertible, with at least $n^{1/2}$ invertible $(n-1)\times (n-1)$ principal minors. Denote by $\bm{\zeta}\in\F_2^n$ the diagonal of $(M_n/2)^{-1}$, so that $\wt(\bm{\zeta})\ge n^{1/2}$. Let
+$$\bm{\eta}_1=(\eta_{1,1},\ldots,\eta_{1,n}),\ldots,\bm{\eta}_{n^{2/3}}=(\eta_{n^{2/3},1},\ldots,\eta_{n^{2/3},n})\in\F_2^n$$
+be random vectors. Here, the elements 
+$\{\eta_{i,j}:1\le i\le n^{2/3},1\le j\le n\}$
+are independent elements in $\F_2$ that are not $\epsilon$-concentrated. Then, with probability at least $1-O_\epsilon(\exp(-\Omega_\epsilon(n)))$, every nonzero linear combination of $(M_n/2)^{-1}\bm{\eta}_1,\ldots,(M_n/2)^{-1}\bm{\eta}_{n^{2/3}},\bm{\zeta}$ has weight $\ge n^{1/2}$.
+\end{lemma}
+
+\begin{proof}
+On the one hand, denote
+$$\mathcal{S}:=\{\bm{\eta}\in\F_2^n:\wt((M_n/2)^{-1}\bm{\eta})< n^{1/2},\wt((M_n/2)^{-1}\bm{\eta}+\bm{\zeta})<n^{1/2}\}.$$
+we have
+$$\#\mathcal{S}\le 2n^{1/2}\binom{n}{n^{1/2}}\le 2n^{n^{1/2}}.$$
+On the other hand, there are only $2^{n^{2/3}}-1$ nonzero linear combinations of $\bm{\eta}_1,\ldots,\bm{\eta}_{n^{2/3}}$ in total. Each of them gives a random vector whose entries are independent and not $\epsilon$-concentrated. Therefore, the probability that there exists a nonzero linear combination of $$(M_n/2)^{-1}\bm{\eta}_1,\ldots,(M_n/2)^{-1}\bm{\eta}_{n^{2/3}},\bm{\zeta}$$ 
+with weight $\ge n^{1/2}$ is no greater than
+$$(2^{n^{2/3}}-1)\cdot(1-\epsilon)^n\#\mathcal{S}\le(2^{n^{2/3}}-1)\cdot2n^{n^{1/2}}\cdot(1-\epsilon)^n=O_\epsilon(\exp(-\Omega_\epsilon(n))).$$
+\end{proof}
+
+\begin{proof}[Proof of \Cref{thm: not sparse revised p=2}]
+On the one hand, by \Cref{lem: small corank}, with probability at least $1-O_\epsilon(\exp(-\Omega_\epsilon(n^{1/2})))$, the property \ref{item: large rank_r2} holds. 
+
+On the other hand, let us take an arbitrary subset $I_2\subset[n]$ with $\#I_2\le n^{1/4}$. Combining \Cref{cor: non-sparse diagonal of inverse} and \Cref{lem: non-sparse diagonal of inverse and new columns}, we deduce that when $n$ is sufficiently large (depending on $\epsilon$), with probability probability at least $1-O_\epsilon(\exp(-\Omega_\epsilon(n^{1/2})))$, one of the following holds:
+\begin{enumerate}
+\item $(M_n/2)_{I_2^c\times I_2^c}$ has determinant zero. 
+\item $(M_n/2)_{I_2^c\times I_2^c}$ is invertible. Denote $\bm{\zeta}_{I_2^c}\in\F_2^{n-\#I_2}$ as the diagonal of $(M_n/2)_{I_2^c\times I_2^c}^{-1}$. Any nonzero linear combination of the columns of 
+$(M_n/2)_{I_2^c\times I_2^c}^{-1}(M_n/2)_{I_2^c\times I_2}$ and $\bm{\zeta}_{I_2^c}$ has at least 
+$$(n-\#I_2^c)^{1/2}\ge(n-n^{1/4})^{1/2}\ge\frac{1}{2}n^{1/2}$$ 
+nonzero entries.
+\end{enumerate} 
+Furthermore, there are only at most $n^{1/4}\cdot\binom{n}{n^{1/4}}\le n^{n^{1/4}}$ subsets $I_2\subset[n]$ of size $\le n^{1/4}$. Therefore, with probability at least $1-n^{n^{1/4}}\cdot O_\epsilon(\exp(-\Omega_\epsilon(n^{1/2})))=1-O_\epsilon(\exp(-\Omega_\epsilon(n^{1/2})))$, the property \eqref{item: nonsparse combination of inverse diagonal and column} holds. This completes the proof.
+\end{proof}
+
+
+
+
+
+
+

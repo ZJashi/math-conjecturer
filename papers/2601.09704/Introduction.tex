@@ -1,0 +1,317 @@
+\section{Introduction}\label{sec: intro}
+
+A central theme in random matrix theory is universality: in high dimensions, many asymptotic
+phenomena depend mainly on the symmetry class of the ensemble and only weakly on the fine details
+of the entry distribution.  Traditionally, the primary objects of interest are eigenvalue
+statistics---global laws, local spacing, and related spectral observables. When one passes from
+random matrices over $\mathbb R$ or $\mathbb C$ to discrete models over $\mathbb Z$ (or over $p$-adic
+and finite rings), eigenvalues become less directly accessible, and it is natural to seek arithmetic
+invariants that play a comparable role. One such invariant is the cokernel: it records, in a discrete way, how far a matrix is from being invertible and refines rank information modulo primes, serving as an analogue of eigenvalue (or singular-value) data in the non-archimedean or discrete setting.
+This analogy has been explicitly pointed out in several places in the literature; see, for instance, M\'esz\'aros \cite{meszaros2024phase}, Kovaleva \cite{kovaleva2023distribution}, Van Peski \cite{van2021limits,van2024local,van2023p}, and the ICM talk by Wood \cite{wood2022probability}.
+
+For an integer matrix $Q_n\in \Mat_n(\Z)$, the cokernel is
+\[
+\Cok(Q_n)\coloneqq \Z^n/Q_n\Z^n,
+\]
+a finitely generated abelian group, finite precisely when $Q_n$ is nonsingular.
+The symmetry class of $Q_n$ determines what extra canonical structure $\Cok(Q_n)$ carries, and hence
+what the natural limiting object should be. In the absence of any bilinear pairing structure, one simply studies
+random finite abelian groups, in line with the heuristics for class groups of number
+fields conjectured by Cohen-Lenstra \cite{cohen2006heuristics}. In the symmetric setting, $\Cok(Q_n)$ comes with a natural
+perfect symmetric pairing, a viewpoint motivated for instance by sandpile groups of random graphs
+(cokernels of reduced Laplacians) and their canonical duality pairing, see Clancy-Kaplan-Leake-Payne-Wood \cite{clancy2015cohen}.
+In the alternating (also called skew-symmetric or anti-symmetric) setting, one analogously encounters natural perfect alternating pairings,
+matching Cohen-Lenstra type heuristics for elliptic curves in which Selmer and
+Tate-Shafarevich groups carry the Cassels-Tate pairing raised by Poonen-Rains \cite{poonen2012random} and Bhargava-Kane-Lenstra-Poonen-Rains \cite{bhargava2015modeling}.
+
+Motivated by these heuristics from different research fields, the study of cokernel distributions
+for random integral matrices has attracted substantial
+attention in recent years. A major breakthrough of Wood \cite{wood2017distribution} is a universality theorem for cokernels
+of random symmetric integral matrices. Her result shows that for a very broad family of random
+symmetric integer matrices with independent upper-triangular entries satisfying an anti-concentration
+condition (see \Cref{defi: epsilon balanced}), the Sylow $p$-subgroup of the cokernel has a limiting
+distribution as $n\to\infty$ which does not depend on the fine details of the entry distribution.
+To obtain such convergence, Wood introduced a new method for studying discrete random matrices via
+surjection statistics, now often called the surjection moment method. Rather than attempting to
+analyze $\Cok(Q_n)$ directly, the method computes, for each fixed finite abelian group $G$, the
+expected number of surjections $\mathbb E[\#\Sur(\Cok(Q_n),G)]$. Wood proved that these surjection
+moments converge to explicit limits, and that the resulting collection of limits uniquely determines
+the limiting distribution of the Sylow $p$-subgroups of the cokernel. Moreover, she also established joint convergence for the $P$-primary part of the cokernel for any
+fixed finite set of primes $P$. Here the $P$-primary part means the product of the Sylow
+$p$-subgroups over $p\in P$, and we write $\Cok(Q_n)_P$ for the corresponding $P$-primary subgroup of
+$\Cok(Q_n)$. This yields a universal limiting law for $\Cok(Q_n)_P$, compatible with the
+prime-by-prime limits. As an application, she deduced the limiting distribution of the Sylow $p$-subgroups of sandpile
+groups of Erd\H{o}s-R\'enyi random graphs. The resulting limiting formulas confirm conjectures and
+predictions from earlier work, notably that of Clancy-Leake-Payne \cite{clancy2015note} and of
+Clancy-Kaplan-Leake-Payne-Wood \cite{clancy2015cohen}.
+
+Since then, the surjection moment method has become a standard tool in this area and has led to many
+extensions and applications. For random integral matrices with no symmetry constraint, Nguyen-Wood \cite{nguyen2022random} proved universality for random
+integral matrices at the level of both surjectivity and the full cokernel distribution, obtaining
+precise limiting formulas (in particular, agreeing with Cohen-Lenstra type predictions) under sparse entry distributions. In the symmetric setting, Hodges \cite{hodges2024distribution} strengthens Wood's results by determining the limiting distribution of sandpile
+groups together with their canonical pairings. His proof requires upgrading the moment
+method to moments of groups equipped with pairing structure. For the alternating case, universality results for cokernels have been proven by Nguyen-Wood \cite{nguyen2025local}. See also Lee \cite{lee2023universality}, Nguyen-Van Peski        \cite{nguyen2024universality}, Huang-Nguyen-Van Peski \cite{huang2025cohen}, Cheong-Yu \cite{cheong2023distribution}, and the current author \cite{shen2025universality} for further related developments.
+
+However, as Wood notes in \cite[Section 1.6]{wood2017distribution}, the moment method
+does not provide quantitative information on the rate of convergence, leaving open the problem of
+obtaining effective error bounds. The goal of the present paper is to give a new proof of universality for
+cokernels of random integral matrices with symmetries, including both the symmetric and alternating cases, via a
+completely different approach. It is worth highlighting that our method yields exponentially small error bounds in
+most settings, except for a certain special case (the symmetric case at $p=2$), where we still obtain a
+stretched-exponential speed of convergence with stretching exponent $1/2$, thereby answering Wood's question by providing explicit convergence
+rates.
+
+\begin{defi}\label{defi: epsilon balanced}
+We say a random integer $\xi$ is $\epsilon$\emph{-balanced} if for every prime $p$ and every integer $r$, we have
+$$\mathbf{P}(\xi\equiv r\mod p)\le 1-\epsilon.$$
+\end{defi}
+
+For example, if the integer $\xi$ takes the value $1$ with probability $\epsilon$ and the value $0$ with probability $1-\epsilon$,
+then $\xi$ is $\epsilon$-balanced. For all integers $n\ge 1$, let
+$$\Sym_n(\Z):=\{M_n\in\Mat_n(\Z):M^T=M\}$$ 
+denote the set of symmetric integer matrices of size $n$, and
+$$\Alt_n(\Z):=\{A_n\in\Mat_n(\Z):A^T=-A\}$$ 
+denote the set of alternating integer matrices of size $n$. Before stating our result in the symmetric case, we briefly recall the canonical pairing on the
+cokernel. Let $M_n\in\Sym_n(\Z)$ be nonsingular. Then $M_n$ induces a perfect symmetric pairing $\langle\cdot,\cdot\rangle$ on the finite abelian group $\Cok(M_n)=\Z^n/M_n\Z^n$ as follows: 
+\begin{align}
+\begin{split}
+\langle\cdot,\cdot\rangle: \Cok(M_n)\times \Cok(M_n)&\rightarrow\Q/\Z\\
+(x,y)&\mapsto X^TM_n^{-1}Y\quad\mod \Z.
+\end{split}
+\end{align}
+Here, $X,Y\in\Z^n$ are the lifts of $x,y\in\Z^n/M_n\Z^n=\Cok(M_n)$, respectively. For a finite set of primes $P$, we
+say that a finite abelian group is a \emph{$P$-group} if its order is a product of powers of primes in
+$P$. We also write $\Cok(M_n)_P$ for the $P$-primary
+subgroup of $\Cok(M_n)$, and we denote
+by $\langle\cdot,\cdot\rangle_P$ the restriction of $\langle\cdot,\cdot\rangle$ to $\Cok(M_n)_P\times
+\Cok(M_n)_P$. Thus $(\Cok(M_n)_P,\langle\cdot,\cdot\rangle_P)$ is a finite abelian $P$-primary group
+equipped with a perfect symmetric pairing. The readers may refer to \Cref{sec: cok of sym matrix} for more details.
+
+\begin{thm}\label{thm: exponential convergence_sym}
+(Symmetric case)
+Fix $\epsilon>0$, a finite set of primes $P=\{p_1,\ldots,p_\ell\}$, and a finite abelian group $G$
+equipped with a perfect symmetric pairing
+\[
+\langle\cdot,\cdot\rangle_G: G\times G\to \Q/\Z,
+\]
+and assume that $P$ contains all primes dividing $\#G$.
+Then there exists a constant $K>0$ depending on $G,P,\epsilon$, and a constant $c>0$ depending on $G,P,\epsilon$, such that the following
+holds for every $n\ge 1$ and every random matrix $M_n\in \Sym_n(\Z)$ whose entries on and above the
+diagonal are independent $\epsilon$-balanced random integers:
+\begin{multline}
+\left|\mathbf{P}\Bigl(M_n\ \textup{is nonsingular and}\ 
+(\Cok(M_n)_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G)\Bigr)
+-\frac{\prod_{i=1}^\ell\prod_{k\ge 1}(1-p_i^{1-2k})}{|G|\cdot|\Aut(G,\langle\cdot,\cdot\rangle_G)|}\right|\\
+\le K\exp(-c n^{1/2}),
+\end{multline}
+where $\Aut(G,\langle\cdot,\cdot\rangle_G)$ denotes the group of automorphisms of $G$ preserving the
+pairing.
+
+Moreover, if $2\notin P$, then there exists a constant $K'>0$ depending on $G,P,\epsilon$, and a constant $c'>0$ depending on $G,P$, such
+that under the same assumptions,
+\begin{multline}
+\left|\mathbf{P}\Bigl(M_n\ \textup{is nonsingular and}\ 
+(\Cok(M_n)_P,\langle\cdot,\cdot\rangle_P)\simeq (G,\langle\cdot,\cdot\rangle_G)\Bigr)
+-\frac{\prod_{i=1}^\ell\prod_{k\ge 1}(1-p_i^{1-2k})}{|G|\cdot|\Aut(G,\langle\cdot,\cdot\rangle_G)|}\right|\\
+\le K'\exp(-\epsilon c'n).
+\end{multline}
+\end{thm}
+
+Before stating our result for alternating matrices, we introduce some notation. Let $\mathcal S$
+denote the class of finite abelian groups of the form $H\oplus H$. For a finite set of primes $P$, we write $\mathcal{S}_P$ for the set of $P$-groups in $\mathcal S$. For a prime $p$, we similarly write
+$\mathcal{S}_p$ for the set of $p$-groups in $\mathcal S$.
+
+A finite abelian $P$-group admits a perfect alternating pairing to $\Q/\Z$ if and only if it lies in
+$S_P$. Such a group $G$ has a unique perfect alternating pairing up to isomorphism; we write
+$\Sp(G)$ for the group of automorphisms of $G$ preserving this pairing. If $A_n\in \Alt_n(\Z)$, then $A_n$
+has an even rank, and the torsion subgroup of the cokernel, which we denote by $\Cok_{\tors}(A_n)$, lies in $\mathcal S$. See Bhargava-Kane-Lenstra-Poonen-Rains \cite[Sections 3.4-3.5]{bhargava2015modeling} for further
+discussions.
+
+\begin{thm}\label{thm: exponential convergence_alt}
+(Alternating case)
+Fix $\epsilon>0$, a finite set of primes $P=\{p_1,\ldots,p_\ell\}$, and a finite abelian group $G$.
+Assume that $P$ contains all primes dividing $\#G$. 
+
+If $G\in\mathcal S_P$, then there exists a constant $K>0$ depending on $G,P,\epsilon$, and a constant $c>0$ depending on $G,P$, such that
+the following holds for every $n\ge 1$ and random alternating matrices
+$A_{2n}\in\Alt_{2n}(\Z)$ and $A_{2n+1}\in\Alt_{2n+1}(\Z)$ whose entries above the diagonal are
+independent $\epsilon$-balanced random integers:
+\[
+\left|\mathbf{P}\bigl(\Cok(A_{2n})_P\simeq G\bigr)
+-\frac{|G|}{|\Sp(G)|}\prod_{i=1}^\ell\prod_{k\ge 1}(1-p_i^{1-2k})\right|
+\le K\exp(-\epsilon c n),
+\]
+and
+\[
+\left|\mathbf{P}\bigl(\Cok_{\tors}(A_{2n+1})_P\simeq G,\ \corank(A_{2n+1})=1\bigr)
+-\frac{1}{|\Sp(G)|}\prod_{i=1}^\ell\prod_{k\ge 1}(1-p_i^{-1-2k})\right|
+\le K\exp(-\epsilon c n).
+\]
+Otherwise, if $G\notin\mathcal S_P$, then
+\[
+\mathbf{P}\bigl(\Cok(A_{2n})_P\simeq G\bigr)=
+\mathbf{P}\bigl(\Cok_{\tors}(A_{2n+1})_P\simeq G\bigr)=0.
+\]
+\end{thm}
+
+\Cref{thm: exponential convergence_sym} strengthens Hodges \cite[Corollary 10.5]{hodges2024distribution}, which is a multi-prime generalization of
+\cite[Theorem 1.1]{hodges2024distribution}; \Cref{thm: exponential convergence_alt} is a stronger version of Nguyen-Wood \cite[Theorem 1.13]{nguyen2025local}. As far as we know, our results provide the first quantitative convergence rates for cokernel universality in random integral matrix ensembles with symmetry. Moreover, our method also yields quantitative convergence for the joint distribution of the
+outermost corners: for any fixed number of successive principal minors near full size, we obtain
+effective error bounds for their joint cokernel laws; see \Cref{prop: joint distribution_sym} for
+the symmetric case, and \Cref{prop: joint distribution_alt} for the alternating case. These results may be
+viewed as non-archimedean analogues of the GOE and aGUE corners processes, respectively, which
+have attracted substantial attention in integrable probability. We are not aware of any way to access these corner joint distributions via
+the surjection moment method.
+
+\subsection{A brief summary of our method}
+
+We have so far discussed the progress on studying cokernels of random matrices via the surjection moment method.
+However, there are also other approaches for proving the relevant universality phenomena. A particularly notable example is the work of Maples \cite{maples2013cokernels},
+which proves universality for cokernels of random integral matrices with no symmetry constraint (over $\mathbb Z_p$ and, more generally, over $\mathbb Z/a\mathbb Z$) under the same $\epsilon$-balanced hypotheses on the entries, and moreover obtains exponential convergence to the Cohen–Lenstra distribution.
+
+The main ingredient in Maples' proof is a column-exposure process that can be viewed as a random walk on
+the space of finite $R$-modules (with $R=\mathbb Z_p$ or $\mathbb Z/a\mathbb Z$). As a heuristic of the main idea, one reveals the
+columns $X_1,\dots,X_n$ sequentially and considers the evolving quotient modules
+\[
+L_k \;=\; R^n/\langle X_{k+1},\dots,X_n\rangle ,
+\]
+so that $(L_k)_{k=0}^n$ forms a random process whose increments are induced by adding one random column at a time. The key step is to compare this chain of quotient modules with the corresponding Haar model $(L_k')_{k=0}^n$, in which the columns
+$X_1',\dots,X_n'$ are independent and Haar-distributed. Maples proves that, at each step, the transition kernel of
+$(L_k)$ is exponentially close (in total variation distance) to the Haar transition kernel, uniformly over the
+current state, except on a negligible exceptional set. Consequently, the law of the terminal module $L_0=\Cok(Q_n)$
+is exponentially close to the law of the Haar cokernel $L_0'=\Cok(Q_n')$. Combining this comparison with the explicit Haar computation of
+Friedman-Washington \cite{friedman1989distribution} yields Cohen-Lenstra type universality and exponential convergence.
+
+Our approach for symmetric and alternating random matrices is motivated by an exposure-process
+viewpoint similar to that of the above. Our first step is to pass to quotient rings:
+as in the surjection moment method, we work over $\Z/a\Z$ for a sufficiently large integer $a$ in order to
+encode the desired cokernel information simultaneously at a finite set of primes. After this
+reduction, we exploit an exposure process to compare the resulting dynamics over the quotient ring to the
+corresponding uniform model. We now focus on the case of random symmetric matrices, and the
+alternating case is analogous. Let $M_n\in \Sym_n(\Z)$ be as in
+\Cref{thm: exponential convergence_sym}. For each $1\le t\le n$, let $M_t$ denote the $t\times t$ upper-left corner of $M_n$, and write
+$M_t/a$ for its reduction modulo $a$, viewed as an element of $\Sym_t(\Z/a\Z)$.
+This yields the exposure process
+\[
+M_1/a \subset M_2/a \subset \ldots \subset M_n/a,
+\]
+obtained by iteratively revealing one new random row and column each time. Under reasonable non-sparsity assumptions (discussed in \Cref{sec: nonsparse}), the one-step
+transition kernel of this $\epsilon$-balanced exposure process over $\Z/a\Z$ is close to that of the
+corresponding uniform model on symmetric matrices over $\Z/a\Z$. By the Chinese remainder theorem, the uniform
+model modulo $a=\prod_{i=1}^lp_i^{e_{p_i}}$ decomposes into independent uniform models modulo each
+$p_i^{e_{p_i}}$. Furthermore, the reduction of a Haar-distributed matrix over $\Z_{p_i}$ modulo $p_i^{e_{p_i}}$
+is uniform on $\Z/p_i^{e_{p_i}}\Z$. Consequently, we may couple the $\epsilon$-balanced exposure process with the Haar
+models. The limiting distribution of the Haar case is already explicitly understood by previous works:
+in the symmetric case it is resolved in Clancy-Kaplan-Leake-Payne-Wood \cite[Theorem 2]{clancy2015cohen}, and in the alternating case
+in Bhargava-Kane-Lenstra-Poonen-Rains \cite[Section 3]{bhargava2015modeling}. Combining this exposure process comparison with those explicit Haar results yields the
+desired universality statements and error bounds.
+
+Maples also adopted the exposure-process point of view to study the rank distribution of symmetric random matrices over the finite field $\F_p$ in the unpublished manuscript \cite{Maples_symma_2013}. The key
+analytic input there is a collection of quadratic Littlewood-Offord estimates (in the spirit of
+the inverse theory initiated earlier by Costello-Tao-Vu \cite{costello2006random}), which are used
+to control the probability that a newly revealed row lies in an atypical subspace. However, the
+quantitative bounds obtained in Maples' manuscript are only of polynomial order, which is not
+strong enough for our purposes and does not by itself yield
+\Cref{thm: exponential convergence_sym} and \Cref{thm: exponential convergence_alt}.
+
+Fortunately, a crucial improvement is due to Ferber-Jain-Sah-Sawhney \cite{ferber2023random}:
+working in the same finite-field setting $\F_p$ and within the same exposure-process framework, they
+strengthen these quadratic Littlewood-Offord estimates so as to upgrade Maples' polynomial error
+terms to exponential decay. Building on their strategy, we implement an adaptation in the quotient
+ring setting $\Z/a\Z$. This yields typically exponentially small error bounds; in the special
+symmetric case at $p=2$, the best bound we obtain is stretched-exponential with stretching exponent
+$1/2$. As a byproduct, this approach also extends to quantitative controls of the joint distribution
+of corners given in \Cref{prop: joint distribution_sym} and \Cref{prop: joint distribution_alt}.
+
+
+\begin{rmk}
+One might wonder why a stretched-exponential error bound appears in the symmetric case at $p=2$.
+This comes from a technical obstruction in our Fourier-analytic estimates: for symmetric matrices, the relevant
+character sums naturally involve quadratic terms, and when $p=2$ these quadratic contributions become genuinely
+harder to deal with. In fact, the Fourier-estimate input we build on (in the spirit of Ferber-Jain-Sah-Sawhney) is only available for
+odd primes. To overcome this difficulty at $p=2$, we impose a revised non-sparsity assumption (see \Cref{defi: revised sym p=2}), under which our method still yields quantitative convergence but only at a stretched-exponential
+rate.
+
+By contrast, in the alternating case, the diagonal entries are identically zero, so the corresponding Fourier
+analysis does not produce quadratic terms that need special treatment. As a result, our error bounds in the
+alternating setting are always exponential.
+\end{rmk}
+
+\subsection{Further questions}
+
+Our new approach also raises a number of further questions. We expect that the error bounds in \Cref{thm: exponential convergence_sym} and \Cref{thm: exponential convergence_alt} are not sharp and can be improved. In particular, it is plausible that one could
+upgrade the stretched-exponential bound in the symmetric case at $p=2$ to exponential convergence, but we do
+not currently see how to achieve this within our framework (in fact, even over the finite field $\F_2$, we do not know how to prove an exponentially small error
+term for the distribution of the corank of a $\epsilon$-balanced random symmetric matrix.). Moreover, the constants in \Cref{thm: exponential convergence_sym} and \Cref{thm: exponential convergence_alt} may well be made absolute (that is, depending only on the number of primes in the set $P$), as is known for unconstrained random matrices (i.e., with no symmetry constraint) in the work of Maples.
+
+Another direction is to understand regimes in which the prime $p$ grows with $n$, or the matrix entries are sparse
+relative to $n$. The large $p$ case has been treated in the finite field setting of Ferber-Jain-Sah-Sawhney \cite[Theorem 1.2]{ferber2023random}, where they allow
+$p$ to grow stretched-exponentially with stretching exponent $1/4$ when the matrix size goes to infinity. Sparse-entry models have also been studied by Nguyen-Wood \cite{nguyen2022random} for random integral matrices without symmetry constraint. It may be possible to adapt aspects of their approach to our symmetric and alternating
+integral settings.
+
+The results in this paper concern local universality, in the sense that we always work with a fixed finite set of
+primes $P$ and study the $P$-primary part of the cokernel. However, universality questions at the global level are
+also of considerable interest. For example, Lorenzini \cite{lorenzini2008smith} asked how often sandpile groups of graphs are cyclic, and this
+was resolved by Nguyen and Wood in \cite{nguyen2025local} by proving the existence of a limiting probability as
+$n\to\infty$, though without a quantitative rate of convergence. With our new approach, it seems plausible that one
+could obtain nontrivial error bounds for such global questions, a direction for which we are not aware of any prior
+progress.
+
+A closely related symmetry class not treated in this paper is the Hermitian setting over the ring of
+integers $\mathcal O_K$ of a quadratic extension $K=\Q(\sqrt d)$, where one considers matrices
+$H_n\in \Mat_n(\mathcal{O}_K)$ satisfying $H^{\ast}_n=H_n$ with respect to the nontrivial Galois conjugation
+on $K$. In the local field setting, Lee \cite[Theorem 1.6]{lee2023universality} established
+universality for cokernels of random $p$-adic Hermitian matrices over the ring of integers of a
+quadratic extension of $\Q_p$, together with an explicit limiting distribution. Lee's argument is
+based on Wood's surjection moment method and, accordingly, does not provide quantitative rates of
+convergence; moreover, it is local at a single prime $p$ and does not address the
+multi-prime setting relevant to our results. We nevertheless believe that the exposure-process viewpoint developed in our paper should also apply in the
+Hermitian context (after localizing at primes and working over suitable quotient rings), potentially
+yielding exponentially small error term and allowing one to treat multi-prime statistics
+in a unified way.
+
+A closely related line of work studies the probability that a discrete random matrix is nonsingular (equivalently,
+that its cokernel is finite). In the symmetric
+Bernoulli model, a recent breakthrough of Campos-Jenssen-Michelen-Sahasrabudhe \cite{campos2025singularity}
+establishes that the singularity probability of an $n\times n$ random symmetric $\{\pm1\}$-matrix $M_n$ is exponentially
+small, i.e.\ $\mathbf P(\det M_n=0)\le e^{-cn}$ for some absolute $c>0$. Their argument can also be adapted to the alternating setting, leading to an exponential bound on
+the singularity probability of a random $2n\times 2n$ alternating Bernoulli matrix. In our $\epsilon$-balanced setting, Costello-Tao-Vu \cite[Theorem 6.5]{costello2006random}
+already states that the singularity probability goes to $0$ as $n\to\infty$. It is natural to expect exponentially fast convergence in this more general
+setting as well.
+
+\subsection{Outline of the paper}
+
+In \Cref{sec: Preliminaries}, we collect background on finite abelian groups, together with several
+probabilistic and Fourier-analytic tools used throughout the paper. In \Cref{sec: cok of sym matrix} and \Cref{sec: cok of alt matrix}, we clarify the
+structure of cokernels of symmetric and alternating matrices, with particular emphasis on the
+relationship between the isomorphism class of the cokernel and congruence equivalence of matrices. In \Cref{sec: nonsparse}, we show that, with high probability, the random symmetric and random alternating matrices
+considered in this paper satisfy non-sparsity assumptions. These conditions provide the technical foundation
+needed to carry out the Fourier-analytic estimates for the transition probabilities in the exposure process. In \Cref{sec: Proof of the symmetric case} and \Cref{sec: Proof of the alternating case}, we give the proof of \Cref{thm: exponential convergence_sym} and \Cref{thm: exponential convergence_alt} respectively. Finally, in \Cref{sec: index of notations}, we include a table that lists the notations appearing throughout the paper, together with brief explanations.
+
+\subsection{Notations}
+
+We write $[n]$ for the set $\{1,2,\ldots,n\}$. For an index set $I\subset [n]$, we write $I^c$ for the complement of $I$ in $[n]$. We denote the order of groups and sets using either absolute value sign $|\cdot|$ or $\#$.
+
+\textbf{Probability.} We write $\mathbf{P}(\cdot)$ for probability, $\E(\cdot)$ for expectations, $\mathcal{L}(\cdot)$ for the law of a random variable. Moreover, we use $\mathbf{P}(\cdot\mid\cdot),\E(\cdot\mid\cdot),\mathcal{L}(\cdot\mid\cdot)$ for conditional probability, conditional expectation and conditional law. 
+
+For two probability measures $\mu$ and $\nu$ on a countable set $E$, the $L^q$-distance between $\mu$ and $\nu$ is defined by 
+$$D_{L^q}(\mu,\nu)=\left(\sum_{x\in E}(|\mu(x)-\nu(x)|)^q\right)^{1/q}.$$
+We also use the abbreviation $D_{L^q}(\mathcal{X},\mathcal{Y}):=D_{L^q}(\mathcal{L}(\mathcal{X}),\mathcal{L}(\mathcal{Y}))$ for the $L^q$-distance of two random variables $\mathcal{X}$ and $\mathcal{Y}$. In particular, we write $\mathcal{X}\stackrel{d}{=}\mathcal{Y}$ when two random variables $\mathcal{X},\mathcal{Y}$ have the same distribution, and we use the notation $\mathcal{X}_n\stackrel{d}{\rightarrow} \mathcal{X}$ for weak convergence.
+
+\textbf{Analysis.} We use $\exp(\cdot)$ for the exponential function. For a set of parameters $\mathbf{S}$, we write $f(n,\ldots)=O_\mathbf{S}(g(n,\ldots))$ if $|f|\le K|g|$ for some large constant $K=K(\mathbf{S})>0$ depending on $\mathbf{S}$, and we write $f(n,\ldots)=\Omega_\mathbf{S}(g(n,\ldots))$ if $f\ge c|g|$ for some small constant $c=c(\mathbf{S})>0$ depending on $\mathbf{S}$.
+
+\textbf{Linear algebra.} 
+For a vector $\bm{\xi}=(\xi_1,\ldots,\xi_n)$, we denote by $\supp(\bm{\xi}):=\{i\in[n]:\xi_i\ne 0\}$ the \emph{support}, and $\wt(\bm{\xi}):=\#\supp(\bm{\xi})$ the \emph{weight} of $\bm{\xi}$. For a given index set $J\subset[n]$, when it appears as a subscript (for example, the symbol $\bm{\xi}_J$), we usually refer to a vector indexed from $J$. In particular, when $\bm{\xi}=(\xi_1,\ldots,\xi_n)$ is a vector with index set $[n]$, the symbol $\bm{\xi}_J$ often refers to the subvector of $\bm{\xi}$ restricted to its components indexed from $J$. 
+
+For $I,J\subset[n]$, the matrix $B_{I\times J}$ is the submatrix of the rows and columns indexed from $I$ and $J$ respectively. %Whenever no confusion arises, we will identify $B_j$ with $B_{[j]\times[j]}$, which gives the nested sequence of matrices
+%$$B_1\subseteq B_2\subseteq\cdots\subseteq B_n.$$
+Unless specifically emphasized, all vectors without the transpose superscript are column vectors, despite being written as rows. 
+
+For a matrix $B$ with entries in $\Z$ and an integer $a\ge 2$, we write $B/a$ for the matrix with coefficients in $\Z/a\Z$ obtained from $B$ by reduction mod $a$. Furthermore, if the entries of $B$ are in $\Z/a\Z$ and $a'\mid a$, we write $B/a'$ for the canonical reduction to $\Z/a'\Z$. We also adapt analogous notation $\bm{\xi}/a$ for a vector $\bm{\xi}$. Given two vectors $\bm{\xi},\bm{\eta}$ of the same length (for example, they are indexed from the same set $J\subset[n]$), we write $\bm{\xi}\cdot\bm{\eta}$ as their dot product.
+
+For two $n\times n$ matrices $B_n,B_n'$ with entries in the $p$-adic integers $\Z_p$, we write $B_n\congsim B_n'$ if they are congruent, i.e., there exists $U\in\GL_n(\Z_p)$ such that $UB_nU^T=B_n'$. Moreover, when we say "congruent", "congruent transformation" or "congruence equivalence" for matrices in $\Q_p$, we always refer to a congruence transform of a matrix in $\GL_n(\Z_p)$ instead of $\GL_n(\Q_p)$.
+
+
+
+
+

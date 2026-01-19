@@ -1,0 +1,163 @@
+\section{The cokernel of an alternating matrix and its torsion subgroup}\label{sec: cok of alt matrix}
+
+This section is the alternating analogue of \Cref{sec: cok of sym matrix}. Our goal is to clarify the structure of
+cokernels arising from alternating matrices. While many ideas parallel the symmetric case, the
+alternating setting differs in two main respects:
+
+\begin{enumerate}
+\item An alternating matrix $A_{2n}\in\Alt_{2n}(\Z)$ of even size can have nonzero determinant, and in this case $A_{2n}$ is nonsingular. However, an alternating integral matrix $A_{2n+1}\in\Alt_{2n+1}(\Z)$ of odd size must have determinant zero, and therefore $\Cok(A_{2n+1}):=\Z^{2n+1}/A_{2n+1}\Z^{2n+1}$ is an infinite abelian group. Hence, it is a more reasonable strategy to characterize $\Cok_{\tors}(A_{2n+1})$, which is the torsion subgroup of the cokernel.
+\item For the symmetric case, two finite paired abelian groups $(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}}),(G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}})$ might not be isomorphic even if $G^{(1)}\simeq G^{(2)}$ as abelian groups. However, for the alternating case, up to isomorphism, the pairing structure is totally determined by the abelian group itself. Although the term $|\Sp(G)|$ shows up in the expressions in \Cref{thm: exponential convergence_alt}, it can be regarded as a function over $S_P$. Hence, in the alternating case, no pairing structure is actually involved, which simplifies our discussion considerably.
+\end{enumerate}
+
+Let $n\ge 1$, and $A_n\in\Alt_n(\Z)$. Then $\Cok_{\tors}(A_n)$ is a finite abelian group. For a prime number $p$, the $p$-torsion subgroup of $\Cok(A_n)$ is the torsion subgroup of $\Z_p^n/A_n\Z_p^n$, where we regard $A_n$ as a matrix with entries in $\Z_p$. In particular, when $n$ is even and $A_n$ is nonsingular, the abelian group $\Cok(A_n)$ is finite, and therefore $\Cok(A_n)=\Cok_{\tors}(A_n)$. 
+
+The following proposition gives the simplest form of an alternating matrix in $\Z_p$ under the congruence transformation of $\GL_n(\Z_p)$.
+
+\begin{prop}\label{prop: simplest matrix_alt}
+Let $n\ge 1$ be an integer, and $p$ be a prime number.
+\begin{enumerate}
+\item (Even size) Let $A_{2n}\in\Alt_{2n}(\Z_p)$ be nonsingular. Then $A_{2n}$ is congruent to a block diagonal matrix of the form
+\begin{equation}\label{eq: simplest matrix alt even size}
+\diag_{2n\times 2n}\left(\begin{pmatrix}0 & p^{\l_1} \\ -p^{\l_1} & 0\end{pmatrix},\ldots,\begin{pmatrix} 0 & p^{\l_n} \\ -p^{\l_n} & 0\end{pmatrix}\right),
+\end{equation}
+where $\l:=(\l_1,\ldots,\l_n)\in\Y$. In this case, we have 
+$$\Cok(A_{2n})\simeq\bigoplus_{i=1}^n((\Z/p^{\l_i}\Z)\oplus(\Z/p^{\l_i}\Z))\in\mathcal{S}_p.$$ 
+Furthermore, no two distinct matrices in \eqref{eq: simplest matrix alt even size} are congruent.
+\item (Odd size) Let $A_{2n+1}\in\Alt_{2n+1}(\Z_p)$, such that $\corank(A)=1$. Then $A_{2n+1}$ is congruent to a block diagonal matrix of the form
+\begin{equation}\label{eq: simplest matrix alt odd size}
+\diag_{(2n+1)\times (2n+1)}\left(\begin{pmatrix}0 & p^{\l_1} \\ -p^{\l_1} & 0\end{pmatrix},\ldots,\begin{pmatrix} 0 & p^{\l_n} \\ -p^{\l_n} & 0\end{pmatrix},0\right),
+\end{equation}
+where $\l:=(\l_1,\ldots,\l_n)\in\Y$. In this case, we have 
+$$\Cok_{\tors}(A_{2n+1})\simeq\bigoplus_{i=1}^n((\Z/p^{\l_i}\Z)\oplus(\Z/p^{\l_i}\Z))\in\mathcal{S}_p.$$ 
+Furthermore, no two distinct matrices in \eqref{eq: simplest matrix alt odd size} are congruent.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+See \cite[Proposition 2.1]{shen2024non}.
+\end{proof}
+
+\begin{prop}\label{prop: same cok and add new row column_alt}
+Let $1\le n_1\le n_2$ be two integers, and $p$ be a prime number.
+\begin{enumerate}
+\item (Even size) Let $A_{2n_1}\in\Alt_{2n_1}(\Z_p),A_{2n_2}'\in\Alt_{2n_2}(\Z_p)$ be nonsingular, such that $\Cok(A_{2n_1})\simeq\Cok(A_{2n_2}')$. Then there exists $\l=(\l_1,\ldots,\l_{n_1})\in\Y$, such that
+$$A_{2n_1}\congsim\diag_{2n_1\times 2n_1}\left(\begin{pmatrix}0 & p^{\l_1} \\ -p^{\l_1} & 0\end{pmatrix},\ldots,\begin{pmatrix} 0 & p^{\l_n} \\ -p^{\l_n} & 0\end{pmatrix}\right),$$
+$$A_{2n_2}'\congsim\diag_{2n_2\times 2n_2}\left(\begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix},\ldots,\begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix},\begin{pmatrix}0 & p^{\l_1} \\ -p^{\l_1} & 0\end{pmatrix},\ldots,\begin{pmatrix} 0 & p^{\l_n} \\ -p^{\l_n} & 0\end{pmatrix}\right).$$
+Furthermore, let $\bm{\xi}_1:=(\xi_1,\ldots,\xi_{2n_1})\in\Z_p^{2n_1}$, and $\bm{\xi}_2:=(\xi_1,\ldots,\xi_{2n_2})\in\Z_p^{2n_2}$. Then, we have
+$$\Cok_{\tors}\begin{pmatrix}A_{2n_1} & \bm{\xi}_1 \\ -\bm{\xi_1}^T & 0 \end{pmatrix}\stackrel{d}{=}\Cok_{\tors}\begin{pmatrix}A_{2n_2}' & \bm{\xi}_2 \\ -\bm{\xi_2}^T & 0\end{pmatrix}.$$
+\item (Odd size) Let $A_{2n_1+1}\in\Alt_{2n_1+1}(\Z_p),A_{2n_2+1}'\in\Alt_{2n_2+1}(\Z_p)$, such that $\corank(A_{2n_1+1})=\corank(A_{2n_2+1}')=1$, and $\Cok_{\tors}(A_{2n_1+1})\simeq\Cok_{\tors}(A_{2n_2+1}')$. Then there exists $\l=(\l_1,\ldots,\l_{n_1})\in\Y$, such that
+$$A_{2n_1+1}\congsim\diag_{(2n_1+1)\times (2n_1+1)}\left(\begin{pmatrix}0 & p^{\l_1} \\ -p^{\l_1} & 0\end{pmatrix},\ldots,\begin{pmatrix} 0 & p^{\l_n} \\ -p^{\l_n} & 0\end{pmatrix},0\right),$$
+\setlength{\arraycolsep}{3pt}
+$$A_{2n_2+1}'\congsim\diag_{(2n_2+1)\times (2n_2+1)}\left(\begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix},\ldots,\begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix},\begin{pmatrix}0 & p^{\l_1} \\ -p^{\l_1} & 0\end{pmatrix},\ldots,\begin{pmatrix} 0 & p^{\l_n} \\ -p^{\l_n} & 0\end{pmatrix},0\right).$$
+Furthermore, let $\bm{\xi}_1:=(\xi_1,\ldots,\xi_{2n_1+1})\in\Z_p^{2n_1+1}$, and $\bm{\xi}_2:=(\xi_1,\ldots,\xi_{2n_2+1})\in\Z_p^{2n_2+1}$. Then, we have
+\setlength{\arraycolsep}{5pt}
+$$\Cok\begin{pmatrix}A_{2n_1+1} & \bm{\xi}_1 \\ -\bm{\xi_1}^T & 0 \end{pmatrix}\stackrel{d}{=}\Cok\begin{pmatrix}A_{2n_2+1}' & \bm{\xi}_2 \\ -\bm{\xi_2}^T & 0\end{pmatrix}.$$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We will only prove the even size case since the case can be deduced routinely. Since $\Cok(A_{2n_1})\simeq\Cok(A_{2n_2}')\in\mathcal{S}_p$, they must be isomorphic to an abelian group of the form 
+$$\bigoplus_{i=1}^{n_1}((\Z/p^{\l_i}\Z)\oplus(\Z/p^{\l_i}\Z)),\quad \l_1\ge\ldots\ge\l_{n_1}.$$
+In this case, we can deduce their simplest forms under congruence transformations by \Cref{prop: simplest matrix_alt}. Consequently, 
+$$A_{2n_2'}\congsim\begin{pmatrix}A_{2n_2-2n_1}^c & 0 \\ 0 & A_{2n_1}\end{pmatrix},A_{2n_2-2n_1}^c:=\diag_{(2n_2-2n_1)\times (2n_2-2n_1)}\left(\begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix},\ldots,\begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix}\right).$$
+Denote by $\bm{\xi}_1^c:=(\xi_{2n_1+1},\ldots,\xi_{2n_2})\in\Z_p^{2n_2-2n_1}$, so that $(\bm{\xi}_1^c,\bm{\xi}_1)\in\Z_p^{2n_2}$ is Haar-distributed. We have
+\begin{align}
+\begin{split}
+\Cok_{\tors}\begin{pmatrix}A_{2n_1} & \bm{\xi}_1 \\ -\bm{\xi_1}^T & 0 \end{pmatrix}&\stackrel{d}{=}\Cok_{\tors}\begin{pmatrix}
+A_{2n_2-2n_1}^c  & 0 & \bm{\xi_1}^c\\
+0 & A_{2n_1} & \bm{\xi}_1 \\ 
+-(\bm{\xi_1}^c)^T & -\bm{\xi_1}^T & 0 \end{pmatrix}\\
+&\stackrel{d}{=}\Cok_{\tors}\begin{pmatrix}A_{2n_2}' & \bm{\xi}_2 \\ -\bm{\xi_2}^T & 0\end{pmatrix}.
+\end{split}
+\end{align}
+Here, the second line holds because the Haar measure over $\Z_p^{2n_2}$ is invariant under the action of $\GL_{2n_2}(\Z_p)$. This completes the proof.
+\end{proof}
+
+Based on \Cref{prop: same cok and add new row column_alt}, we are able to give the following definition.
+
+\begin{defi}
+Let $p$ be a prime number, and $G^{(1)},G^{(2)}\in\mathcal{S}_p$. Let $\xi_1,\xi_2,\ldots$ be i.i.d. Haar-distributed in $\Z_p$.
+\begin{enumerate}
+\item (From even to odd) Take a nonsingular matrix $A_{2n}\in\Alt_{2n}(\Z_p)$ for some $n\ge 1$, such that $\Cok(A_{2n})\simeq G^{(1)}$, and let $\bm{\xi}:=(\xi_1,\ldots,\xi_{2n})\in\Z_p^{2n}$. Then, the \emph{even-odd transition probability} from $G^{(1)}$ to $G^{(2)}$ is defined as
+$$\mathbf{P}\left(G^{(2)},\text{ odd }\bigg| G^{(1)},\text{ even}\right):=\mathbf{P}\left(\Cok_{\tors}\begin{pmatrix}A_{2n} & \bm{\xi} \\ -\bm{\xi}^T &0 \end{pmatrix}\simeq G^{(2)}\right).$$
+\item (From odd to even) Take a matrix $A_{2n+1}\in\Alt_{2n+1}(\Z_p)$ for some $n\ge 1$, such that $\corank(A_{2n+1})=1$, and $\Cok_{\tors}(A_{2n+1})\simeq G^{(1)}$. Let $\bm{\xi}:=(\xi_1,\ldots,\xi_{2n+1})\in\Z_p^{2n+1}$. Then, the \emph{odd-even transition probability} from $G^{(1)}$ to $G^{(2)}$ is defined as
+$$\mathbf{P}\left(G^{(2)},\text{ even }\bigg| G^{(1)},\text{ odd}\right):=\mathbf{P}\left(\Cok\begin{pmatrix}A_{2n+1} & \bm{\xi} \\ -\bm{\xi}^T &0 \end{pmatrix}\simeq G^{(2)}\right).$$
+\end{enumerate}
+\end{defi}
+
+Indeed, by \Cref{prop: same cok and add new row column_alt}, the transition probabilities $\mathbf{P}(G^{(2)},\text{ odd}\mid G^{(1)},\text{ even}),\mathbf{P}(G^{(2)},\text{ even}\mid G^{(1)},\text{ odd})$ do not rely on the matrices we choose, and therefore are well defined.
+
+\begin{prop}\label{cor: globally same pairing_alt}
+$P=\{p_1,\ldots,p_l\}$ be a finite set of primes, and $G\in\mathcal{S}_P$. Let $a:=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$, where $e_{p_i}=\Dep_{p_i}(G)+1$ for all $1\le i\le l$. 
+\begin{enumerate}
+\item (Even size) Let $A_{2n}\in\Alt_{2n}(\Z)$, such that $\Cok(A_{2n})_P\simeq G$. Then for all $\Delta A_{2n}\in\Alt_{2n}(a\Z)$, we have $\Cok(A_{2n}+\Delta A_{2n})_P\simeq G$.
+\item (Odd size) Let $A_{2n+1}\in\Alt_{2n+1}(\Z)$, such that $\corank(A_{2n+1})=1$, and $\Cok_{\tors}(A_{2n+1})_P\simeq G$. Then for all $\Delta A_{2n+1}\in\Alt_{2n+1}(a\Z)$, we have $\corank(A_{2n+1}+\Delta A_{2n+1})=1$, and $\Cok_{\tors}(A_{2n+1}+\Delta A_{2n+1})_P\simeq G$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+This immediately follows from \Cref{prop: same cok and add new row column_alt} since everything naturally factors over $p_1,\ldots,p_l$.
+\end{proof}
+
+\begin{defi}
+Let $a\ge 2$, and $n\ge 1$. Let $H_n\in\Alt_n(\Z/a\Z)$ be uniformly distributed. Denote by 
+$$\mu_{n}^{\alt,(a)}:=\mathcal{L}(\Cok(H_n))$$
+as the law of $\Cok(H_n)$.
+\end{defi}
+
+\begin{prop}\label{prop: uniform model exponential convergence_alt}
+Let $a\ge 2$ be an integer.
+\begin{enumerate}
+\item (Even size) When $n$ goes to infinity, $\mu_{2n}^{\alt,(a)}$ weakly converges to a limiting probability measure, denoted by  $\mu_{2\infty}^{\alt,(a)}$. Furthermore, we have
+$$D_{L_1}\left(\mu_{2n}^{\alt,(a)},\mu_{2\infty}^{\alt,(a)}\right)=O_a(\exp(-\Omega_a( n))).$$
+\item (Odd size) When $n$ goes to infinity, $\mu_{2n+1}^{\alt,(a)}$ weakly converges to a limiting probability measure, denoted by  $\mu_{2\infty+1}^{\alt,(a)}$. Furthermore, we have
+$$D_{L_1}\left(\mu_{2n+1}^{\alt,(a)},\mu_{2\infty+1}^{\alt,(a)}\right)=O_a(\exp(-\Omega_a( n))).$$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Suppose $a$ has prime factorization $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$. In this case, we have
+$$\mu_n^{\alt,(a)}=\mu_n^{\alt,(p_1^{e_{p_1}})}\times\cdots\times\mu_n^{\alt,(p_l^{e_{p_l}})}.$$
+Notice that for the even size case, the assertions 
+$$\mu_{2n}^{\alt,(p_i^{e_{p_i}})}\stackrel{d}{\rightarrow}\mu_{2\infty}^{\alt,(p_i^{e_{p_i}})},D_{L_1}\left(\mu_{2n}^{\alt,(p_i^{e_{p_i}})},\mu_{2\infty}^{\alt,(p_i^{e_{p_i}})}\right)=O_{p_i^{e_{p_i}}}(\exp(-\Omega_{p_i^{e_{p_i}}}( n))),\quad 1\le i\le l,$$
+directly implies the conclusion
+$$\mu_{2n}^{\alt,(a)}\stackrel{d}{\rightarrow}\mu_{2\infty}^{\alt,(a)}:=\mu_{2\infty}^{\alt,(p_1^{e_{p_1}})}\times\cdots\times\mu_{2\infty}^{\alt,(p_l^{e_{p_l}})},D_{L_1}\left(\mu_{2n}^{\alt,(a)},\mu_{2\infty}^{\alt,(a)}\right)=O_a(\exp(-\Omega_a( n))).$$
+Moreover, for the odd size case, the analogous implication also holds. Thus, there is no loss of generality to assume that $a$ only has one prime factor, i.e., $a=p^{e_p}$.
+
+We will first deal with the even size case. We claim that for all integers $0\le k\le n$,
+and fixed matrix $B_{2n}\in\Alt_{2n}(\F_p)$ such that $\corank(B_{2n})=2k$, we have 
+\begin{equation}\label{eq: distribution conditioned on residue_alt}
+\mathcal{L}\left(\Cok(H_{2n})\bigg| H_{2n}/p=B_{2n}\right)=\mathcal{L}\left(\Cok(H_{2k})\bigg| H_{2k}\in\Alt_{2k}(p\Z/p^{e_p}\Z)\right).
+\end{equation}
+Here, on the right hand side, $H_{2k}$ is also uniformly distributed. To see this, first recall from \Cref{lem: full rank principal minor} that there exists a $(2n-2k)\times(2n-2k)$ principal minor of $B_{2n}$ that is invertible. There is no loss of generality to assume that the $(2n-2k)\times(2n-2k)$ upper-left block of $B_{2n}$ is invertible. In this case, when we uniformly randomly sample a matrix $H_{2n}\in\Alt_{2n}(\Z/p^{e_p}\Z)$ such that $H_{2n}/p=B_{2n}$, we can always use its $(2n-2k)\times(2n-2k)$ upper-left block to eliminate adjacent rows and columns, and the remaining $2k\times 2k$ lower-right block is uniformly distributed in $\Alt_{2k}(p\Z/p^{e_p}\Z)$. Thus, we have confirmed \eqref{eq: distribution conditioned on residue_alt}. As a consequence, when $B_{2n}$ runs through all the matrices in $\Alt_{2n}(\F_p)$ of corank $2k$, we deduce that 
+$$\mathcal{L}\left(\Cok(H_{2n})\bigg|\corank(H_{2n}/p)=2k\right)=\mathcal{L}\left(\Cok(H_{2k})\bigg| H_{2k}\in\Alt_{2k}(p\Z/p^{e_p}\Z)\right).$$
+Denote $\nu_n^{\alt,p}:=\mathcal{L}(\corank(H_n/p))$. Then, for all $0\le k\le n$ and fixed matrices $H_{2k}'\in\Alt_{2k}(p\Z/p^{e_p}\Z)$, we have
+\begin{equation}\label{eq: distribution of quasi of size n_alt}
+\mu_{2n}^{\alt,(p^{e_p})}(\Cok(H_{2k}'))=\nu_{2n}^{\alt,p}(2k)\cdot\mathbf{P}\left(\Cok(H_{2k})\simeq\Cok(H_{2k}')\bigg| H_{2k}\in\Alt_{2k}(p\Z/p^{e_p}\Z)\right).
+\end{equation}
+
+By \cite[Theorem 5.1]{fulman2015stein}\footnote{In the notation of \cite[Theorem 5.1]{fulman2015stein}, we are taking $q=p$, $\mathcal{Q}_q$ be the probability measure over $\Z_{\ge 0}$ such that $\mathcal{Q}_q(k)=\nu_{2\infty}^{\alt,p}(2k)$, and $\mathcal{Q}_{q,n}$ ($n$ even) be the probability measure over $\{0,1,\ldots,n/2\}$ such that $\mathcal{Q}_{q,n}(k)=\nu_n^{\alt,p}(2k)$. One should also keep in mind the remark in the first paragraph of \cite[Section 5]{fulman2015stein}, which clarifies that although the title refers to symmetric matrices over finite fields with zero diagonal, the alternating case leads to the same formulas.}, we have 
+$$D_{L_1}\left(\nu_{2n}^{\alt,p},\nu_{2\infty}^{\alt,p}\right)=O_p(\exp(-\Omega_p(n))),$$
+where limit distribution $\nu_{2\infty}^{\alt,p}$ is given by
+$$\nu_{2\infty}^{\alt,p}(2k)=
+\lim_{n\rightarrow\infty}\nu_{2n}^{\sym,p}(2k)=\prod_{i\ge 0}(1-p^{-2i-1})\frac{p^{2k}}{\prod_{i=1}^{2k}(p^i-1)},\quad\forall k\ge 0.$$
+Therefore, when $n$ goes to infinity, $\mu_{2n}^{\alt,(p^{e_p})}$ weakly converges to the limit distribution $\mu_{2\infty}^{\alt,(p^{e_p})}$ given by
+\begin{equation}\label{eq: distribution of quasi of size infinity_alt}
+\mu_{2\infty}^{\alt,(p^{e_p})}(\Cok(H_{2k}'))=\nu_{2\infty}^{\alt,p}(2k)\cdot\mathbf{P}\left(\Cok(H_{2k})\simeq\Cok(H_{2k}')\bigg| H_{2k}\in\Alt_{2k}(p\Z/p^{e_p}\Z)\right)
+\end{equation}
+for all $k\ge 0$ and fixed matrices $H_{2k}'\in\Alt_{2k}(p\Z/p^{e_p}\Z)$. Furthermore, comparing \eqref{eq: distribution of quasi of size n_alt} and \eqref{eq: distribution of quasi of size infinity_alt}, we have
+\begin{equation}
+D_{L_1}\left(\mu_{2n}^{\alt,(p^{e_p})},\mu_{2\infty}^{\alt,(p^{e_p})}\right)=D_{L_1}\left(\nu_{2n}^{\alt,p},\nu_{2\infty}^{\alt,p}\right)=O_p(\exp(-\Omega_p(n))).
+\end{equation}
+
+For the odd size case, by \cite[Theorem 5.5]{fulman2015stein}\footnote{In the notation of \cite[Theorem 5.5]{fulman2015stein}, we are taking $q=p$, $\mathcal{Q}_q$ be the probability measure over $\Z_{\ge 0}$ such that $\mathcal{Q}_q(k)=\nu_{2\infty+1}^{\alt,p}(2k+1)$, and $\mathcal{Q}_{q,n}$ ($n$ odd) be the probability measure over $\{0,1,\ldots,(n-1)/2\}$ such that $\mathcal{Q}_{q,n}(k)=\nu_n^{\alt,p}(2k+1)$.}, we have 
+$$D_{L_1}\left(\nu_{2n+1}^{\alt,p},\nu_{2\infty+1}^{\alt,p}\right)=O_p(\exp(-\Omega_p(n))),$$
+where limit distribution $\nu_{2\infty+1}^{\alt,p}$ is given by
+$$\nu_{2\infty+1}^{\alt,p}(2k+1)=
+\lim_{n\rightarrow\infty}\nu_{2n+1}^{\alt,p}(2k+1)=\prod_{i\ge 0}(1-p^{-2i-1})\frac{p^{2k+1}}{\prod_{i=1}^{2k+1}(p^i-1)},\quad k\ge 0.$$
+Following the same strategy as in the even size case, we have
+\begin{equation}
+D_{L_1}\left(\mu_{2n+1}^{\alt,(p^{e_p})},\mu_{2\infty+1}^{\alt,(p^{e_p})}\right)=D_{L_1}\left(\nu_{2n+1}^{\alt,p},\nu_{2\infty+1}^{\alt,p}\right)=O_p(\exp(-\Omega_p(n))).
+\end{equation}
+This completes the proof.
+\end{proof}

@@ -1,0 +1,292 @@
+\section{Proof of the symmetric case}\label{sec: Proof of the symmetric case}
+
+\begin{thm}\label{thm: quotient simulate_sym}
+Let $\epsilon>0$ and $M_n\in\Sym_n(\Z)$ be the same as in \Cref{thm: exponential convergence_sym}, and $a\ge 2$ be an integer. Then we have
+$$D_{L^1}\left(\mathcal{L}(\Cok_*^{(a)}(M_n/a)),\mu_\infty^{\sym,(a)}\right)=O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))).$$
+Here, $\mu_\infty^{\sym,(a)}$ is the same as in \Cref{prop: uniform model exponential convergence_sym}. Furthermore, if $a$ is odd, the right hand side of the above can be reduced to $O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n)
+)).$ 
+\end{thm}
+
+Before we return to the proof of \Cref{thm: quotient simulate_sym}, we see how it implies \Cref{thm: exponential convergence_sym}.
+
+\begin{proof}[Proof of \Cref{thm: exponential convergence_sym}, assuming \Cref{thm: quotient simulate_sym}]
+Let $a:=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$ be the same as in \Cref{cor: globally same pairing}. In this case, for all $1\le i\le l$ and $n\ge 1$,
+$$\mu_n^{\sym,(p_i^{e_{p_i}})}\left(\left(G_{p_i},\langle\cdot,\cdot\rangle^{(p_i^{e_{p_i}})}_*\right)\right)=\mathbf{P}\left(\left(\Cok(M_n^{(p_i')})_{p_i},\langle\cdot,\cdot\rangle_{p_i}\right)\simeq\left(G_{p_i},\langle\cdot,\cdot\rangle_{G_{p_i}}\right)\right).$$
+Here, $M_n^{(p_i')}\in\Sym_n(\Z_{p_i})$ is Haar-distributed, and the definition of $(G_{p_i},\langle\cdot,\cdot\rangle_*^{(p_i^{e_{p_i}})})$ follows from \Cref{defi: quotient version of paired group}. Applying \cite[Theorem 2]{clancy2015cohen}, we have
+\begin{align}\label{eq: uniform model in S_sym}
+\begin{split}
+\mu_\infty^{\sym,(a)}\left(\left(G,\langle\cdot,\cdot\rangle^{(a)}_*\right)\right)&=\prod_{i=1}^l\mu_\infty^{\sym,(p_i^{e_{p_i}})}\left(\left(G_{p_i},\langle\cdot,\cdot\rangle^{(p_i^{e_{p_i}})}_*\right)\right)\\
+&=\prod_{i=1}^l\lim_{n\rightarrow\infty}\mathbf{P}\left(\left(\Cok(M_n^{(p_i')})_{p_i},\langle\cdot,\cdot\rangle_{p_i}\right)\simeq\left(G_{p_i},\langle\cdot,\cdot\rangle_{G_{p_i}}\right)\right)\\
+&=\prod_{i=1}^l\frac{\prod_{k\ge 1}(1-p_i^{1-2k})}{|G_{p_i}||\Aut(G_{p_i},\langle\cdot,\cdot\rangle_{G_{p_i}})|}\\
+&=\frac{\prod_{i=1}^l\prod_{k\ge 1}(1-p_i^{1-2k})}{|G||\Aut(G,\langle\cdot,\cdot\rangle_G)|}.
+\end{split}
+\end{align}
+Therefore, due to our assumption in \Cref{thm: quotient simulate_sym}, we have
+$$\left|\mathbf{P}\left((\Cok(M_n),\langle\cdot,\cdot\rangle_P)\simeq(G,\langle\cdot,\cdot\rangle_G)\right)-\frac{\prod_{i=1}^l\prod_{k\ge 1}(1-p_i^{1-2k})}{|G||\Aut(G,\langle\cdot,\cdot\rangle_G)|}\right|=O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))).$$
+Moreover, the error term on the right hand side of the above can be reduced to $O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n)))$ when $a$ is odd. Notice that the integer $a$ defined in \Cref{cor: globally same pairing} depends on $G,P$, and in particular, $a$ is odd if and only if $2\notin P$. Therefore, we can rewrite $O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2})))$ as $O_{G,P,\epsilon}(\exp(-\Omega_{G,P,\epsilon}(n^{1/2})))$ when $2\in P$, and rewrite $O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n)))$ as $O_{G,P,\epsilon}(\exp(-\epsilon\Omega_{G,P}(n)
+))$ when $2\notin P$. This completes the proof.
+\end{proof}
+
+% \begin{rmk}
+% In fact, as we see from the proof above, the implicit constants in \Cref{thm: exponential convergence_sym} only depends on $P,\epsilon$ \JC{there is a constant that does not rely on $\epsilon$}, and the depths $\Dep_{p_i}(G)$ for $1\le i\le l$.
+% \end{rmk}
+
+Now we return to our proof of \Cref{thm: quotient simulate_sym}. The following proposition provides a more refined characterization based on \cite[Lemma 3.2]{ferber2023random}.
+
+\begin{prop}\label{prop: universal transition_sym}
+Let $\epsilon>0$ be a real number, and $a\ge 2$ be an integer with prime factorization $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$. Suppose $M_n\in\Sym_n(\Z)$ is a fixed matrix that satisfies $\mathcal{E}_{n,p_i}^{\sym}$ for $1\le i\le l$. Furthermore, when $a$ is even, we assume that $M_n$ satisfies $\mathcal{E}_n^{\text{\textdagger}}$. Let $z,\xi_1,\ldots,\xi_n$ be independent $\epsilon$-balanced random integers, and $z',\xi_1',\ldots,\xi_n'$ be independent and uniformly distributed in $\{0,1,\ldots,a-1\}$. Let $\bm{\xi}=(\xi_1,\ldots,\xi_n),\bm{\xi}'=(\xi_1',\ldots,\xi_n')\in\Z^n$. Then we have
+$$
+D_{L^2}\left(\Cok_*^{(a)}
+\begin{pmatrix}M_n/a & \bm{\xi}/a\\
+(\bm{\xi}/a)^T & z/a
+\end{pmatrix}
+,\Cok_*^{(a)}\begin{pmatrix}M_n/a & \bm{\xi}'/a\\
+(\bm{\xi}'/a)^T & z'/a
+\end{pmatrix}\right)=O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))).\\
+$$
+Furthermore, if $a$ is odd, the right hand side of the above can be reduced to $O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n))
+).$
+\end{prop}
+
+\begin{proof}
+For all $1\le i\le l$, by \Cref{lem: full rank principal minor}, there exists $I_{p_i}\subset[n]$ with $\# I_{p_i}=n-\rank(M_n/{p_i})$, such that $(M_n/p_i)_{I_{p_i}^c\times I_{p_i}^c}$ has full rank. By \ref{item: large rank_sym}, we have $\#I_{p_i}\le n^{2/3}$. 
+
+Now, we treat the $p
+_i$-part of the cokernel with its quasi-pairing, where we reduce all matrix entries modulo $p_i^{e_{p_i}}$. By paired row-column operations, we can use the invertible matrix $(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}$ to eliminate the components of $\bm{\xi}/p_i^{e_{p_i}}$ and $(\bm{\xi}/p_i^{e_{p_i}})^T$ indexed from $I_{p_i}^c$, while the symmetric structure is preserved. In this way, the new added column $(\bm{\xi}/p_i^{e_{p_i}},z/p_i^{e_{p_i}})$ will be transformed into the form
+\begin{multline}\bm{w}_i:=
+\Bigg((\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}}-(M_n/p_i^{e_{p_i}})_{I_{p_i}\times I_{p_i}^c}(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}(\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}^c},\\
+z-(\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}^c}^T(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}(\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}^c}\Bigg)\in(\Z/p_i^{e_{p_i}}\Z)^{\#I_{p_i}+1}.
+\end{multline}
+Here, the first line is a linear term whose index is in $I_{p_i}$, while the second line is the quadratic term on the lower-right corner. Moreover, we ignore and skip the components with index $I_{p_i}^c$ because they have been eliminated to zero. When $i$ runs over all integers from $1$ to $l$, we obtain a combination of vectors $(\bm{w}_i)_{1\le i\le l}$,
+and this combination is a random variable in $\left((\Z/p_i^{e_{p_i}}\Z)^{\#I_{p_i}+1}\right)_{1\le i\le l}$. If we replace $z,\xi_1,\ldots,\xi_n$ by the input $z',\xi_1',\ldots,\xi_n'$, we can obtain a combination of vectors $(\bm{w}_i')_{1\le i\le l}\in\left((\Z/p_i^{e_{p_i}}\Z)^{\#I_{p_i}+1}\right)_{1\le i\le l}$ in the similar way. It is clear that $(\bm{w}_i')_{1\le i\le l}$ is uniformly distributed. We only need to prove that $$D_{L^2}\left((\bm{w}_i)_{1\le i\le l},(\bm{w}_i')_{1\le i\le l}\right)=\begin{cases}
+O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))) & a\text{ even}\\
+O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n))) & a\text{ odd}
+\end{cases}.$$
+To achieve this, applying Parseval's identity, we have
+$$D_{L^2}^2\left((\bm{w}_i)_{1\le i\le l},(\bm{w}_i')_{1\le i\le l}\right)=\prod_{i=1}^lp_i^{-e_{p_i}(\#I_{p_i}+1)}\sum\left|\E_{\bm{\xi},z}\exp\left(\sum_{i=1}^l\frac{2\pi \sqrt{-1}}{p_i^{e_{p_i}}}(\bm{\alpha}_i,b_i)\cdot\bm{w}_i\right)\right|^2.$$
+Here, the sum on the right hand side ranges through the nonzero elements in the set
+$$
+\mathcal{V}:=\{(\bm{\alpha}_i,b_i)_{1\le i\le l}: \bm{\alpha}_i:=(\alpha_{i,j_i})_{j_i\in I_{p_i}}\in(\Z/p_i^{e_{p_i}}\Z)^{\#I_{p_i}},b_i\in\Z/p_i^{e_{p_i}}\Z\}.
+$$
+Therefore, it suffices to show that for all nonzero $(\bm{\alpha}_i,b_i)_{1\le i\le l}\in\mathcal{V}$, we have
+\begin{equation}\label{eq: small at nonzero vector_sym}
+\left|\E_{\bm{\xi},z}\exp\left(\sum_{i=1}^l\frac{2\pi \sqrt{-1}}{p_i^{e_{p_i}}}(\bm{\alpha}_i,b_i)\cdot\bm{w}_i\right)\right|=\begin{cases}
+O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))) & a\text{ even}\\
+O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n))) & a\text{ odd}
+\end{cases}.
+\end{equation}
+
+The proof of \eqref{eq: small at nonzero vector_sym} proceeds by a case-by-case discussion as follows.
+
+\noindent{\bf Case 1. When $a$ is odd, and $b_i\ne 0$ for some $1\le i\le l$. } Without loss of generality, we can let $b_1\ne 0$. We will use a generalized version of the decoupling trick introduced in the proof of \cite[Lemma 3.2]{ferber2023random}. Since $\#I_{p_i}\le n^{2/3}$ for all $1\le i\le l$, we have $\#\bigcup_{i=1}^l I_{p_i}\le ln^{2/3}$. We denote
+$$J=[\frac{n}{1000}]\backslash\bigcup_{i=1}^lI_{p_i}\subset[n],$$
+so that $\#J\in[\frac{n}{1000}-ln^{2/3},\frac{n}{1000}]$. Let $I:=J^c$, so that $I_{p_i}\subset I$ for all $1\le i\le l$. Let $\bm{\xi}_I,\bm{\xi}_J$ be the obvious restrictions. Let $\bm{\xi}^{\res}_J$ be an independent resample of $\bm{\xi}_J$. Let $\bm{\xi}^{\res}:=\bm{\xi}_I+\bm{\xi}_J^{\res}$. Let $\bm{\phi}_i:=\bm{\xi}_{I_{p_i}^c},\bm{\phi}^{\res}_i:=\bm{\xi}^{\res}_{I_{p_i}^c}$. We have 
+\begin{align}\label{eq: decoupling_sym}
+\begin{split}
+&\left|\E_{\bm{\xi},z}\exp\left(\sum_{i=1}^l\frac{2\pi \sqrt{-1}}{p_i^{e_{p_i}}}(\bm{\alpha}_i,b_i)\cdot\bm{w}_i\right)\right|^2\\
+&=\E_{\bm{\xi}_I,\bm{\xi}_J,\bm{\xi}^{\res}_J}\exp\Bigg(\sum_{i=1}^l\frac{2\pi \sqrt{-1}}{p_i^{e_{p_i}}}\Bigg(b_i(\bm{\phi}_i^T(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}\bm{\phi}_i-(\bm{\phi}^{\res}_i)^T(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}\bm{\phi}^{\res}_i)\\
+&+\bm{\alpha}_i\cdot((M_n/p_i^{e_{p_i}})_{I_{p_i}\times I_{p_i}^c}(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}(\bm{\xi}_J-\bm{\xi}^{\res}_J))\Bigg)\Bigg)\\
+&\le\E_{\bm{\xi}_J,\bm{\xi}_J^{\res}}\left|\E_{\bm{\xi}_I}\left[\exp\left(\sum_{i=1}^l\frac{2\pi \sqrt{-1}}{p_i^{e_{p_i}}}b_i(\bm{\phi}_i-\bm{\phi}^{\res}_i)^T(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}(\bm{\phi}_i+\bm{\phi}^{\res}_i)\right)\Bigg|\bm{\xi}_J,\bm{\xi}^{\res}_J\right]\right|\\
+&=\E_{\bm{\xi}_J,\bm{\xi}^{\res}_J}\left|\E_{\bm{\xi}_I}\left[\exp\left(\sum_{i=1}^l\frac{4\pi \sqrt{-1}}{p_i^{e_{p_i}}}b_i(\bm{\xi}_J-\bm{\xi}^{\res}_J)^T(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}\bm{\phi}_i''\right)\Bigg|\bm{\xi}_J,\bm{\xi}^{\res}_J\right]\right|.\\
+\end{split}
+\end{align}
+Here, for each $1\le i\le l$, $\bm{\xi}_J-\bm{\xi}^{\res}_J$ and $\bm{\phi}_i''$ are vectors with entry index in $I_{p_i}^c$. We have abused the notation by using $\bm{\xi}_J-\bm{\xi}_J^{\res}$ to denote the extension of this vector to $I_{p_i}^c$ with coordinates in $I_{p_i}^c\backslash J$ equal to zero and where $\bm{\phi}_i''$ denotes the vector which coincides with $\bm{\xi}$ (and hence $\bm{\xi}^{\res}$) on $I\bigcap I_{p_i}^c$ and has remaining coordinates zero. Moreover, for notational convenience and to save space, we omit the ``$/p_i^{e_{p_i}}$'' following the bold vectors, although their entries are in fact taken in the quotient ring $\Z/p_i^{e_{p_i}}\Z$.
+
+By the estimate in \eqref{eq: decoupling_sym}, we decouple the index sets $I\cap I_{p_i}^c$ and $I\backslash I_{p_i}^c$ for all $1\le i\le l$,  removing the quadratic terms and reducing the problem to a linear one. We now consider two circumstances. To handle the event $\bm{\xi}_J\equiv\bm{\xi}_J^{\res}\pmod {p_1}$, we have 
+$$\mathbf{P}(\bm{\xi}_J\equiv\bm{\xi}_J^{\res}\pmod {p_1})\le(1-\epsilon)^{\#J}\le (1-\epsilon)^{n/1000-ln^{2/3}}=O_{a,\epsilon}(\exp(-\epsilon\Omega_{a}(n))).$$ 
+Otherwise, let us assume $\bm{\xi}_J\not\equiv\bm{\xi}_J^{\res}\pmod {p_1}$. Under this assumption, when we extend the vector 
+$$(M_n/p_1)_{I_{p_1}^c\times I_{p_1}^c}^{-1}(\bm{\xi}_J-\bm{\xi}^{\res}_J)/{p_1}$$ to a $n$-dimensional vector in $\F_{p_1}$ by padding it with $0$s, the resulting vector is orthogonal to the rows of $M_n/p_1$ with index in $I\backslash\bigcup_{i=1}^lI_{p_i}$. Notice that the index set $I\backslash\bigcup_{i=1}^lI_{p_i}$ does not intersect with $[\frac{n}{1000}]$, and
+$$\#(I\backslash \bigcup_{i=1}^lI_{p_i})=n-\#J-\sum_{i=1}^l\#I_{p_i}\ge n-\frac{n}{1000}-ln^{2/3}.$$
+Therefore, when $n$ is sufficiently large, by \ref{item: ortho nonsparse_sym}, we deduce that the vector
+$$(M_n/p_1^{e_{p_1}})_{I_{p_1}^c\times I_{p_1}^c}^{-1}(\bm{\xi}_J-\bm{\xi}^{\res}_J)/p_1^{e_{p_1}}$$ has at least $\frac{n}{100}$ invertible entries. Furthermore, this vector has at least 
+$$\frac{n}{100}-\#J-\#I_{p_1}^c\ge\frac{n}{100}-\frac{n}{1000}-n^{2/3}\ge\frac{n}{200}-n^{2/3}$$ invertible entries on $I\cap I_{p_1}^c$, i.e., the support of the random entries of $\bm{\phi}_1''$. Applying \Cref{lem: expectation of not concentrated}, we have 
+\begin{align}\label{eq: nonsparse after decoupling}
+\begin{split}
+\left|\E_{\bm{\xi}_I}\left[\exp\left(\sum_{i=1}^l\frac{4\pi \sqrt{-1}}{p_i^{e_{p_i}}}b_i(\bm{\xi}_J-\bm{\xi}^{\res}_J)^T(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}\bm{\phi}_i''\right)\right]\right|&\le\exp\left(-\frac{\epsilon}{a^2}\left(\frac{n}{200}-n^{2/3}\right)\right)\\
+&=O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n))).
+\end{split}
+\end{align}
+
+\noindent{\bf Case 2. When $a$ is odd, and $b_i=0$ for all $1\le i\le l$. } In this case, we have
+\begin{multline}
+\text{LHS}\eqref{eq: small at nonzero vector_sym}=\Bigg|\E_{\bm{\xi},z}\exp\Bigg(\sum_{i=1}^l\frac{2\pi \sqrt{-1}}{p_i^{e_{p_i}}}\bm{\alpha}_i\cdot\Bigg((\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}}\\
+-(M_n/p_i^{e_{p_i}})_{I_{p_i}\times I_{p_i}^c}(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}(\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}^c}\Bigg)\Bigg)\Bigg|.
+\end{multline}
+Here, the random variable inside the exponent does not contain quadratic terms. Without loss of generality, we can let $\bm{\alpha}_1\ne 0$. In this case, let $k$ be the smallest valuation of all the entries of $\bm{\alpha}_1$. Then $0\le k<e_{p_1}$, and there exists 
+$\bm{\beta}_1\in(\Z/p_1^{e_{p_1}}\Z)^{\#I_{p_1}}$, such that
+$$\bm{\alpha}_1=p_1^k\bm{\beta_1},\bm{\beta}_1/p_1\ne 0.$$
+Now, we consider the $n$-dimensional vector 
+$$\left(-(\bm{\beta}_1/p_1),(M_n/p_1)_{I_{p_1}^c\times I_{p_1}^c}^{-1}(M_n/p_1)_{I_{p_1}^c\times I_{p_1}}(\bm{\beta}_1/p_1)\right)\in\F_p^n.$$ 
+Here, we rearranged the entries: $-(\bm{\beta}_1/p_1)$ refers to the index set $I_{p_1}$, and $$(M_n/p_1)_{I_{p_1}^c\times I_{p_1}^c}^{-1}(M_n/p_1)_{I_{p_1}^c\times I_{p_1}}(\bm{\beta}_1/p_1)$$ 
+refers to the index set $I_{p_1}^c$.
+This vector is orthogonal to the rows of $M_n/p_1$ with index in $I_{p_1}^c$, which has cardinality $\ge n-n^{2/3}$. By \ref{item: ortho nonsparse_sym}, we deduce that the vector $$(M_n/p_1^{e_{p_1}})_{I_{p_1}^c\times I_{p_1}^c}^{-1}(M_n/p_1^{e_{p_1}})_{I_{p_1}^c\times I_{p_1}}\bm{\alpha}_1=p^k(M_n/p_1^{e_{p_1}})_{I_{p_1}^c\times I_{p_1}^c}^{-1}(M_n/p_1^{e_{p_1}})_{I_{p_1}^c\times I_{p_1}}\bm{\beta}_1$$ 
+has at least $\frac{n}{100}-n^{2/3}$ nonzero entries. Applying \Cref{lem: expectation of not concentrated}, we have
+$$\text{LHS}\eqref{eq: small at nonzero vector_sym}\le\exp(-\frac{\epsilon (n/100-n^{2/3})}{a^2})=O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n))).$$
+
+\noindent{\bf Case 3. When $a$ is even.} Without loss of generality, we can let $p_1=2$. Since $M_n$ satisfies $\mathcal{E}_n^{\text{\textdagger}}$, we have $\#I_{2}\le n^{1/4}$.
+If $2b_1\ne 0$, then $\frac{4\pi\sqrt{-1}}{2^{e_2}}b_1$ is not a multiple of $2\pi\sqrt{-1}$, and we can still use the decoupling method in the first case to obtain the inequalities \eqref{eq: decoupling_sym} and \eqref{eq: nonsparse after decoupling}.
+If $b_i\ne 0$ for some $2\le i\le l$, the proof also follows the same as in the first case. If $b_i=0$ for all $1\le i\le l$, the proof follows the same as in the second case. Therefore, the only remaining case is when $b_1\ne 0$ but $2b_1=b_2=\ldots=b_l=0$. In this case, we denote by $\bm{\zeta}_{I_2^c}\in(\Z/2^{e_2}\Z)^{n-\#I_2}$ the diagonal of $(M_n/2^{e_2})_{I_2^c\times I_2^c}^{-1}$. Notice that in the field $\F_2$, we have $\xi_i^2=\xi_i,2\xi_i\xi_j=0$. Therefore, the quadratic term degenerates to a linear form, i.e.,
+$$b_1\left(z-(\bm{\xi}/2^{e_2})_{I_2^c}^T(M_n/2^{e_2})_{I_2^c\times I_2^c}^{-1}(\bm{\xi}/2^{e_2})_{I_2^c}\right)=b_1z-b_1\bm{\zeta}_{I_2^c}\cdot(\bm{\xi}/2^{e_2})_{I_2^c}.$$
+Hence, we have
+\begin{multline}
+\text{LHS}\eqref{eq: small at nonzero vector_sym}=\Bigg|\E_{\bm{\xi},z}\exp\Bigg(\frac{2\pi \sqrt{-1}}{2^{e_2}}(b_1z-b_1\bm{\zeta}_{I_2^c}\cdot(\bm{\xi}/2^{e_2})_{I_2^c})\\+\sum_{i=1}^l\frac{2\pi \sqrt{-1}}{p_i^{e_{p_i}}}\bm{\alpha}_i\cdot((\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}}-(M_n/p_i^{e_{p_i}})_{I_{p_i}\times I_{p_i}^c}(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}(\bm{\xi}/p_i^{e_{p_i}})_{I_{p_i}^c})\Bigg)\Bigg|.\\
+\end{multline}
+Similarly as in the second step, there are no quadratic terms to handle. Now, guaranteed by $\mathcal{E}_n^{\text{\textdagger}}$, the vector $-b_1\zeta_{I_2^c}+(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}^c}^{-1}(M_n/p_i^{e_{p_i}})_{I_{p_i}^c\times I_{p_i}}\bm{\alpha_1}\in(\Z/2^{e_2}\Z)^{n-\#I_2}$ has at least $\frac{1}{2}n^{1/2}$ nonzero entries.
+Applying \Cref{lem: expectation of not concentrated}, we have
+$$\text{LHS}\eqref{eq: small at nonzero vector_sym}\le\exp\left(-\frac{\epsilon n^{1/2}}{2a^2}\right)=O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))).$$
+
+The above steps complete the proof.
+\end{proof}
+
+\begin{cor}\label{cor: integral universal transition_sym}
+Let $\epsilon>0$ be a real number, and $\left(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}}\right),\left(G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}}\right)$ be paired abelian groups of finite size. Let $P=\{p_1,\ldots,p_l\}$ be a finite set of primes that include all those that divide $\#G^{(1)}\#G^{(2)}$. Let $n\ge 1$, and $M_n\in\Sym_n(\Z)$ be a fixed matrix such that the following holds:
+\begin{enumerate}
+\item $(\Cok(M_n)_P,\langle\cdot,\cdot\rangle_P)\simeq\left(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}}\right)$.
+\item $M_n$ satisfies the properties $\mathcal{E}_{n,p_i}^{\sym}$ for $1\le i\le l$. 
+\item When $2\in P$, $M_n$ satisfies $\mathcal{E}_n^{\text{\textdagger}}$.
+\end{enumerate}
+Let $z,\xi_1,\ldots,\xi_n$ be independent $\epsilon$-balanced random integers. Then, we have
+\begin{multline}\label{eq: probability isomorphic to G2}
+\mathbf{P}\left(\left(\Cok
+\left(
+\begin{array}{c|c}
+M_n & 
+\begin{matrix}
+\xi_1 \\
+\vdots \\
+\xi_n
+\end{matrix}
+\\ \hline
+\begin{matrix}
+\xi_1 & \cdots & \xi_n
+\end{matrix}
+& z
+\end{array}
+\right)_P,\langle\cdot,\cdot\rangle_P\right)\simeq(G^{(2)},\langle\cdot,\cdot\rangle_{G^{(2)}})\right)\\
+=\prod_{i=1}^l\mathbf{P}\left(\left(G_{p_i}^{(2)},\langle\cdot,\cdot\rangle_{G_{p_i}^{(2)}}\right)\bigg|\left(G_{p_i}^{(1)},\langle\cdot,\cdot\rangle_{G_{p_i}^{(1)}}\right)\right)+O_{G^{(1)},G^{(2)},P,\epsilon}\left(\exp\left(-\Omega_{G^{(1)},G^{(2)},P,\epsilon}\left(n^{1/2}\right)\right)\right).
+\end{multline}
+Moreover, when $P$ does not contain the prime $2$, the error term on the last line can be further reduced to $O_{G^{(1)},G^{(2)},P,\epsilon}(\exp(-\epsilon\Omega_{G^{(1)},G^{(2)},P}(n)
+))$.
+\end{cor}
+
+\begin{proof}
+We will only prove the case $2\in P$, since the case $2\notin P$ can be deduced routinely. Let $a:=p_1^{e_{p_1}}\ldots p_l^{e_{p_l}}$, where for all $1\le i\le l$, we have
+$$e_{p_i}=\begin{cases}
+\max\{\Dep_{p_i}(G^{(1)}),\Dep_{p_i}(G^{(2)})\}+3 & p_i=2\\
+\max\{\Dep_{p_i}(G^{(1)}),\Dep_{p_i}(G^{(2)})\}+1 & p_i>2.
+\end{cases}.$$
+Then, we have $\Cok_*^{(a)}(M_n/a)\simeq\left(G^{(1)},\langle\cdot,\cdot\rangle_*^{(a)}\right)$. Let $z',\xi_1',\ldots,\xi_n'$ be independent and uniformly distributed in $\{0,1,\ldots,a-1\}$. Denote by $\bm{\xi}:=(\xi_1,\ldots,\xi_n)$, and $\bm{\xi}':=(\xi_1',\ldots,\xi_n')$. Applying \Cref{prop: universal transition_sym}, we have 
+\begin{align}
+\begin{split}
+\text{LHS}\eqref{eq: probability isomorphic to G2}&=\mathbf{P}\left(\Cok_*^{(a)}\begin{pmatrix}M_n/a & \bm{\xi}/a\\
+(\bm{\xi}/a)^T & z/a
+\end{pmatrix}
+\simeq(G^{(2)},\langle\cdot,\cdot\rangle_*^{(a)})\right)\\
+&=\mathbf{P}\left(\Cok_*^{(a)}\begin{pmatrix}M_n/a & \bm{\xi}'/a\\
+(\bm{\xi}'/a)^T & z'/a
+\end{pmatrix}
+\simeq(G^{(2)},\langle\cdot,\cdot\rangle_*^{(a)})\right)\\
+&+O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2})))\\
+&=\prod_{i=1}^l\mathbf{P}\left(\Cok_*^{(p_i^{e_{p_i}})}\begin{pmatrix}M_n/p_i^{e_{p_i}} & \bm{\xi}'/p_i^{e_{p_i}}\\
+(\bm{\xi}'/p_i^{e_{p_i}})^T & z'/p_i^{e_{p_i}}
+\end{pmatrix}
+\simeq(G_{p_i}^{(2)},\langle\cdot,\cdot\rangle_*^{(p_i^{e_{p_i}})})\right)\\
+&+O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2})))\\
+&=\prod_{i=1}^l\mathbf{P}\left(\left(G_{p_i}^{(2)},\langle\cdot,\cdot\rangle_{G_{p_i}^{(2)}}\right)\bigg|\left(G_{p_i}^{(1)},\langle\cdot,\cdot\rangle_{G_{p_i}^{(1)}}\right)\right)+O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))).\\
+&=\text{RHS}\eqref{eq: probability isomorphic to G2}.
+\end{split}
+\end{align}
+Here, the last line is due to the fact that $a$ depends on $G^{(1)},G^{(2)},P$. 
+\end{proof}
+
+\begin{proof}[Proof of \Cref{thm: quotient simulate_sym}]
+Suppose $a$ has prime factorization $a=p_1^{e_{p_1}}\cdots p_l^{e_{p_l}}$. Consider the exposure process 
+$$\Cok_*^{(a)}(M_{n/20}/a),\ldots,\Cok_*^{(a)}(M_n/a)$$ 
+obtained by iteratively revealing $M_t$ for $n/20\le t\le n$ by adding a new row and column each time and considering the resulting cokernel with quasi-pairing $\Cok_*^{(a)}(M_t/a)$. Also, we construct another exposure process 
+$$\Cok_*^{(a)}(M_{n/20}'/a),\ldots,\Cok_*^{(a)}(M_n'/a),$$
+where $M_{n/20}':=M_{n/20}$, and the matrices $M_{n/20+1}',\ldots,M_n'$ have entries in $\Z$ and are obtained by adding a uniformly distributed row and column in $\{0,1,\ldots,a-1\}$ every time.
+
+As we will see, the random variable $\Cok_*^{(a)}(M_n'/a)$ plays an intermediate role between $\mu_\infty^{\sym,(a)}$ and the law of $\Cok_*^{(a)}(M_n/a)$: that is, we first bound the $L^1$-distance between the law of $\Cok_*^{(a)}(M_n/a)$ and $\Cok_*^{(a)}(M_n'/a)$, and then bound the $L^1$-distance between $\mu_\infty^{\sym,(a)}$ and the law of $\Cok_*^{(a)}(M_n'/a)$.
+
+\noindent{\bf Step 1. The $L^1$-distance between the law of $\Cok_*^{(a)}(M_n/a)$ and $\Cok_*^{(a)}(M_n'/a)$. }
+We claim that for all $t\in[n/20,n-1]$, we have
+\begin{multline}\label{eq: increment of distance adding new row and column_sym}
+D_{L_1}\left(\Cok_*^{(a)}(M_{t+1}/a),\Cok_*^{(a)}(M_{t+1}'/a)\right)-D_{L_1}\left(\Cok_*^{(a)}(M_t/a),\Cok_*^{(a)}(M_t'/a)\right)\\
+=O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(t^{1/2}))).
+\end{multline}
+Indeed, by \Cref{thm: not sparse} and \Cref{thm: not sparse revised p=2}, the matrix $M_t\in\Sym_t(\Z)$ satisfies the properties $\mathcal{E}_{t,p_1}^{\sym},\ldots,\mathcal{E}_{t,p_l}^{\sym}$ and $\mathcal{E}_t^{\text{\textdagger}}$ with probability at least
+$$1-\sum_{i=1}^lO_{p_i}(\exp(-\epsilon\Omega_{p_i}(t)))-O_\epsilon(\exp(-\Omega_\epsilon(t^{1/2})))=1-O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(t^{1/2}))).$$ 
+Guaranteed by \Cref{prop: transition probability relies on cokernel_sym}, as long as $M_t$ satisfies these properties, we can apply \Cref{prop: universal transition_sym} so that \eqref{eq: increment of distance adding new row and column_sym} immediately follows. Since $M_{n/20}'/a=M_{n/20}/a$, we deduce that
+$$D_{L_1}\left(\Cok_*^{(a)}(M_n/a),\Cok_*^{(a)}(M_n'/a)\right)=\sum_{t=n/20}^n O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(t^{1/2})))=O_{a,\epsilon}(\exp(-\Omega_{a,\epsilon}(n^{1/2}))).$$
+Furthermore, if $a$ is odd, we no longer need the assumption $\mathcal{E}_n^{\text{\textdagger}}$, and therefore the stronger bound
+$$D_{L_1}\left(\Cok_*^{(a)}(M_n/a),\Cok_*^{(a)}(M_n'/a)\right)=O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n)))$$
+follows the same way.
+
+\noindent{\bf Step 2. The $L^1$-distance between $\mu_\infty^{\sym,(a)}$ and the law of $\Cok_*^{(a)}(M_n'/a)$.} 
+By \Cref{thm: not sparse}, the matrix $M_{n/20}'\in\Sym_{n/20}(\Z)$ satisfies the properties $\mathcal{E}_{n/20,p_1}^{\sym},\ldots,\mathcal{E}_{n/20,p_l}^{\sym}$ with probability at least
+$$1-\sum_{i=1}^lO_{p_i}(\exp(-\epsilon\Omega_{p_i}(n/20)))=1-O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n))).$$
+As long as $M_{n/20}'$ satisfies these properties, we have
+$\corank(M_{n/20}'/p_i)\le (n/20)^{2/3}\le n^{2/3}$ for all $1\le i\le l$. Moreover, the exposure process naturally factorizes over the primes $p_1,\ldots,p_l$ when we add new uniform rows and columns, since each newly revealed entry is uniform in $\mathbb Z/a\mathbb Z$, hence (by the Chinese remainder theorem) its reductions modulo $p_i^{e_{p_i}}$ are independent and uniform for $1\le i\le l$. Thus, conditioned on $M_{n/20}\in\Sym_{n/20}(\Z)$, the random variables
+$$\Cok_*^{(p_i^{e_{p_i}})}(M_n'/p_i^{e_{p_i}}),\quad 1\le i\le l$$
+are independent. Also, we have that for all $t\in[n/20,n-1]$ and $1\le i\le l$,
+\begin{align}
+\begin{split}
+\mathbf{P}(\corank(M_{t+1}'/p_i)-\corank(M_t'/p_i)=-1\mid\corank(M_t'/p_i)\ge 2)&\ge 1-p_i^{-2},\\
+\mathbf{P}(\corank(M_{t+1}'/p_i)-\corank(M_t'/p_i)=-1\mid\corank(M_t'/p_i)=1)&=1-p_i^{-1}.\\
+\end{split}
+\end{align}
+Indeed, working modulo $p_i$, we choose an
+invertible principal minor of maximal size, whose existence is guaranteed by
+\Cref{lem: full rank principal minor}. Using paired row-column operations (i.e., congruence
+transformations), we can eliminate the entries in the corresponding rows and columns outside this
+minor, reducing to a block form with an invertible block and a remaining complement block of
+size equal to the corank, from which the desired one-step transition estimate follows.
+
+Therefore, when $\corank(M_{n/20}'/p_i)\le n^{2/3}$, we can apply a standard Hoeffding
+large-deviation bound to deduce that with probability at least $1-O_{p_i}(\exp(-\Omega_
+{p_i}(n)))$, there exists $\tau_i\in[n/20+1,n/2]$ such that $\corank(M_{\tau_i}'/p_i)=0$. Notice that for any fixed $\tau_i\in[n/20+1,n/2]$, when we condition on $\corank(M_{\tau_i}'/p_i)=0$, we have
+$$\Cok_*^{(p_i^{e_{p_i}})}(M_n'/p_i^{e_{p_i}})\stackrel{d}{=}\Cok_*^{(p_i^{e_{p_i}})}(H_{n-\tau_i}/p_i^{e_{p_i}}),$$
+where $H_{n-\tau_i}/p_i^{e_{p_i}}\in\Sym_{n-\tau_i}(\Z/p_i^{e_{p_i}}\Z)$ is uniformly distributed. Therefore, recalling the exponential convergence given in \Cref{prop: uniform model exponential convergence_sym}, we have
+\begin{equation}\label{eq: Mn' and H_infty distance at p_i}
+D_{L^1}\left(\mathcal{L}\left(\Cok_*^{(p_i^{e_{p_i}})}(M_n'/p_i^{e_{p_i}})\Bigg|\mathcal{E}_{n/20,p_i}^{\sym}\right),\mu_\infty^{\sym,(p_i^{e_{p_i}})}\right)=O_{p_i^{e_{p_i}}}(\exp(-\Omega_{p_i^{e_{p_i}}}(n))).
+\end{equation}
+Summing up the $O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n)))$ probability lost when assuming $\mathcal{E}_{n/20,p_1}^{\sym},\ldots,\mathcal{E}_{n/20,p_l}^{\sym}$ for $M_{n/20}$, and the $L^1$-distance estimate \eqref{eq: Mn' and H_infty distance at p_i} for all $1\le i\le l$, we deduce that
+$$D_{L_1}(\mathcal{L}(\Cok_*^{(a)}(M_n'/a)),\mu_\infty^{\sym,(a)})=O_{a,\epsilon}(\exp(-\epsilon\Omega_a(n))).$$
+
+These two steps together provide the proof.
+\end{proof}
+
+As a byproduct, we also obtain the convergence of the joint distribution of corners, which is given by the following proposition.
+
+\begin{prop}\label{prop: joint distribution_sym}
+Let $\epsilon>0$ and $M_n$ be the same as in \Cref{thm: exponential convergence_sym}. Moreover, for all $1\le t\le n$, let $M_t$ be the $t\times t$ upper-left corner of $M_n$. Let $j\ge 1$ be a fixed integer, 
+$$\left(G^{(1)},\langle\cdot,\cdot\rangle_{G^{(1)}}\right),\ldots,\left(G^{(j)},\langle\cdot,\cdot\rangle_{G^{(j)}}\right)$$ 
+be finite paired abelian groups, and $P=\{p_1,\ldots,p_l\}$ be a finite set of primes that includes all those that divide $\#G^{(1)}\cdots\#G^{(j)}$. Then we have
+\begin{multline}
+\mathbf{P}\left(M_{n-j+i}\text{ is nonsingular},(\Cok(M_{n-j+i})_P,\langle\cdot,\cdot\rangle_P)\simeq\left(G^{(i)},\langle\cdot,\cdot\rangle_{G^{(i)}}\right)\quad\forall 1\le i\le j\right)\\
+=\prod_{i_1=1}^l\left(\frac{\prod_{k\ge 1}(1-p_{i_1}^{1-2k})}{\Bigg|G_{p_{i_1}}^{(1)}\Bigg|\Bigg|\Aut\Bigg(G_{p_{i_1}}^{(1)},\langle\cdot,\cdot\rangle_{G_{p_{i_1}}^{(1)}}\Bigg)\Bigg|}\cdot\prod_{i_2=1}^{j-1}\mathbf{P}\left(\left(G^{(i_2+1)}_{p_{i_1}},\langle\cdot,\cdot\rangle_{G^{(i_2+1)}_{p_{i_1}}}\right)\Bigg|\left(G^{(i_2)}_{p_{i_1}},\langle\cdot,\cdot\rangle_{G^{(i_2)}_{p_{i_1}}}\right)\right)\right)\\
++O_{G^{(1)},\ldots,G^{(j)},P,\epsilon}(\exp(-\Omega_{G^{(1)},\ldots,G^{(j)},P,\epsilon}(n^{1/2}))).
+\end{multline}
+Moreover, when $P$ does not contain the prime $2$, the error term on the last line can be further reduced to $O_{G^{(1)},\ldots,G^{(j)},P,\epsilon}(\exp(-\epsilon\Omega_{G^{(1)},\ldots,G^{(j)},P}(n)
+))$.
+\end{prop}
+
+\begin{proof}
+We will only prove the case $2\in P$, since the case $2\notin P$ can be deduced routinely. It suffices to prove the stronger statement that for all $1\le j_0\le j$, 
+\begin{multline}\label{eq: joint distribution for j0_sym}
+\mathbf{P}\left(M_{n-j+i}\text{ is nonsingular},(\Cok(M_{n-j+i})_P,\langle\cdot,\cdot\rangle_P)\simeq\left(G^{(i)},\langle\cdot,\cdot\rangle_{G^{(i)}}\right)\quad\forall 1\le i\le j_0\right)\\
+=\prod_{i_1=1}^l\left(\frac{\prod_{k\ge 1}(1-p_{i_1}^{1-2k})}{\Bigg|G_{p_{i_1}}^{(1)}\Bigg|\Bigg|\Aut\Bigg(G_{p_{i_1}}^{(1)},\langle\cdot,\cdot\rangle_{G_{p_{i_1}}^{(1)}}\Bigg)\Bigg|}\cdot\prod_{i_2=1}^{j_0-1}\mathbf{P}\left(\left(G^{(i_2+1)}_{p_{i_1}},\langle\cdot,\cdot\rangle_{G^{(i_2+1)}_{p_{i_1}}}\right)\Bigg|\left(G^{(i_2)}_{p_{i_1}},\langle\cdot,\cdot\rangle_{G^{(i_2)}_{p_{i_1}}}\right)\right)\right)\\
++O_{G^{(1)},\ldots,G^{(j_0)},P,\epsilon}(\exp(-\Omega_{G^{(1)},\ldots,G^{(j_0)},P,\epsilon}(n^{1/2}))).
+\end{multline}
+The proof proceeds by induction over $j_0$. The case $j_0=1$ can be directly deduced from \Cref{thm: exponential convergence_sym}. Now, suppose \eqref{eq: joint distribution for j0_sym} already holds for some $1\le j_0\le j-1$. By \Cref{thm: not sparse} and \Cref{thm: not sparse revised p=2}, with probability no less than $1-O_{P,\epsilon}(\exp(-\Omega_{P,\epsilon}(n^{1/2})))$, the matrix $M_{n-j+j_0}$ satisfies the properties
+$\mathcal{E}_{n-j+j_0,p_1}^{\sym},\ldots,\mathcal{E}_{n-j+j_0,p_l}^{\sym},\mathcal{E}_{n-j+j_0}^{\text{\textdagger}}.$ Thus, applying \Cref{cor: integral universal transition_sym}, 
+we have
+\begin{multline}
+\mathbf{P}\bigg(M_{n-j+i}\text{ is nonsingular},(\Cok(M_{n-j+i})_P,\langle\cdot,\cdot\rangle_P)\simeq\left(G^{(i)},\langle\cdot,\cdot\rangle_{G^{(i)}}\right)\quad\forall 1\le i\le j_0+1,\\
+\text{and }M_{n-j+j_0}\text{ satisfies the properties } \mathcal{E}_{n-j+j_0,p_1}^{\sym},\ldots,\mathcal{E}_{n-j+j_0,p_l}^{\sym},\mathcal{E}_{n-j+j_0}^{\text{\textdagger}}\bigg)\\
+=\prod_{i_1=1}^l\left(\frac{\prod_{k\ge 1}(1-p_{i_1}^{1-2k})}{\Bigg|G_{p_{i_1}}^{(1)}\Bigg|\Bigg|\Aut\Bigg(G_{p_{i_1}}^{(1)},\langle\cdot,\cdot\rangle_{G_{p_{i_1}}^{(1)}}\Bigg)\Bigg|}\cdot\prod_{i_2=1}^{j_0}\mathbf{P}\left(\left(G^{(i_2+1)}_{p_{i_1}},\langle\cdot,\cdot\rangle_{G^{(i_2+1)}_{p_{i_1}}}\right)\Bigg|\left(G^{(i_2)}_{p_{i_1}},\langle\cdot,\cdot\rangle_{G^{(i_2)}_{p_{i_1}}}\right)\right)\right)\\
++O_{G^{(1)},\ldots,G^{(j_0+1)},P,\epsilon}(\exp(-\Omega_{G^{(1)},\ldots,G^{(j_0+1)},P,\epsilon}(n^{1/2}))).
+\end{multline}
+Therefore, the statement \eqref{eq: joint distribution for j0_sym} also holds for $j_0+1$. This completes the proof.
+\end{proof}
+

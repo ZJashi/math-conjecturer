@@ -1,0 +1,159 @@
+\begin{thebibliography}{10}
+
+\bibitem{bhargava2015modeling}
+Manjul Bhargava, Daniel~M Kane, Hendrik~W Lenstra, Bjorn Poonen, and Eric Rains.
+\newblock Modeling the distribution of ranks, selmer groups, and shafarevich--tate groups of elliptic curves.
+\newblock {\em Cambridge Journal of Mathematics}, 3(3):275--321, 2015.
+
+\bibitem{campos2025singularity}
+Marcelo Campos, Matthew Jenssen, Marcus Michelen, and Julian Sahasrabudhe.
+\newblock The singularity probability of a random symmetric matrix is exponentially small.
+\newblock {\em Journal of the American Mathematical Society}, 38(1):179--224, 2025.
+
+\bibitem{cassels2008rational}
+John William~Scott Cassels.
+\newblock {\em Rational quadratic forms}.
+\newblock Courier Dover Publications, 2008.
+
+\bibitem{cheong2023distribution}
+Gilyoung Cheong and Myungjun Yu.
+\newblock The distribution of the cokernel of a polynomial evaluated at a random integral matrix.
+\newblock {\em arXiv preprint arXiv:2303.09125}, 2023.
+
+\bibitem{clancy2015cohen}
+Julien Clancy, Nathan Kaplan, Timothy Leake, Sam Payne, and Melanie~Matchett Wood.
+\newblock On a cohen--lenstra heuristic for jacobians of random graphs.
+\newblock {\em Journal of Algebraic Combinatorics}, 42(3):701--723, 2015.
+
+\bibitem{clancy2015note}
+Julien Clancy, Timothy Leake, and Sam Payne.
+\newblock A note on jacobians, tutte polynomials, and two-variable zeta functions of graphs.
+\newblock {\em Experimental Mathematics}, 24(1):1--7, 2015.
+
+\bibitem{cohen2006heuristics}
+Henri Cohen and Hendrik~W Lenstra~Jr.
+\newblock Heuristics on class groups of number fields.
+\newblock In {\em Number Theory Noordwijkerhout 1983: Proceedings of the Journ{\'e}es Arithm{\'e}tiques held at Noordwijkerhout, The Netherlands July 11--15, 1983}, pages 33--62. Springer, 2006.
+
+\bibitem{costello2006random}
+Kevin~P Costello, Terence Tao, and Van Vu.
+\newblock Random symmetric matrices are almost surely nonsingular.
+\newblock {\em Duke Math Journal}, 2006.
+
+\bibitem{ferber2023random}
+Asaf Ferber, Vishesh Jain, Ashwin Sah, and Mehtaab Sawhney.
+\newblock Random symmetric matrices: rank distribution and irreducibility of the characteristic polynomial.
+\newblock In {\em Mathematical Proceedings of the Cambridge Philosophical Society}, volume 174, pages 233--246. Cambridge University Press, 2023.
+
+\bibitem{friedman1989distribution}
+Eduardo Friedman and Lawrence~C Washington.
+\newblock On the distribution of divisor class groups of curves over a finite field.
+\newblock In {\em Th{\'e}orie des nombres}, pages 227--239. de Gruyter Berlin, 1989.
+
+\bibitem{fulman2015stein}
+Jason Fulman and Larry Goldstein.
+\newblock Stein’s method and the rank distribution of random matrices over finite fields.
+\newblock {\em Annals of Probability}, 2015.
+
+\bibitem{guruswami2012essential}
+Venkatesan Guruswami, Atri Rudra, and Madhu Sudan.
+\newblock Essential coding theory.
+\newblock {\em Draft available at http://www. cse. buffalo. edu/atri/courses/coding-theory/book}, 2(1), 2012.
+
+\bibitem{hodges2024distribution}
+Eliot Hodges.
+\newblock The distribution of sandpile groups of random graphs with their pairings.
+\newblock {\em Transactions of the American Mathematical Society}, 377(12):8769--8815, 2024.
+
+\bibitem{huang2025cohen}
+Yifeng Huang, Hoi~H Nguyen, and Roger Van~Peski.
+\newblock Cohen-lenstra flag universality for random matrix products.
+\newblock {\em arXiv preprint arXiv:2508.10127}, 2025.
+
+\bibitem{kovaleva2023distribution}
+Valeriya Kovaleva.
+\newblock On the distribution of equivalence classes of random symmetric p-adic matrices.
+\newblock {\em Mathematika}, 69(4):903--933, 2023.
+
+\bibitem{lee2023universality}
+Jungin Lee.
+\newblock Universality of the cokernels of random $p$-adic hermitian matrices.
+\newblock {\em Transactions of the American Mathematical Society}, 376(12):8699--8732, 2023.
+
+\bibitem{lorenzini2008smith}
+Dino Lorenzini.
+\newblock Smith normal form and laplacians.
+\newblock {\em Journal of Combinatorial Theory, Series B}, 98(6):1271--1300, 2008.
+
+\bibitem{maples2013cokernels}
+Kenneth Maples.
+\newblock Cokernels of random matrices satisfy the cohen-lenstra heuristics.
+\newblock {\em arXiv preprint arXiv:1301.1239}, 2013.
+
+\bibitem{Maples_symma_2013}
+Kenneth Maples.
+\newblock Symmetric random matrices over finite fields: Announcement.
+\newblock \url{https://user.math.uzh.ch/maples/maples.symma.pdf}, 2013.
+\newblock Preprint.
+
+\bibitem{meszaros2024phase}
+Andr{\'a}s M{\'e}sz{\'a}ros.
+\newblock A phase transition for the cokernels of random band matrices over the p-adic integers.
+\newblock {\em arXiv preprint arXiv:2408.13037}, 2024.
+
+\bibitem{nguyen2024universality}
+Hoi~H Nguyen and Roger Van~Peski.
+\newblock Universality for cokernels of random matrix products.
+\newblock {\em Advances in Mathematics}, 438:109451, 2024.
+
+\bibitem{nguyen2022random}
+Hoi~H Nguyen and Melanie~Matchett Wood.
+\newblock Random integral matrices: universality of surjectivity and the cokernel.
+\newblock {\em Inventiones mathematicae}, 228(1):1--76, 2022.
+
+\bibitem{nguyen2025local}
+Hoi~H Nguyen and Melanie~Matchett Wood.
+\newblock Local and global universality of random matrix cokernels.
+\newblock {\em Mathematische Annalen}, 391(4):5117--5210, 2025.
+
+\bibitem{poonen2012random}
+Bjorn Poonen and Eric Rains.
+\newblock Random maximal isotropic subspaces and selmer groups.
+\newblock {\em Journal of the American Mathematical Society}, 25(1):245--269, 2012.
+
+\bibitem{shen2025universality}
+Jiahe Shen.
+\newblock Universality of rational canonical form for random matrices over a finite field.
+\newblock {\em arXiv preprint arXiv:2510.16225}, 2025.
+
+\bibitem{shen2024non}
+Jiahe Shen and Roger Van~Peski.
+\newblock Non-archimedean gue corners and hecke modules.
+\newblock {\em arXiv preprint arXiv:2412.05999}, 2024.
+
+\bibitem{van2021limits}
+Roger Van~Peski.
+\newblock Limits and fluctuations of p-adic random matrix products.
+\newblock {\em Selecta Mathematica}, 27(5):98, 2021.
+
+\bibitem{van2023p}
+Roger Van~Peski.
+\newblock What is a $ p $-adic dyson brownian motion?
+\newblock {\em arXiv preprint arXiv:2309.02865}, 2023.
+
+\bibitem{van2024local}
+Roger Van~Peski.
+\newblock Local limits in p p-adic random matrix theory.
+\newblock {\em Proceedings of the London Mathematical Society}, 129(3):e12626, 2024.
+
+\bibitem{wood2017distribution}
+Melanie Wood.
+\newblock The distribution of sandpile groups of random graphs.
+\newblock {\em Journal of the American Mathematical Society}, 30(4):915--958, 2017.
+
+\bibitem{wood2022probability}
+Melanie~Matchett Wood.
+\newblock Probability theory for random groups arising in number theory.
+\newblock In {\em Proc. Int. Cong. Math}, volume~6, pages 4476--4508, 2022.
+
+\end{thebibliography}

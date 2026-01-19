@@ -1,0 +1,783 @@
+%------------------------------------------------------------------------------%
+% MATHEMATICAL HEADER v0.5.25.03.06
+% BY VICTOR SEIXAS SOUZA
+%------------------------------------------------------------------------------%
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[babel]{microtype}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{csquotes}
+
+%% General AMS packages
+\usepackage{amsmath,amssymb,amsthm}%,amsrefs}
+%\usepackage{amsfonts}
+
+\usepackage{mathrsfs}
+
+%% For DeclarePairedDelimiterXPP and other helpers
+\usepackage{mathtools}
+\usepackage{commath}
+
+\usepackage{thmtools}
+\usepackage{thm-restate}
+
+%% bbm font
+\usepackage{bbm}
+\usepackage{dsfont}
+\usepackage{lmodern}
+% use cmex rather than lmex
+\usepackage{fixcmex}
+
+\usepackage{cases}
+\usepackage{enumitem}
+%% Default Enumeration Style
+\setlist[enumerate,1]{label=(\roman*)}
+
+
+\usepackage{centernot}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage{float}
+\usepackage{scalerel}
+
+%% Hyperlinks in the document
+\usepackage[pdfborderstyle={/S/U/W 0},unicode]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!85!black,
+    citecolor=blue!85!black,
+    urlcolor=blue!85!black,
+}
+
+%% Always use \Cref or \cref instead of \ref for references
+\usepackage{cleveref}
+
+%% For \ifblank command, so \norm{} automatically gives ||.||
+
+\usepackage{etoolbox}
+
+\usepackage{subfiles}
+\usepackage{pdfpages}
+
+
+%------------------------------------------------------------------------------%
+
+%% Miscelaneous Options
+
+
+%% Equation Numbering
+\numberwithin{equation}{section}
+
+%% Spacing between lines
+\linespread{1.07}
+
+%% Can also use \AtBeginEnvironment{bmatrix}{\setlength{\arraycolsep}{50pt}}
+%% From etoolbox for instance, to change arraycolsep for an in given environment
+\arraycolsep 1pt
+
+%% arXiv citing
+%\renewcommand{\eprint}[1]{\href{https://arxiv.org/abs/#1}{arXiv:#1}}
+%\renewcommand{\eprint}[1]{arXiv:#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%            FIX THIS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Make refcheck also check Cref and cref references
+\ifdefined\checkunusedreferences
+\usepackage{refcheck}
+
+\makeatletter
+\newcommand{\alsocheck}[1]{%
+  \expandafter\let\csname @@\string#1\endcsname#1%
+  \expandafter\DeclareRobustCommand\csname relax\string#1\endcsname[1]{%
+    \csname @@\string#1\endcsname{##1}\@for\@temp:=##1\do{\wrtusdrf{\@temp}\wrtusdrf{{\@temp}}}}%
+  \expandafter\let\expandafter#1\csname relax\string#1\endcsname
+}
+\newcommand{\alsocheckrange}[1]{%
+  \expandafter\let\csname @@\string#1\endcsname#1%
+  \expandafter\DeclareRobustCommand\csname relax\string#1\endcsname[2]{%
+    \csname @@\string#1\endcsname{##1}{##2}\wrtusdrf{##1}\wrtusdrf{{##1}}\wrtusdrf{##2}\wrtusdrf{{##2}}}%
+  \expandafter\let\expandafter#1\csname relax\string#1\endcsname
+}
+\makeatother
+
+\alsocheck{\cref}
+\alsocheck{\Cref}
+\alsocheckrange{\crefrange}
+\alsocheckrange{\Crefrange}
+
+\else
+\fi
+
+
+
+
+%------------------------------------------------------------------------------%
+
+%% Theorem Types
+
+
+% Main style, for theorems
+% \ifdefined\thmcolor
+% \declaretheoremstyle{plain}
+% \else
+% \fi
+
+% Non-italic style, for definitions and remarks
+\ifdefined\defcolor
+\declaretheoremstyle[
+  headfont=\normalfont\bfseries,
+  bodyfont=\normalfont,
+  shaded={bgcolor=\defcolor}
+]{noital}
+\else
+\declaretheoremstyle[
+  headfont=\normalfont\bfseries,
+  bodyfont=\normalfont,
+]{noital}
+\fi
+
+%%% Theorem-style
+
+% Numbered Versions
+\declaretheorem[style=plain,numberwithin=section,name=Theorem]{theorem}
+\declaretheorem[style=plain,sibling=theorem,name=Theorems]{theorems}
+\declaretheorem[style=plain,sibling=theorem,name=Proposition]{proposition}
+\declaretheorem[style=plain,sibling=theorem,name=Propositions]{propositions}
+\declaretheorem[style=plain,sibling=theorem,name=Lemma]{lemma}
+\declaretheorem[style=plain,sibling=theorem,name=Lemmas]{lemmas}
+\declaretheorem[style=plain,sibling=theorem,name=Corollary]{corollary}
+\declaretheorem[style=plain,sibling=theorem,name=Corollaries]{corollaries}
+\declaretheorem[style=plain,sibling=theorem,name=Conjecture]{conjecture}
+\declaretheorem[style=plain,sibling=theorem,name=Conjectures]{conjectures}
+\declaretheorem[style=plain,sibling=theorem,name=Question]{question}
+\declaretheorem[style=plain,sibling=theorem,name=Questions]{questions}
+\declaretheorem[style=plain,sibling=theorem,name=Claim]{claim}
+\declaretheorem[style=plain,sibling=theorem,name=Claims]{claims}
+\declaretheorem[style=plain,sibling=theorem,name=Fact]{fact}
+\declaretheorem[style=plain,sibling=theorem,name=Facts]{facts}
+\declaretheorem[style=plain,sibling=theorem,name=Problem]{problem}
+\declaretheorem[style=plain,sibling=theorem,name=Problems]{problems}
+\declaretheorem[style=plain,sibling=theorem,name=Open Problem]{openproblem}
+\declaretheorem[style=plain,sibling=theorem,name=Open Problems]{openproblems}
+\declaretheorem[style=plain,sibling=theorem,name=Challenge]{challenge}
+\declaretheorem[style=plain,sibling=theorem,name=Challenges]{challenges}
+\declaretheorem[style=plain,sibling=theorem,name=Exercise]{exercise}
+\declaretheorem[style=plain,sibling=theorem,name=Exercises]{exercises}
+\declaretheorem[style=plain,sibling=theorem,name=Property]{property}
+\declaretheorem[style=plain,sibling=theorem,name=Properties]{properties}
+% Non Numbered Versions
+\declaretheorem[style=plain,numbered=no,name=Theorem]{theoremn-n}
+\declaretheorem[style=plain,numbered=no,name=Theorems]{theorems-n}
+\declaretheorem[style=plain,numbered=no,name=Proposition]{proposition-n}
+\declaretheorem[style=plain,numbered=no,name=Propositions]{propositions-n}
+\declaretheorem[style=plain,numbered=no,name=Lemma]{lemma-n}
+\declaretheorem[style=plain,numbered=no,name=Lemmas]{lemmas-n}
+\declaretheorem[style=plain,numbered=no,name=Corollary]{corollary-n}
+\declaretheorem[style=plain,numbered=no,name=Corollaries]{corollaries-n}
+\declaretheorem[style=plain,numbered=no,name=Conjecture]{conjecture-n}
+\declaretheorem[style=plain,numbered=no,name=Conjectures]{conjectures-n}
+\declaretheorem[style=plain,numbered=no,name=Question]{question-n}
+\declaretheorem[style=plain,numbered=no,name=Questions]{questions-n}
+\declaretheorem[style=plain,numbered=no,name=Claim]{claim-n}
+\declaretheorem[style=plain,numbered=no,name=Claims]{claims-n}
+\declaretheorem[style=plain,numbered=no,name=Fact]{fact-n}
+\declaretheorem[style=plain,numbered=no,name=Facts]{facts-n}
+\declaretheorem[style=plain,numbered=no,name=Problem]{problem-n}
+\declaretheorem[style=plain,numbered=no,name=Problems]{problems-n}
+\declaretheorem[style=plain,numbered=no,name=Open Problem]{openproblem-n}
+\declaretheorem[style=plain,numbered=no,name=Open Problems]{openproblems-n}
+\declaretheorem[style=plain,numbered=no,name=Challenge]{challenge-n}
+\declaretheorem[style=plain,numbered=no,name=Challenges]{challenges-n}
+\declaretheorem[style=plain,numbered=no,name=Exercise]{exercise-n}
+\declaretheorem[style=plain,numbered=no,name=Exercises]{exercises-n}
+\declaretheorem[style=plain,numbered=no,name=Property]{property-n}
+\declaretheorem[style=plain,numbered=no,name=Properties]{properties-n}
+
+%%% Definition-style
+
+% Numbered Versions
+\declaretheorem[style=noital,sibling=theorem,name=Remark]{remark}
+\declaretheorem[style=noital,sibling=theorem,name=Remarks]{remarks}
+\declaretheorem[style=noital,sibling=theorem,name=Definition]{definition}
+\declaretheorem[style=noital,sibling=theorem,name=Definitions]{definitions}
+\declaretheorem[style=noital,sibling=theorem,name=Construction]{construction}
+\declaretheorem[style=noital,sibling=theorem,name=Constructions]{constructions}
+\declaretheorem[style=noital,sibling=theorem,name=Observation]{observation}
+\declaretheorem[style=noital,sibling=theorem,name=Observations]{observations}
+\declaretheorem[style=noital,sibling=theorem,name=Example]{example}
+\declaretheorem[style=noital,sibling=theorem,name=Examples]{examples}
+% Non Numbered Versions
+\declaretheorem[style=noital,numbered=no,name=Remark]{remark-n}
+\declaretheorem[style=noital,numbered=no,name=Remarks]{remarks-n}
+\declaretheorem[style=noital,numbered=no,name=Definition]{definition-n}
+\declaretheorem[style=noital,numbered=no,name=Definitions]{definitions-n}
+\declaretheorem[style=noital,numbered=no,name=Construction]{construction-n}
+\declaretheorem[style=noital,numbered=no,name=Constructions]{constructions-n}
+\declaretheorem[style=noital,numbered=no,name=Observation]{observation-n}
+\declaretheorem[style=noital,numbered=no,name=Observations]{observations-n}
+\declaretheorem[style=noital,numbered=no,name=Example]{example-n}
+\declaretheorem[style=noital,numbered=no,name=Examples]{examples-n}
+
+
+
+
+
+%%%% REDEFINE A BUNCH OF EQUATIONS SO THEY WORK WELL WITH CREF
+
+%% Create command for (1 + o(1))
+
+
+%% Create command for intervals
+
+%% Create a document that shows off each decision
+
+
+%------------------------------------------------------------------------------%
+
+%% General Semantics
+
+
+%% Inline Definition
+\newcommand{\indef}[1]{\emph{#1}}
+
+%% Definied :=
+\newcommand{\defined}{\mathrel{\coloneqq}}
+%% Defines =:
+\newcommand{\defines}{\mathrel{\eqqcolon}}
+
+%% Parenthesis
+\DeclarePairedDelimiter{\p}{\lparen}{\rparen}
+
+%% Slanted
+\renewcommand{\le}{\leqslant}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\geq}{\geqslant}
+
+
+%------------------------------------------------------------------------------%
+
+%% Foundations
+
+
+%% Quantifiers
+\let\oldexists\exists
+\let\exists\relax
+\DeclareMathOperator{\exists}{\:\!\oldexists}
+\let\oldforall\forall
+\let\forall\relax
+\DeclareMathOperator{\forall}{\:\!\oldforall}
+
+%% Such that
+\newcommand{\st}{\mathbin{\colon}}
+%\newcommand{\st}{\colon}
+%% Set
+\undef{\set}
+\DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
+
+%% Empty Set
+%\let\oldemptyset\emptyset
+\undef{\emptyset}
+\newcommand{\emptyset}{\varnothing}
+
+%% Cardinality
+\DeclarePairedDelimiter{\card}{\lvert}{\rvert}
+
+%% Powerset
+%% REDEFINE
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+
+%% Union
+\newcommand{\union}{\mathbin{\cup}}
+%% Intersection
+\newcommand{\inter}{\mathbin{\cap}}
+%% Complement
+\newcommand{\setcomp}[1]{{#1}^{\mathsf{c}}}
+\newcommand{\comp}{\mathsf{c}}
+
+%% Indicator function
+\DeclareMathOperator{\ind}{\mathbf{1}}
+
+%% Function from. eg: $f \from X \to Y$ for "f : X -> Y"
+\newcommand{\from}{\colon}
+
+%% Composition of functions
+\DeclareMathOperator{\compo}{\circ}
+
+%% Homomorphism
+\DeclareMathOperator{\Hom}{Hom}
+%\DeclareMathOperator{\hom}{hom}
+%% Injection
+\DeclareMathOperator{\Inj}{Inj}
+\DeclareMathOperator{\inj}{inj}
+%% Automorphism
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\aut}{aut}
+
+%% Small sum
+\newcommand{\ssum}{{\textstyle \sum}}
+%% Small integral
+\newcommand{\sint}{{\textstyle \int}}
+%% Small product
+\newcommand{\sprod}{{\textstyle \prod}}
+%% Small cup
+\newcommand{\scup}{{\textstyle \bigcup}}
+
+%% Floor
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+%% Ceil
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+%% Expectation Operator. eg $\expecs_{x \in G} f(x)$
+\DeclareMathOperator*{\expecs}{\scalerel*{\mathbb{E}}{A_B}}
+
+%------------------------------------------------------------------------------%
+
+%% Calculus
+
+%% Integral d
+\renewcommand{\d}{\mathop{}\!\mathrm{d}}
+%% Common integral variables
+\newcommand{\dt}{\d t}
+\newcommand{\ds}{\d s}
+\newcommand{\du}{\d u}
+\newcommand{\dx}{\d x}
+\newcommand{\dy}{\d y}
+\newcommand{\dz}{\d z}
+\newcommand{\dw}{\d w}
+
+%% Gradient
+\newcommand{\grad}{\nabla}
+\newcommand{\hess}{\nabla^2}
+
+%------------------------------------------------------------------------------%
+
+%% Number Theory
+
+%% Loglogs
+\DeclareMathOperator{\loglog}{log\,log}
+\DeclareMathOperator{\logloglog}{log\,log\,log}
+\DeclareMathOperator{\loglogloglog}{log\,log\,log\,log}
+
+%% Divisibility
+\newcommand{\divides}{\mathrel{\mid}}
+\newcommand{\ndivides}{\mathrel{\nmid}}
+%% Equivalent mod
+\DeclareMathOperator{\eqmod}{\equiv}
+%% Mod
+\undef{\mod}
+\newcommand{\mod}[1]{\ (\mathrm{mod}\ #1)}
+
+%% Radical
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\lcm}{lcm}
+
+
+%------------------------------------------------------------------------------%
+
+%% Graph Theory
+
+
+%% Extremal number in Graph Theory
+\DeclareMathOperator{\ex}{ex}
+
+%% Cayley graph
+\DeclareMathOperator{\Cayley}{Cay}
+
+%------------------------------------------------------------------------------%
+
+%% Spaces
+
+
+%% Absolute value
+\undef{\abs}
+\DeclarePairedDelimiterX{\abs}[1]
+  {\lvert}{\rvert}{\ifblank{#1}{\,\cdot\,}{#1}}
+%% Norm
+\undef{\norm}
+\DeclarePairedDelimiterX{\norm}[1]
+  {\lVert}{\rVert}{\ifblank{#1}{\,\cdot\,}{#1}}
+%% Inner Product
+\DeclarePairedDelimiterX{\inner}[2]
+  {\langle}{\rangle}{\ifblank{#1}{\,\cdot\,}{#1},\ifblank{#2}{\,\cdot\,}{#2}}
+
+
+%% Complex conjugation
+\newcommand*{\conj}[1]{\overline{#1}}
+%% Convolution
+\DeclareMathOperator{\conv}{\ast}
+
+%% Real and Complex parts
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\Arg}{\operatorname{Arg}}
+
+%% Diameter
+\DeclareMathOperator{\diam}{diam}
+%% Support
+\DeclareMathOperator{\supp}{supp}
+
+%% Rank
+\DeclareMathOperator{\rank}{rank}
+%% Column
+\DeclareMathOperator{\col}{col}
+%% Row
+\DeclareMathOperator{\row}{row}
+%% Span (as vector space)
+\DeclareMathOperator{\vspan}{span}
+%% Projection
+\DeclareMathOperator{\proj}{proj}
+
+%% Lipschitz
+\DeclareMathOperator{\Lip}{Lip}
+
+%% Embedding hook
+\DeclareMathOperator{\embeds}{\hookrightarrow}
+
+%------------------------------------------------------------------------------%
+% Groups
+
+%% Order of element
+\DeclareMathOperator{\ord}{ord}
+
+%------------------------------------------------------------------------------%
+% Matrices
+
+%% Matrix
+\DeclareMathOperator{\Mat}{Mat}
+%% Transpose
+\newcommand{\tran}{\top}
+%% Trace
+\DeclareMathOperator{\trace}{tr}
+%% Determinant
+%\DeclareMathOperator{\det}{det}
+%% Singular values
+\DeclareMathOperator{\smin}{s_{\min}}
+\DeclareMathOperator{\smax}{s_{\max}}
+%% Tensor
+\DeclareMathOperator{\tensor}{\otimes}
+
+%% Positive definite
+\DeclareMathOperator{\pdleq}{\preccurlyeq}
+\DeclareMathOperator{\pdgeq}{\succcurlyeq}
+\DeclareMathOperator{\pdle}{\prec}
+\DeclareMathOperator{\pdge}{\succ}
+
+%% Hadamard product
+\DeclareMathOperator{\hadprod}{\circ}
+
+%------------------------------------------------------------------------------%
+
+%% Measure and Probability
+
+
+%% Distributed as
+\DeclareMathOperator{\dist}{\sim}
+
+%% General Measures
+\DeclareMathOperator{\Unif}{Unif}
+\DeclareMathOperator{\Haar}{Haar}
+\DeclareMathOperator{\Leb}{Leb}
+\DeclareMathOperator{\vol}{vol}
+
+%% Discrete Measures
+\DeclareMathOperator{\Ber}{Ber}
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Rad}{Rad}
+\DeclareMathOperator{\Geo}{Geo}
+\DeclareMathOperator{\NegBin}{NB}
+\DeclareMathOperator{\HyperGeo}{HypGeo}
+\DeclareMathOperator{\Po}{Po}
+
+%% Continuous Measures
+\DeclareMathOperator{\Nor}{\mathcal{N}}
+\DeclareMathOperator{\Gauss}{\mathcal{N}}
+\DeclareMathOperator{\Exp}{Exp}
+%\DeclareMathOperator{\GammaLaw}{\Gamma}
+%\DeclareMathOperator{\BetaLaw}{\beta}
+\DeclareMathOperator{\Weibull}{W}
+\DeclareMathOperator{\Student}{S}
+
+%% Essensial Supremum
+\DeclareMathOperator*{\esssup}{ess\,sup}
+
+%% Total Variation
+\DeclareMathOperator{\TV}{TV}
+%% Total Variation Distance
+\DeclareMathOperator{\dtv}{d_{\TV}}
+
+%% Convergence
+\newcommand{\converges}[1]{\xrightarrow[]{#1}}
+\newcommand{\convlaw}{\converges{\operatorname{law}}}
+\newcommand{\convprob}{\converges{\operatorname{prob}}}
+\newcommand{\convdist}{\converges{\operatorname{dist}}}
+\newcommand{\convmeas}{\converges{\operatorname{meas}}}
+\newcommand{\convtv}{\converges{\TV}}
+\newcommand{\convas}{\converges{\operatorname{a.s.}}}
+
+%% With high probability
+\newcommand{\whp}{w.h.p. }
+%% Independently identically distributed
+\newcommand{\iid}{i.i.d. }
+%% Almost surelly
+\newcommand{\as}{a.s. }
+% NOTE MAYBE LATEX TREAT . as an end of sentence
+
+%% Probability and Expectations
+%  Note that these commands created with DeclarePairedDelimiter do not
+%  work with line breaks. If you need to span a probability over several lines,
+%  use \prob instead of \Prob
+%% Conditional Symbol
+\DeclareMathDelimiter{\given}
+  {\mathbin}{symbols}{"6A}{largesymbols}{"0C}
+%% Probability
+\DeclareMathOperator{\Prob}{\mathbb{P}}
+\DeclarePairedDelimiterXPP{\prob}[1]
+  {\Prob}{\lparen}{\rparen}{}
+  {\renewcommand{\given}{\nonscript\;\delimsize\vert\nonscript\;\mathopen{}}#1}
+%% Expectation
+\DeclareMathOperator{\Expec}{\mathbb{E}}
+\DeclarePairedDelimiterXPP{\expec}[1]
+  {\Expec}{\lparen}{\rparen}{}
+  {\renewcommand{\given}{\nonscript\;\delimsize\vert\nonscript\;\mathopen{}}#1}
+%% Variance
+\DeclareMathOperator{\Var}{Var}
+\DeclarePairedDelimiterXPP{\var}[1]
+  {\Var}{\lparen}{\rparen}{}
+  {\renewcommand{\given}{\nonscript\;\delimsize\vert\nonscript\;\mathopen{}}#1}
+%% Covariance (Binary only, for more than two variables, use \cov)
+\DeclareMathOperator{\Cov}{Cov}
+\DeclarePairedDelimiterXPP{\cov}[2]
+  {\Cov}{\lparen}{\rparen}{}{#1,#2}
+
+%% TODO
+%% Make a command to make new measures
+%% Something like
+%% \probabilities{\mathbb{P}}{\prob}{\mathbb{E}}{\expec}
+%% https://tex.stackexchange.com/questions/65780/macro-defining-macro/65781#65781
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+%------------------------------------------------------------------------------%
+
+%% Good practices to remember
+
+%% Dots
+% \dotsc for “dots with commas”
+% \dotsb for “dots with binary operators/relations”
+% \dotsm for “multiplication dots”
+% \dotsi for “dots with integrals”
+% \dotso for “other dots” (none of the above)
+
+%% Never use \left \right and \middle
+% Control the parenthesis sizes manually
+% That means using \bigl \bigr and \bigm
+% Or the corresponding \Bigr \biggr and \Biggr
+% Avoid using just \big for spacing reasons
+
+%------------------------------------------------------------------------------%
+
+%% Font Shortcuts
+
+%% Varepsilon is too common to have sucha a long name
+\newcommand{\eps}{\varepsilon}
+
+%% Blackboard font
+\let\AA\relax
+\let\LL\relax
+\let\SS\relax
+\newcommand{\AA}{\mathbb{A}}
+\newcommand{\BB}{\mathbb{B}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\DD}{\mathbb{D}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\GG}{\mathbb{G}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\II}{\mathbb{I}}
+\newcommand{\JJ}{\mathbb{J}}
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\MM}{\mathbb{M}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\OO}{\mathbb{O}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\SS}{\mathbb{S}}
+\newcommand{\TT}{\mathbb{T}}
+\newcommand{\UU}{\mathbb{U}}
+\newcommand{\VV}{\mathbb{V}}
+\newcommand{\WW}{\mathbb{W}}
+\newcommand{\XX}{\mathbb{X}}
+\newcommand{\YY}{\mathbb{Y}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+%% Caligraphic font
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cJ}{\mathcal{J}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cZ}{\mathcal{Z}}
+
+%% Roman font
+\newcommand{\rA}{\mathrm{A}}
+\newcommand{\rB}{\mathrm{B}}
+\newcommand{\rC}{\mathrm{C}}
+\newcommand{\rD}{\mathrm{D}}
+\newcommand{\rE}{\mathrm{E}}
+\newcommand{\rF}{\mathrm{F}}
+\newcommand{\rG}{\mathrm{G}}
+\newcommand{\rH}{\mathrm{H}}
+\newcommand{\rI}{\mathrm{I}}
+\newcommand{\rJ}{\mathrm{J}}
+\newcommand{\rK}{\mathrm{K}}
+\newcommand{\rL}{\mathrm{L}}
+\newcommand{\rM}{\mathrm{M}}
+\newcommand{\rN}{\mathrm{N}}
+\newcommand{\rO}{\mathrm{O}}
+\newcommand{\rP}{\mathrm{P}}
+\newcommand{\rQ}{\mathrm{Q}}
+\newcommand{\rR}{\mathrm{R}}
+\newcommand{\rS}{\mathrm{S}}
+\newcommand{\rT}{\mathrm{T}}
+\newcommand{\rU}{\mathrm{U}}
+\newcommand{\rV}{\mathrm{V}}
+\newcommand{\rW}{\mathrm{W}}
+\newcommand{\rX}{\mathrm{X}}
+\newcommand{\rY}{\mathrm{Y}}
+\newcommand{\rZ}{\mathrm{Z}}
+
+%% Bold font
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfF}{\mathbf{F}}
+\newcommand{\bfG}{\mathbf{G}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfJ}{\mathbf{J}}
+\newcommand{\bfK}{\mathbf{K}}
+\newcommand{\bfL}{\mathbf{L}}
+\newcommand{\bfM}{\mathbf{M}}
+\newcommand{\bfN}{\mathbf{N}}
+\newcommand{\bfO}{\mathbf{O}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfR}{\mathbf{R}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfT}{\mathbf{T}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfV}{\mathbf{V}}
+\newcommand{\bfW}{\mathbf{W}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bfY}{\mathbf{Y}}
+\newcommand{\bfZ}{\mathbf{Z}}
+
+\newcommand{\bfa}{\mathbf{a}}
+\newcommand{\bfb}{\mathbf{b}}
+\newcommand{\bfc}{\mathbf{c}}
+\newcommand{\bfd}{\mathbf{d}}
+\newcommand{\bfe}{\mathbf{e}}
+\newcommand{\bff}{\mathbf{f}}
+\newcommand{\bfg}{\mathbf{g}}
+\newcommand{\bfh}{\mathbf{h}}
+\newcommand{\bfi}{\mathbf{i}}
+\newcommand{\bfj}{\mathbf{j}}
+\newcommand{\bfk}{\mathbf{k}}
+\newcommand{\bfl}{\mathbf{l}}
+\newcommand{\bfm}{\mathbf{m}}
+\newcommand{\bfn}{\mathbf{n}}
+\newcommand{\bfo}{\mathbf{o}}
+\newcommand{\bfp}{\mathbf{p}}
+\newcommand{\bfq}{\mathbf{q}}
+\newcommand{\bfr}{\mathbf{r}}
+\newcommand{\bfs}{\mathbf{s}}
+\newcommand{\bft}{\mathbf{t}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfv}{\mathbf{v}}
+\newcommand{\bfw}{\mathbf{w}}
+\newcommand{\bfx}{\mathbf{x}}
+\newcommand{\bfy}{\mathbf{y}}
+\newcommand{\bfz}{\mathbf{z}}
+\newcommand{\bfell}{\boldsymbol{\ell}}
+
+\newcommand{\bfGamma}{\mathbf{\Gamma}}
+\newcommand{\bfDelta}{\mathbf{\Delta}}
+\newcommand{\bfTheta}{\mathbf{\Theta}}
+\newcommand{\bfUpsilon}{\mathbf{\Upsilon}}
+\newcommand{\bfLambda}{\mathbf{\Lambda}}
+\newcommand{\bfXi}{\mathbf{\Xi}}
+\newcommand{\bfPi}{\mathbf{\Pi}}
+\newcommand{\bfSigma}{\mathbf{\Sigma}}
+\newcommand{\bfPhi}{\mathbf{\Phi}}
+\newcommand{\bfPsi}{\mathbf{\Psi}}
+\newcommand{\bfOmega}{\mathbf{\Omega}}
+
+\newcommand{\bfalpha}{\boldsymbol{\alpha}}
+\newcommand{\bfbeta}{\boldsymbol{\beta}}
+\newcommand{\bfgamma}{\boldsymbol{\gamma}}
+\newcommand{\bfdelta}{\boldsymbol{\delta}}
+\newcommand{\bfeps}{\boldsymbol{\eps}}
+\newcommand{\bfepsilon}{\boldsymbol{\epsilon}}
+\newcommand{\bfvarepsilon}{\boldsymbol{\varepsilon}}
+\newcommand{\bfzeta}{\boldsymbol{\zeta}}
+\newcommand{\bfeta}{\boldsymbol{\eta}}
+\newcommand{\bftheta}{\boldsymbol{\theta}}
+\newcommand{\bfvartheta}{\boldsymbol{\vartheta}}
+\newcommand{\bfupsilon}{\boldsymbol{\upsilon}}
+\newcommand{\bfiota}{\boldsymbol{\iota}}
+\newcommand{\bfkappa}{\boldsymbol{\kappa}}
+\newcommand{\bflambda}{\boldsymbol{\lambda}}
+\newcommand{\bfmu}{\boldsymbol{\mu}}
+\newcommand{\bfnu}{\boldsymbol{\nu}}
+\newcommand{\bfxi}{\boldsymbol{\xi}}
+\newcommand{\bfpi}{\boldsymbol{\pi}}
+\newcommand{\bfrho}{\boldsymbol{\rho}}
+\newcommand{\bfvarrho}{\boldsymbol{\varrho}}
+\newcommand{\bfsigma}{\boldsymbol{\sigma}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+\newcommand{\bfphi}{\boldsymbol{\phi}}
+\newcommand{\bfvarphi}{\boldsymbol{\varphi}}
+\newcommand{\bfchi}{\boldsymbol{\chi}}
+\newcommand{\bfpsi}{\boldsymbol{\psi}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+
+\newcommand{\bfzero}{\mathbf{0}}
+\newcommand{\bfone}{\mathbf{1}}
+%------------------------------------------------------------------------------%
