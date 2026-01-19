@@ -21,9 +21,6 @@ async def chat_start():
 
 @cl.on_message
 async def on_message(message: cl.Message):
-    """
-    Runs ingestion + summarization in one shot.
-    """
     arxiv_id = message.content.strip()
 
     if not arxiv_id:
@@ -36,15 +33,15 @@ async def on_message(message: cl.Message):
         content=f"📄 Downloading, cleaning LaTeX, and summarizing `{arxiv_id}`..."
     ).send()
 
-    # Run the full LangGraph (ingest → summarize)
-    final_state = app.invoke({
+    final_state = await cl.make_async(app.invoke)({
         "arxiv_id": arxiv_id,
         "tex": "",
         "summary": ""
     })
 
+    print("FINAL STATE:", final_state)
+
     summary = final_state.get("summary", "❌ No summary produced.")
 
-    await cl.Message(
-        content=summary
-    ).send()
+    await cl.Message(content=summary).send()
+

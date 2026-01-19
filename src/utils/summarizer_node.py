@@ -22,4 +22,7 @@ def summarizer_node(state: GraphState) -> GraphState:
 
     print(">>> SUMMARY RECEIVED, LENGTH:", len(summary))
 
-    return {"summary": summary}
+    return {
+        **state,
+        "summary": summary
+    }
