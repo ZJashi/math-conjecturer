@@ -1,0 +1,255 @@
+\begin{thebibliography}{34}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Arizmendi et~al.(2025)Arizmendi, Mendoza, and
+  Vazquez-Becerra]{ARIZMENDI2025110712}
+O.~Arizmendi, S.~R. Mendoza, and J.~Vazquez-Becerra.
+\newblock Bmt independence.
+\newblock \emph{Journal of Functional Analysis}, 288\penalty0 (2):\penalty0
+  110712, 2025.
+\newblock ISSN 0022-1236.
+\newblock \doi{https://doi.org/10.1016/j.jfa.2024.110712}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0022123624004002}.
+
+\bibitem[Borgs et~al.()Borgs, Chayes, Lovász, Sós, and
+  Vesztergombi]{borgs2006counting}
+C.~Borgs, J.~Chayes, L.~Lovász, V.~T. Sós, and K.~Vesztergombi.
+\newblock \emph{Counting Graph Homomorphisms}, page 315–371.
+\newblock Springer Berlin Heidelberg.
+\newblock ISBN 9783540336983.
+\newblock \doi{10.1007/3-540-33700-8_18}.
+\newblock URL \url{http://dx.doi.org/10.1007/3-540-33700-8_18}.
+
+\bibitem[Borgs et~al.(2008)Borgs, Chayes, Lov\'asz, S\'os, and
+  Vesztergombi]{lovasz2008convergence1}
+C.~Borgs, J.~T. Chayes, L.~Lov\'asz, V.~T. S\'os, and K.~Vesztergombi.
+\newblock Convergent sequences of dense graphs. {I}. {S}ubgraph frequencies,
+  metric properties and testing.
+\newblock \emph{Adv. Math.}, 219\penalty0 (6):\penalty0 1801--1851, 2008.
+\newblock ISSN 0001-8708,1090-2082.
+\newblock \doi{10.1016/j.aim.2008.07.008}.
+\newblock URL \url{https://doi.org/10.1016/j.aim.2008.07.008}.
+
+\bibitem[Borgs et~al.(2012)Borgs, Chayes, Lov\'asz, S\'os, and
+  Vesztergombi]{lovasz2012convergence2}
+C.~Borgs, J.~T. Chayes, L.~Lov\'asz, V.~T. S\'os, and K.~Vesztergombi.
+\newblock Convergent sequences of dense graphs {II}. {M}ultiway cuts and
+  statistical physics.
+\newblock \emph{Ann. of Math. (2)}, 176\penalty0 (1):\penalty0 151--219, 2012.
+\newblock ISSN 0003-486X,1939-8980.
+\newblock \doi{10.4007/annals.2012.176.1.2}.
+\newblock URL \url{https://doi.org/10.4007/annals.2012.176.1.2}.
+
+\bibitem[Bo{\.z}ejko(1998)]{bozejko1998completely}
+M.~Bo{\.z}ejko.
+\newblock Completely positive maps on {C}oxeter groups and the
+  ultracontractivity of the q-{O}rnstein-{U}hlenbeck semigroup.
+\newblock \emph{Banach Center Publications}, 43\penalty0 (1):\penalty0 87--93,
+  1998.
+
+\bibitem[Bo{\.z}ejko and Speicher(1991)]{bozejko1991example}
+M.~Bo{\.z}ejko and R.~Speicher.
+\newblock An example of a generalized {B}rownian motion.
+\newblock \emph{Communications in Mathematical Physics}, 137:\penalty0
+  519--531, 1991.
+
+\bibitem[Bożejko and Speicher(1994)]{bozejko1994completely}
+M.~Bożejko and R.~Speicher.
+\newblock Completely positive maps on {C}oxeter groups, deformed commutation
+  relations, and operator spaces.
+\newblock \emph{Mathematische Annalen}, 300\penalty0 (1):\penalty0 97–120,
+  Sept. 1994.
+\newblock ISSN 1432-1807.
+\newblock \doi{10.1007/bf01450478}.
+\newblock URL \url{http://dx.doi.org/10.1007/BF01450478}.
+
+\bibitem[Bożejko et~al.(1997)Bożejko, K\"{u}mmerer, and Speicher]{boejko1997}
+M.~Bożejko, B.~K\"{u}mmerer, and R.~Speicher.
+\newblock q -{G}aussian processes: Non-commutative and classical aspects.
+\newblock \emph{Communications in Mathematical Physics}, 185\penalty0
+  (1):\penalty0 129–154, Apr. 1997.
+\newblock ISSN 1432-0916.
+\newblock \doi{10.1007/s002200050084}.
+\newblock URL \url{http://dx.doi.org/10.1007/s002200050084}.
+
+\bibitem[Caspers and Fima(2017)]{caspers2017graph}
+M.~Caspers and P.~Fima.
+\newblock Graph products of operator algebras.
+\newblock \emph{Journal of Noncommutative Geometry}, 11\penalty0 (1):\penalty0
+  367--411, 2017.
+
+\bibitem[Charlesworth and Collins(2021)]{charlesworth2021matrix}
+I.~Charlesworth and B.~Collins.
+\newblock Matrix models for $\varepsilon$-free independence.
+\newblock \emph{Archiv der Mathematik}, 116\penalty0 (5):\penalty0 585--600,
+  2021.
+
+\bibitem[Charlesworth et~al.(2024)Charlesworth, de~Santiago, Hayes, Jekel, and
+  Elayavalli]{charlesworth2024random}
+I.~Charlesworth, R.~de~Santiago, B.~Hayes, D.~Jekel, and S.~K. Elayavalli.
+\newblock Random permutation matrix models for graph products.
+\newblock \emph{arXiv preprint arXiv:2404.07350}, 2024.
+
+\bibitem[Chistyakov and G\"{o}tze(2008)]{chistyakov2008}
+G.~P. Chistyakov and F.~G\"{o}tze.
+\newblock Limit theorems in free probability theory. i.
+\newblock \emph{The Annals of Probability}, 36\penalty0 (1), Jan. 2008.
+\newblock ISSN 0091-1798.
+\newblock \doi{10.1214/009117907000000051}.
+\newblock URL \url{http://dx.doi.org/10.1214/009117907000000051}.
+
+\bibitem[Ebrahimi-Fard et~al.(2017)Ebrahimi-Fard, Patras, and
+  Speicher]{ebrahimifard2017}
+K.~Ebrahimi-Fard, F.~Patras, and R.~Speicher.
+\newblock ${\epsilon}$ -noncrossing partitions and cumulants in free
+  probability.
+\newblock \emph{International Mathematics Research Notices}, 2018\penalty0
+  (23):\penalty0 7156–7170, May 2017.
+\newblock ISSN 1687-0247.
+\newblock \doi{10.1093/imrn/rnx098}.
+\newblock URL \url{http://dx.doi.org/10.1093/imrn/rnx098}.
+
+\bibitem[Green(1990)]{green1990graph}
+E.~R. Green.
+\newblock \emph{Graph products of groups}.
+\newblock PhD thesis, University of Leeds, 1990.
+
+\bibitem[Janson(1997)]{janson1997gaussian}
+S.~Janson.
+\newblock \emph{Gaussian {H}ilbert spaces}.
+\newblock Number 129. Cambridge university press, 1997.
+
+\bibitem[Jekel et~al.(2024)Jekel, Oussi, and Wysocza{\'n}ski]{jekel2024general}
+D.~Jekel, L.~Oussi, and J.~Wysocza{\'n}ski.
+\newblock General limit theorems for mixtures of free, monotone, and boolean
+  independence.
+\newblock \emph{arXiv preprint arXiv:2407.02276}, 2024.
+
+\bibitem[Kunszenti-Kov\'acs et~al.(2022)Kunszenti-Kov\'acs, Lov\'asz, and
+  Szegedy]{lovasz2022multigraph}
+D.~Kunszenti-Kov\'acs, L.~Lov\'asz, and B.~Szegedy.
+\newblock Multigraph limits, unbounded kernels, and {B}anach space decorated
+  graphs.
+\newblock \emph{J. Funct. Anal.}, 282\penalty0 (2):\penalty0 Paper No. 109284,
+  44, 2022.
+\newblock ISSN 0022-1236,1096-0783.
+\newblock \doi{10.1016/j.jfa.2021.109284}.
+\newblock URL \url{https://doi.org/10.1016/j.jfa.2021.109284}.
+
+\bibitem[Lancien et~al.(2024)Lancien, Santos, and
+  Youssef]{lancien2024centrallimittheoremtensor}
+C.~Lancien, P.~O. Santos, and P.~Youssef.
+\newblock Central limit theorem for tensor products of free variables, 2024.
+\newblock URL \url{https://arxiv.org/abs/2404.19662}.
+
+\bibitem[Lehner(2002)]{lehner2002free}
+F.~Lehner.
+\newblock Free cumulants and enumeration of connected partitions.
+\newblock \emph{European Journal of Combinatorics}, 23\penalty0 (8):\penalty0
+  1025--1031, 2002.
+
+\bibitem[Lov\'asz(2012)]{lovasz2012largenetworks}
+L.~Lov\'asz.
+\newblock \emph{Large networks and graph limits}, volume~60 of \emph{American
+  Mathematical Society Colloquium Publications}.
+\newblock American Mathematical Society, Providence, RI, 2012.
+\newblock ISBN 978-0-8218-9085-1.
+\newblock \doi{10.1090/coll/060}.
+\newblock URL \url{https://doi.org/10.1090/coll/060}.
+
+\bibitem[Lov{\'a}sz and Szegedy(2006)]{lovasz2006limits}
+L.~Lov{\'a}sz and B.~Szegedy.
+\newblock Limits of dense graph sequences.
+\newblock \emph{Journal of Combinatorial Theory, Series B}, 96\penalty0
+  (6):\penalty0 933--957, 2006.
+
+\bibitem[Magee and Thomas(2023)]{magee2308strongly}
+M.~Magee and J.~Thomas.
+\newblock Strongly convergent unitary representations of right-angled {A}rtin
+  groups, 2023.
+\newblock \emph{Preprint arxiv}, 2308, 2023.
+
+\bibitem[Mingo and Speicher(2017)]{mingo2017free}
+J.~A. Mingo and R.~Speicher.
+\newblock \emph{Free probability and random matrices}, volume~35.
+\newblock Springer, 2017.
+
+\bibitem[Miyagawa and Speicher(2023)]{miyagawa2023dual}
+A.~Miyagawa and R.~Speicher.
+\newblock A dual and conjugate system for q-{G}aussians for all q.
+\newblock \emph{Advances in Mathematics}, 413:\penalty0 108834, 2023.
+
+\bibitem[M\l{}otkowski.(2004)]{mlotkowski2004lambdafree}
+W.~M\l{}otkowski.
+\newblock Λ-free probability.
+\newblock \emph{Infinite Dimensional Analysis, Quantum Probability and Related
+  Topics}, 07\penalty0 (01):\penalty0 27–41, Mar. 2004.
+\newblock ISSN 1793-6306.
+\newblock \doi{10.1142/s0219025704001517}.
+\newblock URL \url{http://dx.doi.org/10.1142/S0219025704001517}.
+
+\bibitem[Morampudi and Laumann(2019)]{morampudi2019many}
+S.~C. Morampudi and C.~R. Laumann.
+\newblock Many-body systems with random spatially local interactions.
+\newblock \emph{Physical Review B}, 100\penalty0 (24):\penalty0 245152, 2019.
+
+\bibitem[Nica and Speicher(2006)]{nica2006lectures}
+A.~Nica and R.~Speicher.
+\newblock \emph{Lectures on the combinatorics of free probability}, volume~13.
+\newblock Cambridge University Press, 2006.
+
+\bibitem[Shlyakhtenko(2006)]{shlyakhtenko2006remarks}
+D.~Shlyakhtenko.
+\newblock Remarks on free entropy dimension.
+\newblock In \emph{Operator Algebras: The Abel Symposium 2004}, pages 249--257.
+  Springer, 2006.
+
+\bibitem[Speicher(1993)]{speicher1993generalized}
+R.~Speicher.
+\newblock Generalized statistics of macroscopic fields.
+\newblock \emph{letters in mathematical physics}, 27:\penalty0 97--104, 1993.
+
+\bibitem[Speicher and Wysocza{\'n}ski(2016)]{speicherjanusz2016mixture}
+R.~Speicher and J.~Wysocza{\'n}ski.
+\newblock Mixtures of classical and free independence.
+\newblock \emph{Arch. Math.}, 107\penalty0 (4):\penalty0 445--453, Oct. 2016.
+
+\bibitem[van Leeuwen and Maassen(1996)]{van1996obstruction}
+H.~van Leeuwen and H.~Maassen.
+\newblock An obstruction for q-deformation of the convolution product.
+\newblock \emph{Journal of Physics A: Mathematical and General}, 29\penalty0
+  (15):\penalty0 4741, 1996.
+
+\bibitem[Voiculescu(1985)]{voiculescu1985symmetries}
+D.~Voiculescu.
+\newblock \emph{Symmetries of some reduced free product C*-algebras}, page
+  556–588.
+\newblock Springer Berlin Heidelberg, 1985.
+\newblock ISBN 9783540395140.
+\newblock \doi{10.1007/bfb0074909}.
+\newblock URL \url{http://dx.doi.org/10.1007/BFb0074909}.
+
+\bibitem[Voiculescu(1998)]{voiculescu1998analogues}
+D.~Voiculescu.
+\newblock The analogues of entropy and of {F}isher's information measure in
+  free probability theory v. noncommutative {H}ilbert transforms: V.
+  {N}oncommutative {H}ilbert transforms.
+\newblock \emph{Inventiones mathematicae}, 132\penalty0 (1):\penalty0 189--227,
+  1998.
+
+\bibitem[Zhu(2019)]{zhu2019}
+Y.~Zhu.
+\newblock A graphon approach to limiting spectral distributions of
+  {W}igner‐type matrices.
+\newblock \emph{Random Structures \& Algorithms}, 56\penalty0 (1):\penalty0
+  251–279, Oct. 2019.
+\newblock ISSN 1098-2418.
+\newblock \doi{10.1002/rsa.20894}.
+\newblock URL \url{http://dx.doi.org/10.1002/rsa.20894}.
+
+\end{thebibliography}

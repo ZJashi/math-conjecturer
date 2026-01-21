@@ -1,8 +1,7 @@
 from .fetch_papers import fetch_arxiv_source
-from .find_mainTeX_and_bbls import find_main_tex
-from .find_mainTeX_and_bbls import find_bbls
+from .file_cleaning import clean_latex
+from .find_mainTeX_and_bbls import find_bbls, find_main_tex
 from .substitute_bibliography import substitute_bbl
-from .file_cleaning import  clean_latex
 from .substitute_inputs_and_includes import inline_inputs
 
 

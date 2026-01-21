@@ -1,10 +1,11 @@
 import os
+from typing import Dict, List
+
 import requests
-from typing import List, Dict
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+# DEFAULT_MODEL = "google/gemini-2.5-pro"
 DEFAULT_MODEL = "tngtech/deepseek-r1t2-chimera:free"
-
 
 def call_openrouter(messages: List[Dict[str, str]],
                     model: str = DEFAULT_MODEL,

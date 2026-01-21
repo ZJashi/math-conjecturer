@@ -1,14 +1,19 @@
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from langgraph.config import get_stream_writer
-from schema import Proposal, AgentBrainstormResult, ScrutinyResult
-from workflow import GraphState
-from src.parser.parser import parse_xml_into_proposals, render_xml_in_markdown, sanitize_memory, escape_slashes
 import os
 
+from dotenv import find_dotenv, load_dotenv
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+from langgraph.config import get_stream_writer
 
-from dotenv import load_dotenv, find_dotenv
+from schema import AgentBrainstormResult, Proposal, ScrutinyResult
+from src.parser.parser import (
+    escape_slashes,
+    parse_xml_into_proposals,
+    render_xml_in_markdown,
+    sanitize_memory,
+)
+from workflow import GraphState
 
 # --- Load Environment Variables ---
 dotenv_path = find_dotenv()

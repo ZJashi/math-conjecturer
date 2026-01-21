@@ -1,5 +1,6 @@
-'''A dummy scraper for ar5iv articles.'''
+"""A dummy scraper for ar5iv articles."""
 import os
+
 import requests
 from bs4 import BeautifulSoup
 

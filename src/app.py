@@ -1,5 +1,7 @@
-import chainlit as cl
 from pathlib import Path
+
+import chainlit as cl
+
 from utils import app
 
 

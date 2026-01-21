@@ -1,7 +1,8 @@
-import requests
-import tarfile
 import io
+import tarfile
 from pathlib import Path
+
+import requests
 
 BASE_DIR = Path(__file__).resolve().parents[2]   # your project root
 PAPERS_DIR = BASE_DIR / "papers"

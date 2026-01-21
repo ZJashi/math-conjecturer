@@ -40,6 +40,21 @@ uv sync
 
 
 ## GUI
+First, you may need to manually fix the following code. 
+```bash
+.venv/lib/chainlit/cache.py
+```
+and substitute 
+```bash
+from langchain.cache import SQLiteCache
+from langchain.globals import set_llm_cache
+```
+with
+```bash
+from langchain_community.cache import SQLiteCache
+from langchain_core.globals import set_llm_cache
+```
+
 First, run 
 ```bash
 uv run chainlit hello
@@ -49,4 +64,15 @@ to initialize. Then go to `.chainlit/config.toml` and set the variable `latex` t
 
 ```bash
 uv run chainlit run app.py -w
+```
+
+
+Also to allow latex rendering allow
+```
+latex = true
+```
+in file at location
+```angular2html
+
+.chainlit/config.toml
 ```

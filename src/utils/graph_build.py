@@ -1,4 +1,5 @@
-from langgraph.graph import StateGraph, START, END
+from langgraph.graph import END, START, StateGraph
+
 from .graph_state import GraphState
 from .ingestion_node import ingestion_node
 from .summarizer_node import summarizer_node
@@ -17,3 +18,4 @@ def build_app():
     graph.add_edge("summarize", END)
 
     return graph.compile()
+

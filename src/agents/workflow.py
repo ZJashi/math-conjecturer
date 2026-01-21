@@ -1,21 +1,18 @@
 import operator
 import os
 from pathlib import Path
-from typing import List, TypedDict, Annotated, Literal, Callable
-from langgraph.graph import StateGraph, END
+from typing import Annotated, Callable, List, Literal, TypedDict
+
+from langgraph.graph import END, StateGraph
 from langgraph.graph.state import CompiledStateGraph
+
 from schema import Proposal
 
-
-# --- 2. Define Agent Nodes and Edges ---
-# Note: The implementation of the nodes is in agents.py
-# Here, we just import them and wire them up.
-
 from .agents import (
-    set_agenda_node,
     create_specialist_node,
+    generate_summary_node,
     scrutinize_and_update_node,
-    generate_summary_node
+    set_agenda_node,
 )
 
 def should_continue(state: GraphState) -> Literal["continue", "end"]:

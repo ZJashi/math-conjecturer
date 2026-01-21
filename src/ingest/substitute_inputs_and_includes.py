@@ -1,5 +1,6 @@
 import re
 from pathlib import Path
+
 from .find_mainTeX_and_bbls import find_main_tex
 
 INPUT_RE = re.compile(r"\\(input|include)\*?\{([^}]+)\}")
