@@ -1,6 +1,11 @@
 .env
+# JetBrains IDE
 .idea/
+**/.idea/
+
+# macOS
 .DS_Store
+**/.DS_Store
 
 
 # Chainlit

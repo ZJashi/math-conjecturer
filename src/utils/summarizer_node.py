@@ -8,6 +8,10 @@ from prompts.paper_summarizer import (
 from .graph_state import GraphState
 from .openrouter import call_openrouter
 
+# Project root directory (outside src/)
+BASE_DIR = Path(__file__).resolve().parents[2]
+PAPERS_DIR = BASE_DIR / "papers"
+
 
 def summarizer_node(state: GraphState) -> GraphState:
     print(">>> SUMMARIZER NODE ENTERED")
@@ -33,7 +37,8 @@ def summarizer_node(state: GraphState) -> GraphState:
 
     paper_id = state["arxiv_id"]
 
-    summary_dir = Path("papers") / paper_id / "summary"
+    # Save summary to papers/{arxiv_id}/summary/ at project root (outside src/)
+    summary_dir = PAPERS_DIR / paper_id / "summary"
     summary_dir.mkdir(parents=True, exist_ok=True)
 
     summary_path = summary_dir / "summary.txt"

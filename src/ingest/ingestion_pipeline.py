@@ -1,7 +1,9 @@
+from pathlib import Path
+
 from .fetch_papers import fetch_arxiv_source
 from .file_cleaning import clean_latex
 from .find_mainTeX_and_bbls import find_bbls, find_main_tex
-from .substitute_bibliography import substitute_bbl
+from .substitute_bibliography import substitute_bbl_content
 from .substitute_inputs_and_includes import inline_inputs
 
 
@@ -14,16 +16,23 @@ def pipeline(paper_id: str):
     bbls = find_bbls(working_dir)
     main_tex = find_main_tex(working_dir)
 
-    #Substitute Inputs/Includes
-    main_tex.write_text(inline_inputs(main_tex))
+    #Substitute Inputs/Includes (get content without modifying original)
+    content = inline_inputs(main_tex)
 
-    #Substitute Bibliography
-    substitute_bbl(main_tex, bbls)
+    #Substitute Bibliography (on content, not file)
+    content = substitute_bbl_content(content, bbls)
 
-    #Clean the file
-    main_tex.write_text(clean_latex(main_tex.read_text()))
+    #Clean the content
+    content = clean_latex(content)
 
-    return  main_tex.read_text()
+    #Create ingest folder and save processed output there
+    ingest_dir = working_dir / "ingest"
+    ingest_dir.mkdir(parents=True, exist_ok=True)
+
+    output_path = ingest_dir / "processed.tex"
+    output_path.write_text(content, encoding="utf-8")
+
+    return content
 
 
 
