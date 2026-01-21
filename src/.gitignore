@@ -1,7 +1,13 @@
 .env
-.idea
+.idea/
+.DS_Store
 
 
+# Chainlit
+.chainlit/secrets.toml
+.chainlit/*.log
+.chainlit/
+**/.chainlit/
 
 # Python-generated files
 __pycache__/
