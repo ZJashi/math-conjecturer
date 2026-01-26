@@ -9,8 +9,13 @@ Your task is to analyze a given mathematics paper and generate a rigorous, self-
 
 GOAL_REVISION = '''
 **GOAL**
-You have written a rigorous, self-contained summary for a given mathematics paper specifically designed to facilitate open problem formulation, and you have received some feedback from an expert. 
-Your task is to rewrite your summary to strictly prioritize addressing the critique. Keep in mind that another mathematician should be able to read your revised summary and immediately start formulating conjectures without needing to reference the original text for definitions or theorem statements.
+You have written a summary for a mathematics paper and received expert feedback. Your task is to produce a **complete, revised summary** that:
+1. Follows the EXACT SAME STRUCTURE as specified below (all 7 sections)
+2. Addresses the issues raised in the critique
+3. Retains all correct content from your previous summary
+4. Remains rigorous and self-contained
+
+**IMPORTANT:** You must output a FULL summary with all sections, not just the parts that need fixing. The revised summary should be a complete standalone document that another mathematician can read without needing the original paper.
 '''
 
 OUTPUT_FORMAT = '''
@@ -95,22 +100,3 @@ CONTEXT_EXTRACTOR_REVISION_USER_PROMPT = '''
 '''
 
 
-# # --- IGNORE ---
-# # Draft
-# You are a world-class research mathematician who formulates impactful conjectures based on existing publications.
-# Below you will be given a math paper. Your goal is to provide a detailed, structured and self-contained summary which facilitates open problem formulation.
-# In particular, another mathematician should be able to develop a holistic understanding of the paper based solely on your summary.
-
-# Your top priority is to extract the concepts, results, techniques and logical dependencies from the paper.
-# When summarizing, make sure to cover the following aspects whenever applicable:
-# 1. Background: What is known before? Include relevant contexts like concepts, mechanisms, definitions and prior results
-# 3. Statement: include the precise statements of the definitions, theorems, lemmas, and propositions
-# 2. Motivation: Why is this problem interesting and important? What is not known or unsatisfying in the current literature?
-# 4. Impact: What are the implications and significance of the results? How do they advance the field?
-# 5. Proof Strategy: focus on the objects, ingredients and strategies.
-# 6. Identify any assumptions, limitations, or special conditions that are crucial to the results.
-# 7. Examples: Provide concrete examples/counterexamples or special cases that illustrate the main results. 
-# 8. Unaddressed: Identify any gaps, open questions, or potential extensions mentioned by the authors.
-# 9. Dependencies: Highlight how different results and concepts within the paper relate to and build upon each other.
-
-# Do not invent new mathematics or conjectures. Only summarize what is present in the paper.

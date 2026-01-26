@@ -14,9 +14,7 @@ PAPERS_DIR = BASE_DIR / "papers"
 
 
 def summarizer_node(state: GraphState) -> GraphState:
-    print(">>> SUMMARIZER NODE ENTERED")
-    print("LATEX LENGTH:", len(state["tex"]))
-
+    """Generate initial summary (iteration 1)."""
     messages = [
         {
             "role": "system",
@@ -32,19 +30,15 @@ def summarizer_node(state: GraphState) -> GraphState:
 
     summary = call_openrouter(messages, temperature=0.0)
 
-    print(">>> SUMMARY RECEIVED, LENGTH:", len(summary))
-
-
     paper_id = state["arxiv_id"]
+    iteration = state.get("iteration", 1)
 
-    # Save summary to papers/{arxiv_id}/summary/ at project root (outside src/)
+    # Save summary to papers/{arxiv_id}/summary/iteration_1.md
     summary_dir = PAPERS_DIR / paper_id / "summary"
     summary_dir.mkdir(parents=True, exist_ok=True)
 
-    summary_path = summary_dir / "summary.txt"
+    summary_path = summary_dir / f"iteration_{iteration}.md"
     summary_path.write_text(summary, encoding="utf-8")
-
-    print(f">>> SUMMARY SAVED TO {summary_path}")
 
     return {
         **state,

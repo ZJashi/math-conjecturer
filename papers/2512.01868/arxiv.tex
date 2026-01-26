@@ -1,0 +1,98 @@
+\documentclass[11pt,reqno]{amsart}
+
+% --- Language and Encoding ---
+\usepackage[utf8]{inputenc}   % if using modern TeX engines (xelatex/lualatex), you can omit inputenc
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\setcounter{tocdepth}{1}
+
+
+\usepackage[
+  paper=letterpaper,
+  textwidth=420pt,
+  includehead,            % count the head in the total block
+  headheight=8pt,
+  headsep=14pt,
+  textheight=584pt,       % = 606pt - headheight - headsep
+  centering               % center the block horizontally and vertically
+]{geometry}
+
+
+% Math and AMS packages
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+
+% Graphics
+\usepackage{graphicx}
+% If you need to include EPS when using pdflatex, keep epstopdf
+\usepackage{epstopdf}  % optional; remove if not needed
+
+% Figures / subfigures (modern)
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage[capitalize,nameinlink]{cleveref}
+% Algorithms (modern)
+\usepackage{algorithm}          % float wrapper
+\usepackage{algpseudocode}      % pseudocode macros
+
+% Lists
+\usepackage{enumitem}
+
+%Theorems
+\usepackage{amsthm}
+
+% Plain theorem style (italic body)
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma} 
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+% Definition style (upright body)
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+% Remark style (upright body, smaller)
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Custom commands file (make sure this file exists)
+\input{commandes.tex}
+
+
+\title{The Mean-Field Dynamics of Transformers}
+\author{Philippe Rigollet}
+\address{Massachusetts Institute of Technology}
+\email{rigollet@mit.edu}
+
+\date{\today}
+
+
+
+\begin{document}
+%
+
+
+
+
+
+\begin{abstract}
+We develop a mathematical framework that interprets Transformer attention as an interacting particle system and studies its continuum (mean-field) limits.  By idealizing attention on the sphere, we connect Transformer dynamics to Wasserstein gradient flows, synchronization models (Kuramoto), and mean-shift clustering.  Central to our results is a global clustering phenomenon whereby tokens cluster asymptotically after long metastable states where they are arranged into multiple clusters. We further analyze a tractable equiangular reduction to obtain exact clustering rates, show how commonly used normalization schemes alter contraction speeds, and identify a phase transition for long-context attention.  The results highlight both the mechanisms that drive representation collapse and the regimes that preserve expressive, multi-cluster structure in deep attention architectures.
+\end{abstract}
+
+
+
+
+\maketitle
+
+\tableofcontents 
+
+
+\input{rawtext}
+
+\bibliographystyle{alphaabbr}
+\bibliography{biblioICM}
+
+\end{document}

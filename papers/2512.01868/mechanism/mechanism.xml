@@ -1,0 +1,83 @@
+<blackboard>
+  <context>
+    <definition id="def:sa_dynamics" title="SA Dynamics">
+      <content>$\dot{x}_i = \proj_{x_i}\left( \frac{\sum_j e^{\beta\langle x_i,x_j\rangle}x_j}{\sum_k e^{\beta\langle x_i,x_k\rangle}} \right)$</content>
+      <impact>Post-normalization dynamics governing token interactions</impact>
+    </definition>
+    
+    <definition id="def:usa_dynamics" title="USA Dynamics">
+      <content>$\dot{x}_i = \proj_{x_i}\left( \frac{1}{n}\sum_j e^{\beta\langle x_i,x_j\rangle}x_j \right)$</content>
+      <impact>Unnormalized variant showing faster collapse dynamics</impact>
+    </definition>
+
+    <theorem id="thm:clustering" title="Global Clustering">
+      <content>For $d \geq 3$, $\beta \geq 0$, and almost every initial condition on $(\mathbb{S}^{d-1})^n$, SA/USA dynamics converge to a single cluster: $\lim_{t\to\infty} \|x_i(t) - x_j(t)\| = 0$ for all $i,j$.</content>
+      <impact>Explains representation collapse in deep Transformers</impact>
+    </theorem>
+
+    <theorem id="thm:exponential_rate" title="Exponential Local Rate">
+      <content>If tokens start in an open hemisphere, $\|x_i(t) - x^*\| \leq C e^{-\lambda t}$ for SA/USA.</content>
+      <impact>Quantifies normalization effects on convergence speed</impact>
+    </theorem>
+
+    <theorem id="thm:phase_transition" title="Long-Context Phase Transition">
+      <content>For equiangular initializations with $\beta_n = \gamma \log n$, output directions satisfy $\lim_{n\to\infty} \langle \theta_i, \theta_j \rangle = \begin{cases} 1 & \gamma < \frac{1}{1-\rho} \\ \rho & \gamma > \frac{1}{1-\rho} \end{cases}$.</content>
+      <impact>Justifies $\beta \sim \log n$ scaling for long contexts</impact>
+    </theorem>
+  </context>
+
+  <motivation>
+    <dissatisfaction id="dis:d2_gap" title="$d=2$ Failure" source_refs="thm:clustering">
+      <desired_behavior>Theorem 1 should hold for $d=2$ ($\mathbb{S}^1$)</desired_behavior>
+      <heuristic>Proofs fail due to topological differences in $\mathbb{S}^1$; clustering requires $\beta > -0.16$</heuristic>
+    </dissatisfaction>
+
+    <dissatisfaction id="dis:large_beta" title="Large $\beta$ Saddles" source_refs="thm:clustering thm:phase_transition">
+      <desired_behavior>Mean-field analysis should extend to large $\beta$ regimes</desired_behavior>
+      <heuristic>Energy landscape develops exponentially many saddles</heuristic>
+    </dissatisfaction>
+
+    <dissatisfaction id="dis:noisy_dynamics" title="Noisy Dynamics Gap" source_refs="def:sa_dynamics def:usa_dynamics">
+      <desired_behavior>SDE version should have characterized stationary solutions</desired_behavior>
+      <heuristic>Bifurcations at critical $\kappa$ remain unanalyzed</heuristic>
+    </dissatisfaction>
+
+    <example id="ex:equiangular" title="Equiangular Model">
+      <structure>Symmetric initialization $\langle x_i(0), x_j(0) \rangle = \rho_0$ for $i \neq j$</structure>
+      <actual_behavior>$1 - \rho(t) \sim e^{-\lambda_\beta t}$ with $\lambda_\beta = 2$ (SA) vs. $2e^\beta$ (USA)</actual_behavior>
+      <lesson>Normalization (SA) delays collapse compared to unnormalized (USA)</lesson>
+    </example>
+
+    <example id="ex:high_dim" title="High-Dimensional Random Initialization">
+      <structure>Tokens initialized near orthogonality in high dimensions</structure>
+      <actual_behavior>Phase diagrams align with equiangular predictions</actual_behavior>
+      <lesson>Mean-field predictions hold beyond symmetric cases</lesson>
+    </example>
+  </motivation>
+
+  <frontier>
+    <raised_conjecture id="conj:d2_clustering" title="$d=2$ Clustering Extension">
+      <content>Extend Theorem 1 to $\mathbb{S}^1$ for all $\beta \geq 0$</content>
+      <heuristic>Topological differences require new proof techniques</heuristic>
+      <impact>Would complete the dimensional picture of attention dynamics</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:metastable_count" title="Metastable Cluster Count">
+      <content>Rigorously derive $\mathbb{E}[M] \sim \sqrt{\beta \log \beta}$ for Gaussian kernels</content>
+      <heuristic>Energy landscape roughness suggests sublinear scaling</heuristic>
+      <impact>Quantifies memorization capacity in Transformers</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:noisy_attention" title="Noisy Attention Dynamics">
+      <content>Characterize phase transitions and propagation of chaos for SDE version</content>
+      <heuristic>Noise regularizes saddles but alters long-term behavior</heuristic>
+      <impact>Models practical training with stochastic gradients</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:general_interaction" title="Beyond Identity Interaction">
+      <content>Generalize to $Q,K,V \neq I$ in attention</content>
+      <heuristic>Non-identity projections break spherical symmetry</heuristic>
+      <impact>Bridges theory to real Transformer architectures</impact>
+    </raised_conjecture>
+  </frontier>
+</blackboard>

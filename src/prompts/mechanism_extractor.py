@@ -1,4 +1,3 @@
-
 PERSONA = '''
 You are a world-class research mathematician who participates in formulating open problems and potential research directions.
 You specialize in **Knowledge Base Construction** for mathematical discovery, identifying the key entities, their relationships, and the current boundaries of knowledge within a given mathematics paper.
@@ -91,8 +90,8 @@ RULES = '''
 #   </frontier>
 # </blackboard>
 # '''
-
-
+#
+#
 # schema = [
 #   {
 #     "elements": ["concept", "notation", "definition", "lemma", "proposition", "theorem", "corollary", "remark"],
@@ -237,24 +236,22 @@ RULES = '''
 #     "description": "Obstruction faced when attempting to realize the roadmap"
 #   }
 # ]
-
-
-
-
+#
+#
 # '''
 # <ElementDefinitions>
-
+#
 #   <[Type] id="..." title="...">
 #     <content> (LaTeX statement) </content>
 #     <impact> (Why this matters/motivates conjecture) </impact>
 #   </[Type]>
-
+#
 #   <[Type] id="..." title="...">
 #     <content> (LaTeX statement) </content>
 #     <heuristic> (Informal reasoning/intuition) </heuristic>
 #     <impact> (Significance) </impact>
 #   </[Type]>
-
+#
 #   <dissatisfaction id="..." title="...">
 #     <source_element> (ID of the element causing dissatisfaction) </source_element>
 #     <desired_behavior> (The conjectured improvement) </desired_behavior>
@@ -262,14 +259,14 @@ RULES = '''
 #     <example> ... </example>
 #     <counterexample> ... </counterexample>
 #   </dissatisfaction>
-
+#
 #   <[Type] id="..." title="...">
 #     <structure> (Model/assumptions) </structure>
 #     <desired_behavior> ... </desired_behavior>
 #     <actual_behavior> (Actual behavior of this example) </actual_behavior>
 #     <lesson> ... </lesson>
 #   </[Type]>
-
+#
 #   <analogy id="..." title="...">
 #     <source_object> (Starting point object) </source_object>
 #     <target_object> (Object in your specialty) </target_object>
@@ -277,60 +274,55 @@ RULES = '''
 #     <example> ... </example>
 #     <impact> ... </impact>
 #     <dissatisfaction> ... </dissatisfaction> </analogy>
-
+#
 #   <objective> (What proposal tries to achieve) </objective>
 #   <roadmap> (Step-by-step plan) </roadmap>
 #   <progress> (Current status) </progress>
 #   <challenge> (Obstructions) </challenge>
 #   <vision id="..." title="..."> (High-level narrative) </vision>
-
+#
 # </ElementDefinitions>
 # '''
-
-
-
-
-
-
-
+#
+#
 # '''
 # <?xml version="1.0" encoding="UTF-8"?>
 # <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-
+#
 #     <xs:element name="content" type="xs:string">
 #         <xs:annotation><xs:documentation>Precise and detailed statement in LaTeX.</xs:documentation></xs:annotation>
 #     </xs:element>
-
+#
 #     <xs:element name="heuristic" type="xs:string">
 #         <xs:annotation><xs:documentation>Why you believe something is true; Informal reasoning, scaling arguments, physical analogies, or intuition.</xs:documentation></xs:annotation>
 #     </xs:element>
-
+#
 #     <xs:element name="impact" type="xs:string">
 #         <xs:annotation><xs:documentation>Why this matters: Describe how this motivates the conjecture and what new insight it introduces.</xs:documentation></xs:annotation>
 #     </xs:element>
-
+#
 #     <xs:element name="source_element" type="xs:string"> <xs:annotation><xs:documentation>The id(s) of the element(s) from which the dissatisfaction arises.</xs:documentation></xs:annotation>
 #     </xs:element>
-
+#
 #     <xs:element name="structure" type="xs:string">
 #         <xs:annotation><xs:documentation>The model and assumptions being considered in the (counter)example.</xs:documentation></xs:annotation>
 #     </xs:element>
-
+#
 #     <xs:element name="desired_behavior" type="xs:string">
 #         <xs:annotation><xs:documentation>The conjectured improvement possible.</xs:documentation></xs:annotation>
 #     </xs:element>
-
+#
 #     <xs:element name="actual_behavior" type="xs:string">
 #         <xs:annotation><xs:documentation>The actual behavior of the (counter)example; this might need to be solved by LLM.</xs:documentation></xs:annotation>
 #     </xs:element>
-    
+#
 #     <xs:element name="lesson" type="xs:string"/>
-
+#
 #     <xs:complexType name="NamedEntity">
 #         <xs:attribute name="id" type="xs:ID" use="required"/>
 #         <xs:attribute name="title" type="xs:string" use="required"/>
 #     </xs:complexType>
-
+#
 #     <xs:complexType name="StandardMathType">
 #         <xs:complexContent>
 #             <xs:extension base="NamedEntity">
@@ -341,7 +333,7 @@ RULES = '''
 #             </xs:extension>
 #         </xs:complexContent>
 #     </xs:complexType>
-
+#
 #     <xs:complexType name="ConjectureType">
 #         <xs:complexContent>
 #             <xs:extension base="NamedEntity">
@@ -353,7 +345,7 @@ RULES = '''
 #             </xs:extension>
 #         </xs:complexContent>
 #     </xs:complexType>
-
+#
 #     <xs:complexType name="ExampleType">
 #         <xs:complexContent>
 #             <xs:extension base="NamedEntity">
@@ -366,7 +358,7 @@ RULES = '''
 #             </xs:extension>
 #         </xs:complexContent>
 #     </xs:complexType>
-
+#
 #     <xs:complexType name="AnalogyType">
 #         <xs:complexContent>
 #             <xs:extension base="NamedEntity">
@@ -381,7 +373,7 @@ RULES = '''
 #                         <xs:annotation><xs:documentation>Precise correspondence between source and target with theoretical justification.</xs:documentation></xs:annotation>
 #                     </xs:element>
 #                     <xs:choice minOccurs="0" maxOccurs="unbounded">
-#                         <xs:element name="example" type="ExampleType"/> 
+#                         <xs:element name="example" type="ExampleType"/>
 #                     </xs:choice>
 #                     <xs:element ref="impact"/>
 #                     <xs:element name="dissatisfaction" type="DissatisfactionType" minOccurs="0"/>
@@ -389,7 +381,7 @@ RULES = '''
 #             </xs:extension>
 #         </xs:complexContent>
 #     </xs:complexType>
-
+#
 #     <xs:complexType name="DissatisfactionType">
 #         <xs:complexContent>
 #             <xs:extension base="NamedEntity">
@@ -403,7 +395,7 @@ RULES = '''
 #             </xs:extension>
 #         </xs:complexContent>
 #     </xs:complexType>
-
+#
 #     <xs:element name="MathematicalKnowledgeBase">
 #         <xs:complexType>
 #             <xs:choice maxOccurs="unbounded">
@@ -415,14 +407,14 @@ RULES = '''
 #                 <xs:element name="theorem" type="StandardMathType"/>
 #                 <xs:element name="corollary" type="StandardMathType"/>
 #                 <xs:element name="remark" type="StandardMathType"/>
-
+#
 #                 <xs:element name="raised_conjecture" type="ConjectureType"/>
 #                 <xs:element name="partial_result" type="ConjectureType"/>
-
+#
 #                 <xs:element name="dissatisfaction" type="DissatisfactionType"/>
 #                 <xs:element name="example" type="ExampleType"/>
 #                 <xs:element name="counterexample" type="ExampleType"/>
-
+#
 #                 <xs:element name="vision">
 #                     <xs:complexType>
 #                         <xs:complexContent>
@@ -432,35 +424,32 @@ RULES = '''
 #                         </xs:complexContent>
 #                     </xs:complexType>
 #                 </xs:element>
-                
+#
 #                 <xs:element name="new_concept" type="ConjectureType"/>
 #                 <xs:element name="new_notation" type="StandardMathType"/>
 #                 <xs:element name="new_definition" type="StandardMathType"/>
-                
+#
 #                 <xs:element name="conjectured_lemma" type="ConjectureType"/>
 #                 <xs:element name="conjectured_proposition" type="ConjectureType"/>
 #                 <xs:element name="conjectured_theorem" type="ConjectureType"/>
-
+#
 #                 <xs:element name="analogy" type="AnalogyType"/>
-
+#
 #                 <xs:element name="objective" type="xs:string"/>
 #                 <xs:element name="roadmap" type="xs:string"/>
 #                 <xs:element name="progress" type="xs:string"/>
 #                 <xs:element name="challenge" type="xs:string"/>
-
+#
 #             </xs:choice>
 #         </xs:complexType>
 #     </xs:element>
-
+#
 # </xs:schema>
 # '''
 
 
-
-
-
 # =======================================================================
-MECHANISM_EXTRACTOR_SYSTEM_PROMPT = PERSONA + GOAL + INPUT_FORMAT + OUTPUT_FORMAT + XML_SCHEMA_AND_INSTRUCTIONS + RULES + EXAMPLE
+MECHANISM_EXTRACTOR_SYSTEM_PROMPT = PERSONA + GOAL + INPUT_FORMAT + OUTPUT_FORMAT + XML_SCHEMA_AND_INSTRUCTIONS + RULES
 MECHANISM_EXTRACTOR_USER_PROMPT = '''
 [MARKDOWN PAPER SUMMARY]
 {paper_summary}

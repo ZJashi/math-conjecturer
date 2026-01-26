@@ -25,7 +25,7 @@ def pipeline(paper_id: str):
     #Clean the content
     content = clean_latex(content)
 
-    #Create ingest folder and save processed output there
+    # Create ingest folder and save cleaned text there
     ingest_dir = working_dir / "ingest"
     ingest_dir.mkdir(parents=True, exist_ok=True)
 
