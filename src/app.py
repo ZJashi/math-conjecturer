@@ -2,10 +2,12 @@ from pathlib import Path
 
 import chainlit as cl
 
-from utils import app
-from utils.critic_node import critic_node
-from utils.revision_node import revision_node
-from utils.mechanism_node import mechanism_node
+from workflow.phase1 import build_phase1_workflow
+from workflow.phase2 import run_phase2_workflow
+from nodes.phase1 import critic_node, revision_node, mechanism_node
+
+# Build the Phase 1 workflow
+phase1_app = build_phase1_workflow()
 
 
 
@@ -48,17 +50,16 @@ async def on_message(message: cl.Message):
         content=f"**Step 1:** Downloading and cleaning LaTeX for `{arxiv_id}`..."
     ).send()
 
-    # Run the initial pipeline: ingest → summarize → critic
-    state = await cl.make_async(app.invoke)({
+    # Run the initial pipeline: ingest → summarize → critic → mechanism
+    state = await cl.make_async(phase1_app.invoke)({
         "arxiv_id": arxiv_id,
         "tex": "",
         "summary": "",
         "iteration": 1,
     })
 
-
     await cl.Message(
-        content="**Step 2:** Initial summary generated. Running critic evaluation..."
+        content="**Step 2:** Initial summary and mechanism extracted. Running critic evaluation..."
     ).send()
 
     # Enter the critic loop
@@ -143,12 +144,13 @@ async def on_message(message: cl.Message):
         content=f"## Final Summary\n\n{final_summary}"
     ).send()
 
-    # Step 3: Mechanism Extraction
-    await cl.Message(
-        content="**Step 3:** Extracting core mechanisms from summary..."
-    ).send()
-
-    state = await cl.make_async(mechanism_node)(state)
+    # Re-run mechanism extraction if there were revisions (iteration > 1)
+    # Otherwise, mechanism was already extracted in the initial workflow
+    if state.get("iteration", 1) > 1:
+        await cl.Message(
+            content="**Step 3:** Re-extracting mechanisms from revised summary..."
+        ).send()
+        state = await cl.make_async(mechanism_node)(state)
 
     mechanism_xml = state.get("mechanism", "No mechanism extracted.")
     await cl.Message(
@@ -156,6 +158,84 @@ async def on_message(message: cl.Message):
     ).send()
 
     await cl.Message(
-        content="Pipeline complete! Files saved to `papers/{arxiv_id}/`"
+        content=f"**Phase 1 complete!** Files saved to `papers/{arxiv_id}/`"
+    ).send()
+
+    # Ask user if they want to proceed to Phase 2
+    phase2_actions = [
+        cl.Action(
+            name="start_phase2",
+            payload={"action": "start"},
+            label="Generate Open Problems",
+            description="Proceed to Phase 2: Generate research proposals based on the summary"
+        ),
+        cl.Action(
+            name="skip_phase2",
+            payload={"action": "skip"},
+            label="Skip Phase 2",
+            description="End the session without generating open problems"
+        ),
+    ]
+
+    phase2_response = await cl.AskActionMessage(
+        content="Would you like to proceed to **Phase 2: Open Problem Formulation**? This will generate research proposals based on the summary and mechanism.",
+        actions=phase2_actions,
+    ).send()
+
+    if phase2_response is None or phase2_response.get("payload", {}).get("action") == "skip":
+        await cl.Message(
+            content="Session complete. You can start a new session to analyze another paper."
+        ).send()
+        return
+
+    # =========================================================================
+    # PHASE 2: Open Problem Formulation
+    # =========================================================================
+
+    await cl.Message(
+        content="---\n# Phase 2: Open Problem Formulation\n---"
+    ).send()
+
+    await cl.Message(
+        content="Starting iterative proposal generation..."
+    ).send()
+
+    # Run Phase 2 workflow
+    phase2_state = await cl.make_async(run_phase2_workflow)(
+        summary=state["summary"],
+        mechanism=state["mechanism"],
+        arxiv_id=state["arxiv_id"],
+        max_iterations=5,
+    )
+
+    # Display Phase 2 results
+    await cl.Message(
+        content=f"## Final Research Proposal\n\n{phase2_state.get('final_report', 'No report generated.')}"
+    ).send()
+
+    # Display quality assessment
+    assessment = phase2_state.get("quality_assessment", {})
+    score = phase2_state.get("quality_score", 0)
+    category = phase2_state.get("quality_category", "N/A")
+
+    await cl.Message(
+        content=f"""## Quality Assessment
+
+| Metric | Score |
+|--------|-------|
+| Clarity | {assessment.get('clarity_score', 'N/A')}/10 |
+| Feasibility | {assessment.get('feasibility_score', 'N/A')}/10 |
+| Novelty | {assessment.get('novelty_score', 'N/A')}/10 |
+| Rigor | {assessment.get('rigor_score', 'N/A')}/10 |
+| **Overall** | **{score:.1f}/100** |
+
+**Verdict:** {assessment.get('verdict', 'N/A').upper()}
+
+**Justification:** {assessment.get('justification', 'N/A')}
+"""
+    ).send()
+
+    await cl.Message(
+        content=f"**Phase 2 complete!** Files saved to `papers/{arxiv_id}/step4_phase2/`"
     ).send()
 
