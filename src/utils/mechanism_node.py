@@ -34,9 +34,9 @@ def mechanism_node(state: GraphState) -> GraphState:
 
     mechanism_xml = call_openrouter(messages, temperature=0.0)
 
-    # Save mechanism to papers/{arxiv_id}/mechanism/mechanism.xml
+    # Save mechanism to papers/{arxiv_id}/step3_mechanism/mechanism.xml
     paper_id = state["arxiv_id"]
-    mechanism_dir = PAPERS_DIR / paper_id / "mechanism"
+    mechanism_dir = PAPERS_DIR / paper_id / "step3_mechanism"
     mechanism_dir.mkdir(parents=True, exist_ok=True)
 
     mechanism_path = mechanism_dir / "mechanism.xml"

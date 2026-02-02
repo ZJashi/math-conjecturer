@@ -48,9 +48,9 @@ def critic_node(state: GraphState) -> GraphState:
     if status_match:
         status = status_match.group(1).upper()
 
-    # Save critique to papers/{arxiv_id}/critique/iteration_X.md
+    # Save critique to papers/{arxiv_id}/step2_critique/iteration_X.md
     paper_id = state["arxiv_id"]
-    critique_dir = PAPERS_DIR / paper_id / "critique"
+    critique_dir = PAPERS_DIR / paper_id / "step2_critique"
     critique_dir.mkdir(parents=True, exist_ok=True)
 
     critique_path = critique_dir / f"iteration_{iteration}.md"

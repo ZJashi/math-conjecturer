@@ -37,9 +37,9 @@ def revision_node(state: GraphState) -> GraphState:
     # Increment iteration for the new summary
     new_iteration = state.get("iteration", 1) + 1
 
-    # Save revised summary to papers/{arxiv_id}/summary/iteration_X.md
+    # Save revised summary to papers/{arxiv_id}/step2_summary/iteration_X.md
     paper_id = state["arxiv_id"]
-    summary_dir = PAPERS_DIR / paper_id / "summary"
+    summary_dir = PAPERS_DIR / paper_id / "step2_summary"
     summary_dir.mkdir(parents=True, exist_ok=True)
 
     summary_path = summary_dir / f"iteration_{new_iteration}.md"

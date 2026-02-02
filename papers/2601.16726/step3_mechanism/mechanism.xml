@@ -1,0 +1,124 @@
+
+
+<blackboard>
+  <context>
+    <definition id="def:gprf" title="Generalized Poisson Random Field (GPRF)">
+      <content>$\{M(A), A \in \mathcal{A}_d\}$: Non-negative integer-valued measure with independent increments, where for $A \in \mathcal{A}_d$:
+        $$
+        \mathrm{Pr}\{M(A) = n\} = \sum_{\Theta(k,n)} \prod_{j=1}^k \frac{(\lambda_j |A|)^{n_j}}{n_j!} e^{-\lambda_j |A|}, \quad \Theta(k,n) = \left\{(n_1, \dots, n_k) \in \mathbb{N}_0^k : \sum_{j=1}^k j n_j = n\right\}.
+        $$
+      </content>
+      <impact>Generalizes Poisson counts by allowing batch arrivals (size $\leq k$) in infinitesimal regions.</impact>
+    </definition>
+
+    <definition id="def:fgprf" title="Fractional GPRF (FGPRF)">
+      <content>$\{M^{\alpha,\beta}(s,t)\}$: Time-changed GPRF on $\mathbb{R}^2_+$:
+        $$
+        M^{\alpha,\beta}(s,t) = M(L^\alpha(s), L^\beta(t)), \quad 0 < \alpha, \beta \leq 1,
+        $$
+        where $L^\alpha, L^\beta$ are independent inverse $\alpha$- and $\beta$-stable subordinators.
+      </content>
+      <impact>Introduces memory via inverse subordinators, capturing subdiffusive spatial dynamics.</impact>
+    </definition>
+
+    <definition id="def:gspp" title="Generalized Skellam Point Process (GSPP)">
+      <content>$\{S(A)\}$: For finite $\mathcal{I} \subset \mathbb{R} \setminus \{0\}$ and independent GPRFs $\{M_i(A)\}$,
+        $$
+        S(A) = \sum_{i \in \mathcal{I}} i M_i(A).
+        $$
+      </content>
+      <impact>Constructs signed measures from independent GPRFs.</impact>
+    </definition>
+
+    <theorem id="thm:gprf_rep" title="GPRF Representation">
+      <content>Every GPRF satisfies $M(A) \overset{d}{=} \sum_{j=1}^k j N_j(A)$, where $\{N_j(A)\}$ are independent PRFs with rates $\lambda_j$.</content>
+      <impact>Enables tractable analysis via decomposition into independent PRFs.</impact>
+    </theorem>
+
+    <theorem id="thm:fgprf_dist" title="FGPRF Distribution">
+      <content>The state probabilities $p^{\alpha,\beta}(n,s,t)$ of FGPRF solve:
+        $$
+        \frac{\partial^{\alpha+\beta}}{\partial t^\beta \partial s^\alpha} p^{\alpha,\beta}(n,s,t) = -\sum_{j=1}^k \lambda_j (I - B^j) \left(1 + \sum_{j'=1}^k \lambda_{j'} \sum_{r=1}^{j'} B^{j'-r} \frac{\partial}{\partial \lambda_1}\right) p^{\alpha,\beta}(n,s,t),
+        $$
+        with explicit solution involving generalized Wright functions.
+      </content>
+      <impact>Provides fractional analog governing anomalous diffusion.</impact>
+    </theorem>
+
+    <proposition id="prop:gspp_rep" title="GSPP Representation">
+      <content>$S(A) \overset{d}{=} \sum_{r=1}^{N(A)} X_r Y_r$, where $\{N(A)\}$ is a PRF and $\{(X_r, Y_r)\}$ are iid jumps.</content>
+      <impact>Connects GSPP to compound Poisson processes.</impact>
+    </proposition>
+  </context>
+
+  <motivation>
+    <dissatisfaction id="dis:dimension" title="Dimensionality Constraint" source_refs="thm:fgprf_dist def:fgprf">
+      <desired_behavior>Extension to $\mathbb{R}^d_+$ for $d \geq 3$ with non-rectangular increments.</desired_behavior>
+      <heuristic>Proofs rely on rectangular increments; higher dimensions require non-trivial generalization.</heuristic>
+    </dissatisfaction>
+
+    <dissatisfaction id="dis:frac_order" title="Fractional Order Limitation" source_refs="thm:fgprf_dist">
+      <desired_behavior>Method should work for $\alpha + \beta > 1$.</desired_behavior>
+      <heuristic>Non-locality of Caputo derivatives breaks current proof techniques when $\alpha + \beta > 1$.</heuristic>
+    </dissatisfaction>
+
+    <dissatisfaction id="dis:subordinator_dep" title="Independent Subordinators Requirement" source_refs="def:fgprf">
+      <desired_behavior>Analysis under dependent $L^\alpha, L^\beta$.</desired_behavior>
+      <heuristic>Correlated subordinators break current proofs which assume independence.</heuristic>
+    </dissatisfaction>
+
+    <dissatisfaction id="dis:integral_ambiguity" title="Integral Type Ambiguity" source_refs="def:gprf">
+      <desired_behavior>Clarify Itô vs. Stratonovich integrals for path integrals of GPRF.</desired_behavior>
+      <heuristic>Current framework does not specify integral interpretation for path integrals.</heuristic>
+    </dissatisfaction>
+
+    <dissatisfaction id="dis:space_frac" title="Missing Space-Fractional Analogs" source_refs="thm:fgprf_dist">
+      <desired_behavior>Space-fractional analogs via Riesz derivatives.</desired_behavior>
+      <heuristic>Conjectured but not proven in current work.</heuristic>
+    </dissatisfaction>
+
+    <example id="ex:sharp_growth" title="FGPRF Variance Growth">
+      <structure>FGPRF variance analysis</structure>
+      <actual_behavior>Grows as $s^{2\alpha} t^{2\beta}$</actual_behavior>
+      <lesson>Dependence on $\alpha, \beta$ is sharp and cannot be improved under current assumptions.</lesson>
+    </example>
+  </motivation>
+
+  <frontier>
+    <raised_conjecture id="conj:high_dim" title="Higher Dimensional Extension">
+      <content>Extend GPRF/FGPRF to $\mathbb{R}^d_+$ for $d \geq 3$ with non-rectangular increments.</content>
+      <heuristic>Natural generalization for spatial applications.</heuristic>
+      <impact>Would significantly broaden applicability to real-world datasets.</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:dep_subord" title="Dependent Subordinators Analysis">
+      <content>Analyze FGPRF under dependent $L^\alpha, L^\beta$.</content>
+      <heuristic>More realistic for systems with coupled temporal dynamics.</heuristic>
+      <impact>Enable modeling of spatially correlated anomalous diffusion.</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:alt_frac" title="Alternative Fractional Operators">
+      <content>Replace Caputo with Atangana-Baleanu or Prabhakar derivatives.</content>
+      <heuristic>These operators may capture different memory effects.</heuristic>
+      <impact>Could lead to new classes of fractional spatial processes.</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:sample_path" title="Sample Path Properties">
+      <content>Study Hölder continuity, Hausdorff dimension for FGPRF/GSPP.</content>
+      <heuristic>Fundamental for understanding fine-scale behavior.</heuristic>
+      <impact>Critical for applications requiring path regularity.</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:inference" title="Statistical Inference Methods">
+      <content>Develop parameter estimation for FGPRF rates $\lambda_j$ and $\alpha, \beta$.</content>
+      <heuristic>Necessary for practical adoption in spatial statistics.</heuristic>
+      <impact>Enable empirical validation and application to real data.</impact>
+    </raised_conjecture>
+
+    <raised_conjecture id="conj:inf_skellam" title="Generalized Skellam Extension">
+      <content>Extend GSPP to infinite $\mathcal{I}$ or Lévy bases.</content>
+      <heuristic>Natural progression for modeling complex signed measures.</heuristic>
+      <impact>Would unify with Lévy process theory.</impact>
+    </raised_conjecture>
+  </frontier>
+</blackboard>

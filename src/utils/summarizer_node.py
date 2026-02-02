@@ -33,8 +33,8 @@ def summarizer_node(state: GraphState) -> GraphState:
     paper_id = state["arxiv_id"]
     iteration = state.get("iteration", 1)
 
-    # Save summary to papers/{arxiv_id}/summary/iteration_1.md
-    summary_dir = PAPERS_DIR / paper_id / "summary"
+    # Save summary to papers/{arxiv_id}/step2_summary/iteration_1.md
+    summary_dir = PAPERS_DIR / paper_id / "step2_summary"
     summary_dir.mkdir(parents=True, exist_ok=True)
 
     summary_path = summary_dir / f"iteration_{iteration}.md"
