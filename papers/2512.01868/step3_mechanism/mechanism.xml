@@ -1,77 +1,94 @@
+
+
 <blackboard>
   <context>
-    <definition id="def:sa_dynamics" title="SA Dynamics">
-      <content>\(\dot x_i = \proj_{x_i}\left( \frac{\sum_j e^{\beta \langle x_i, x_j \rangle} x_j}{\sum_k e^{\beta \langle x_i, x_k \rangle}} \right)\), \(x_i \in \mathbb{S}^{d-1}\)</content>
-      <impact>Post-normalization dynamics governing token interactions</impact>
-    </definition>
-    <definition id="def:usa_dynamics" title="USA Dynamics">
-      <content>\(\dot x_i = \proj_{x_i}\left( \frac{1}{n} \sum_j e^{\beta \langle x_i, x_j \rangle} x_j \right)\)</content>
-      <impact>Unnormalized variant revealing fundamental contraction mechanisms</impact>
-    </definition>
-    <definition id="def:equiangular_model" title="Equiangular Model">
-      <content>Configuration where \(\rho(t) := \langle x_i(t), x_j(t) \rangle\) is equal for all \(i \neq j\)</content>
-      <impact>Reduces dynamics to analyzable ODEs for pairwise alignment</impact>
-    </definition>
-    <definition id="def:interaction_energy" title="Interaction Energy">
-      <content>\(\mathcal{E}_\beta(\mu) = \frac{1}{2\beta} \iint e^{\beta \langle x, y \rangle} d\mu(x) d\mu(y)\)</content>
-      <impact>Drives gradient flow structure under Wasserstein metric</impact>
-    </definition>
+    <definitions>
+      <definition id="def:sa_dynamics" title="SA Dynamics">
+        <content>\(\dot{x}_i = \proj_{x_i}\left( \frac{\sum_j e^{\beta\langle x_i,x_j\rangle}x_j}{\sum_k e^{\beta\langle x_i,x_k\rangle}} \right)\)</content>
+        <impact>Post-normalization dynamics modeling standard attention</impact>
+      </definition>
+      <definition id="def:usa_dynamics" title="USA Dynamics">
+        <content>\(\dot{x}_i = \proj_{x_i}\left( \frac{1}{n}\sum_j e^{\beta\langle x_i,x_j\rangle}x_j \right)\)</content>
+        <impact>Unnormalized variant of attention dynamics</impact>
+      </definition>
+      <definition id="def:energy_functional" title="Energy Functional">
+        <content>\(\mathcal{E}_\beta(\mu) = \frac{1}{2\beta} \iint e^{\beta\langle x,y\rangle} d\mu(x)d\mu(y)\)</content>
+        <impact>Drives gradient flow structure of USA dynamics</impact>
+      </definition>
+    </definitions>
 
-    <theorem id="thm:global_clustering" title="Global Clustering">
-      <content>For \(d \geq 3\), \(n \geq 2\), \(\beta \geq 0\), solutions to SA/USA dynamics converge to a single cluster for almost all initial conditions: \(\lim_{t \to \infty} \|x_i(t) - x_j(t)\| = 0\) \(\forall i,j\)</content>
-      <impact>Quantifies representation collapse in deep Transformers</impact>
-    </theorem>
-    <theorem id="thm:exponential_rates" title="Exponential Local Rates">
-      <content>If tokens lie in a common open hemisphere initially, \(\|x_i(t) - x^*\| \leq C e^{-\lambda t}\) for SA/USA</content>
-      <impact>First explicit convergence rates under hemisphere conditions</impact>
-    </theorem>
-    <theorem id="thm:mean_field_rates" title="Mean-Field Rates">
-      <content>For \(\mu_t\) solving the continuity equation with \(|\beta| < \beta_0\) and \(R_0 > 0\), \(W_2(\mu_t, \delta_{x_\infty}) \leq C_0 e^{-t/100}\)</content>
-      <impact>Connects finite-particle dynamics to mean-field limit</impact>
-    </theorem>
+    <theorems>
+      <theorem id="thm:clustering_finite" title="Clustering for finite particles">
+        <content>For \(d \geq 3\), \(\beta \geq 0\), and almost every initial condition on \((\mathbb{S}^{d-1})^n\), both SA and USA dynamics converge to a single cluster: \(\lim_{t\to\infty} \|x_i(t) - x_j(t)\| = 0\) for all \(i,j\).</content>
+        <impact>Establishes global collapse under general conditions</impact>
+      </theorem>
+      <theorem id="thm:exponential_rates" title="Exponential local rates">
+        <content>If tokens start in an open hemisphere, \(\|x_i(t) - x^*\| \leq C e^{-\lambda t}\) for SA/USA, with \(\lambda_\text{USA} \sim e^\beta\), \(\lambda_\text{SA} \sim 1\).</content>
+        <impact>Quantifies speed difference between normalized/unnormalized dynamics</impact>
+      </theorem>
+      <theorem id="thm:mean_field_clustering" title="Mean-field clustering">
+        <content>For \(\mu_t\) solving the continuity equation with \(|\beta| < \beta_0\) and \(R_0 > 0\), \(W_2(\mu_t, \delta_{x_\infty}) \leq C_0 e^{-t/100}\).</content>
+        <impact>Extends clustering to infinite-particle limit</impact>
+      </theorem>
+      <theorem id="thm:pairwise_merging" title="Pairwise merging at large \(\beta\)">
+        <content>For \(\beta \to \infty\) and equiangular initial clusters, the closest pair merges along their geodesic in rescaled time, while others remain stationary.</content>
+        <impact>Characterizes sequential merging in low-temperature regime</impact>
+      </theorem>
+    </theorems>
   </context>
 
   <motivation>
-    <dissatisfaction id="dis:d2_limitation" title="Dimension d=2 Failure" source_refs="thm:global_clustering">
-      <desired_behavior>Clustering should hold for all \(d \geq 2\)</desired_behavior>
-      <heuristic>Proofs for \(d \geq 3\) rely on topological properties absent in \(d=2\)</heuristic>
-    </dissatisfaction>
-    <dissatisfaction id="dis:large_beta" title="Large β Metastability" source_refs="thm:mean_field_rates">
-      <desired_behavior>Global convergence should persist for all \(\beta\)</desired_behavior>
-      <heuristic>Energy landscape develops multiple saddles at high \(\beta\)</heuristic>
-    </dissatisfaction>
-    <dissatisfaction id="dis:d2_topology" title="d=2 Topological Obstruction" source_refs="thm:global_clustering">
-      <desired_behavior>Synchronization analysis should extend to \(d=2\)</desired_behavior>
-      <heuristic>Kuramoto model techniques don't generalize for \(\beta > 0\)</heuristic>
-    </dissatisfaction>
+    <dissatisfactions>
+      <dissatisfaction id="dis:d2_limitation" title="Failure in d=2" source_refs="thm:clustering_finite">
+        <desired_behavior>Clustering should hold for all dimensions \(d \geq 2\)</desired_behavior>
+        <heuristic>Proofs for \(d \geq 3\) fail due to \(\pi_1(\mathbb{S}^1) \neq 0\) topology</heuristic>
+      </dissatisfaction>
+      <dissatisfaction id="dis:beta_constraint" title="Mean-field \(\beta\) limitation" source_refs="thm:mean_field_clustering">
+        <desired_behavior>Convergence should hold for all \(\beta\)</desired_behavior>
+        <heuristic>Current proof requires small \(\beta\) (\(|\beta| < \beta_0\))</heuristic>
+      </dissatisfaction>
+      <dissatisfaction id="dis:linearization_failure" title="Large \(\beta\) complexity" source_refs="thm:pairwise_merging">
+        <desired_behavior>Analysis should extend to arbitrary \(\beta\)</desired_behavior>
+        <heuristic>Energy landscape becomes non-convex and linearization fails</heuristic>
+      </dissatisfaction>
+    </dissatisfactions>
 
-    <example id="ex:equiangular" title="Equiangular Model Dynamics">
-      <structure>SA: \(\dot \rho = \frac{2e^{\beta\rho}(1-\rho)((n-1)\rho + 1)}{e^\beta + (n-1)e^{\beta\rho}}\), USA: \(\dot \rho = \frac{2}{n} e^{\beta\rho}(1-\rho)((n-1)\rho + 1)\)</structure>
-      <actual_behavior>Exponential convergence \(1 - \rho(t) \sim e^{-\lambda_\beta t}\) with \(\lambda_\beta = 2\) (SA) or \(\lambda_\beta = 2e^\beta\) (USA)</actual_behavior>
-      <lesson>Isolates clustering mechanics and normalization effects</lesson>
-    </example>
-    <example id="ex:long_context" title="Long-Context Phase Transition">
-      <structure>\(\beta_n = \gamma \log n\) scaling</structure>
-      <actual_behavior>\(\lim_{n \to \infty} \langle \theta_i, \theta_j \rangle = \begin{cases} 1 & \gamma < \frac{1}{1-\rho} \\ \frac{4\rho}{1+3\rho} & \gamma = \frac{1}{1-\rho} \\ \rho & \gamma > \frac{1}{1-\rho} \end{cases}\)</actual_behavior>
-      <lesson>Logarithmic scaling is critical for stable long-context attention</lesson>
-    </example>
+    <examples>
+      <example id="ex:equiangular_model" title="Equiangular Model">
+        <structure>All tokens satisfy \(\langle x_i, x_j\rangle = \rho(t)\) for \(i \neq j\)</structure>
+        <actual_behavior>Yields exact rates: \(1 - \rho(t) \sim e^{-2t}\) (SA) vs. \(e^{-2e^\beta t}\) (USA)</actual_behavior>
+        <lesson>Demonstrates sharpness of Theorem 2's exponential rates</lesson>
+      </example>
+      <counterexample id="cnex:multi_cluster" title="Multi-cluster mean-field">
+        <structure>Large \(\beta\) regime with specific initial conditions</structure>
+        <actual_behavior>Mean-field dynamics converge to multiple clusters</actual_behavior>
+        <lesson>Shows Theorem 3's \(\beta\) constraint is necessary</lesson>
+      </counterexample>
+    </examples>
   </motivation>
 
   <frontier>
-    <raised_conjecture id="conj:noisy_transformers" title="Noisy Transformers">
-      <content>Characterize stationary solutions for McKean–Vlasov SDE \(\partial_t \mu_t + \kappa^{-1} \Delta \mu_t = \nabla \cdot (\mu_t \int e^{\beta \langle \cdot, y \rangle} y d\mu_t)\)</content>
-      <heuristic>Noise may induce phase transitions in attention dynamics</heuristic>
-      <impact>Key for understanding real-world noisy optimization landscapes</impact>
-    </raised_conjecture>
-    <raised_conjecture id="conj:metastability" title="Multi-Cluster Metastability">
-      <content>Quantify lifetimes of metastable states and transition rates between saddles</content>
-      <heuristic>Mean-shift analogy suggests \(\Theta(\sqrt{\beta \log \beta})\) clusters in \(d=1\)</heuristic>
-      <impact>Explains temporary feature learning before ultimate collapse</impact>
-    </raised_conjecture>
-    <raised_conjecture id="conj:causal_attention" title="Causal Attention">
-      <content>Extend clustering results to decoder-only architectures with masking</content>
-      <heuristic>Autoregressive constraints may alter convergence properties</heuristic>
-      <impact>Critical for understanding GPT-style models</impact>
-    </raised_conjecture>
+    <raised_conjectures>
+      <raised_conjecture id="conj:noisy_transformers" title="Noisy Transformers">
+        <content>Characterize stationary measures of \(\partial_t \mu_t + \kappa^{-1}\Delta \mu_t = \nabla \cdot (\mu_t v_t[\mu_t])\) and their bifurcations</content>
+        <heuristic>Understanding stochastic attention dynamics</heuristic>
+        <impact>Would bridge theory with practical noisy training</impact>
+      </raised_conjecture>
+      <raised_conjecture id="conj:metastability_lifetimes" title="Sharp Metastability">
+        <content>Derive exact lifetimes of \(k\)-cluster states and transition paths</content>
+        <heuristic>Metastable states have exponentially long dwell times \(\sim e^{c\beta}\)</heuristic>
+        <impact>Quantify attention's memory capacity via cluster persistence</impact>
+      </raised_conjecture>
+      <raised_conjecture id="conj:d2_extension" title="d=2 Completion">
+        <content>Extend clustering to all \(\beta\) in \(d=2\)</content>
+        <heuristic>Partial results exist for \(\beta > -0.16\)</heuristic>
+        <impact>Would complete dimensional coverage</impact>
+      </raised_conjecture>
+      <raised_conjecture id="conj:multi_head" title="Multi-Head Dynamics">
+        <content>Analyze dynamics with multiple interaction kernels</content>
+        <heuristic>Real Transformers use parallel attention heads</heuristic>
+        <impact>Theoretical foundation for multi-head architecture</impact>
+      </raised_conjecture>
+    </raised_conjectures>
   </frontier>
 </blackboard>

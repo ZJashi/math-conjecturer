@@ -4,9 +4,9 @@ from typing import Any, Dict
 
 from langchain_core.prompts import ChatPromptTemplate
 
-from prompts.phase2 import BASE_SYSTEM_PROMPT, REPORT_GENERATOR_PROMPT
+from prompts.phase2 import REPORT_GENERATOR_SYSTEM, REPORT_GENERATOR_PROMPT
 from schema.phase2 import Phase2State, ReportResult
-from ._common import get_model, PAPERS_DIR
+from ._common import PAPERS_DIR, invoke_with_structured_output
 
 
 def report_generator_node(state: Phase2State) -> Dict[str, Any]:
@@ -17,20 +17,21 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
     """
     print("--- Report Generator: Creating final report ---")
 
-    model = get_model()
     prompt = ChatPromptTemplate.from_messages([
-        ("system", BASE_SYSTEM_PROMPT),
+        ("system", REPORT_GENERATOR_SYSTEM),
         ("human", REPORT_GENERATOR_PROMPT)
     ])
 
-    chain = prompt | model.with_structured_output(ReportResult)
-
-    result = chain.invoke({
-        "proposal": state["current_proposal"],
-        "paper_summary": state["summary"],
-        "mechanisms": state["mechanism"],
-        "iterations": state.get("phase2_iteration", 1),
-    })
+    result = invoke_with_structured_output(
+        prompt=prompt,
+        output_class=ReportResult,
+        inputs={
+            "proposal": state["current_proposal"],
+            "paper_summary": state["summary"],
+            "mechanisms": state["mechanism"],
+            "iterations": state.get("phase2_iteration", 1),
+        }
+    )
 
     # Format as markdown report
     report = f"""# {result.title}
@@ -62,7 +63,7 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
     # Save report to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
     if arxiv_id:
-        report_dir = PAPERS_DIR / arxiv_id / "step4_phase2"
+        report_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4f_report"
         report_dir.mkdir(parents=True, exist_ok=True)
         report_path = report_dir / "final_report.md"
         report_path.write_text(report, encoding="utf-8")

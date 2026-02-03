@@ -9,4 +9,5 @@ def ingestion_node(state: GraphState) -> GraphState:
     arxiv_id = state["arxiv_id"]
     latex_doc = pipeline(arxiv_id)
 
-    return {**state, "tex": latex_doc}
+    return {**state,
+            "tex": latex_doc}

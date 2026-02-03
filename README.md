@@ -39,12 +39,36 @@ uv sync
 ```
 
 
-## GUI
-First, you may need to manually fix the following code. 
+## Running the Application
+
+### Option 1: FastAPI + React (Recommended)
+
+This uses a modern FastAPI backend with SSE streaming and a React frontend for better performance.
+
+**Terminal 1 - Start the backend:**
+```bash
+cd src
+uv run uvicorn api.main:app --reload --port 8000
+```
+
+**Terminal 2 - Start the frontend:**
+```bash
+cd frontend
+npm install  # first time only
+npm run dev
+```
+
+Then open http://localhost:5173 in your browser.
+
+### Option 2: Chainlit (Legacy)
+
+The original Chainlit interface is still available:
+
+First, you may need to manually fix the following code.
 ```bash
 .venv/lib/chainlit/cache.py
 ```
-and substitute 
+and substitute
 ```bash
 from langchain.cache import SQLiteCache
 from langchain.globals import set_llm_cache
@@ -55,24 +79,22 @@ from langchain_community.cache import SQLiteCache
 from langchain_core.globals import set_llm_cache
 ```
 
-First, run 
+First, run
 ```bash
 uv run chainlit hello
 ```
-to initialize. Then go to `.chainlit/config.toml` and set the variable `latex` to true for latex rendering, and 
-
+to initialize. Then go to `.chainlit/config.toml` and set the variable `latex` to true for latex rendering.
 
 ```bash
-uv run chainlit run app.py -w
+cd src
+uv run chainlit run app_chainlit.py -w
 ```
-
 
 Also to allow latex rendering allow
 ```
 latex = true
 ```
 in file at location
-```angular2html
-
+```
 .chainlit/config.toml
 ```

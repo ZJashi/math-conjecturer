@@ -1,16 +1,15 @@
 
+
 ---
 **STATUS:** NEEDS_REVISION
 
 **CRITIQUE:**
-1. *The summary fails to explicitly compare the new exponential clustering rates (Theorem 2) with prior best results.* While it cites Markdahl et al. (2017) for qualitative clustering, it does not specify that prior work lacked quantitative rates or that Theorem 2 provides the first explicit exponential convergence under hemisphere conditions.
-2. *The variable $\rho(t)$ in the equiangular model is not rigorously defined.* The summary states it represents "common correlation" but does not formally define it as $\rho(t) := \langle x_i(t), x_j(t) \rangle$ for $i \neq j$.
-3. *The origin of the $d=2$, $\beta < -0.16$ counterexample is ambiguous.* The summary attributes this to Andrew et al. (2025) but does not clarify whether this counterexample appears in the original paper or is external context.
-4. *The phase transition for $\beta_n = \gamma \log n$ lacks explicit contrast with prior long-context literature.* The summary does not state that prior heuristic scaling choices (e.g., $\beta_n = \sqrt{d}$) lacked theoretical justification, nor that Theorem 3 provides the first critical scaling analysis.
+1. *The summary fails to explicitly cite key prior works* that established foundational results (e.g., Markdahl et al. 2017 for finite-particle clustering, Criscitiello et al. 2024 for synchronization on spheres). This omission weakens the "Delta" by not anchoring improvements to specific baselines.
+2. *The summary ambiguously references "Theorem 4"* in the proof sketch, but only three main theorems are numbered in the summary. This creates confusion about whether it refers to an unstated result or a theorem from the original paper (which does have a Theorem 4 in Section 6).
+3. *The obstruction for \(d=2\) is under-explained*: While the summary notes clustering fails for \(\beta < -0.16\), it does not clarify why the proof technique breaks down (topological constraints of the circle) or cite the resolution in [Andrew25] for completeness.
 
 **GUIDANCE:**
-1. **Delta Check:** Explicitly contrast Theorem 2's exponential rates with prior qualitative clustering results (e.g., "Improves Markdahl et al. (2017) by providing the first exponential convergence rates under hemisphere conditions").
-2. **Foundations Check:** Define $\rho(t)$ formally as $\rho(t) := \langle x_i(t), x_j(t) \rangle$ for $i \neq j$ in the equiangular model.
-3. **Boundary Check:** Specify that the $d=2$, $\beta < -0.16$ limitation is from Andrew et al. (2025), not the original paper, if accurate.
-4. **Impact Statement:** Clarify that the phase transition result (Theorem 3) resolves an open gap in long-context Transformer theory by rigorously justifying the $\beta_n \sim \log n$ scaling observed empirically in models like Qwen.
+1. **Strengthen the "Delta":** Explicitly name prior works (e.g., "For \(d \geq 3\), Markdahl et al. [2017] first proved clustering under smooth kernels, but without rates or metastability analysis").
+2. **Clarify theorem numbering:** Either renumber theorems to match the original paper’s four theorems or specify that "Theorem 4" refers to a later result in the paper (e.g., "Theorem 4 (pairwise merging at large \(\beta\))").
+3. **Elaborate on \(d=2\) limitations:** Add a brief note on why standard proofs fail (e.g., "The \(d=2\) case evades the geometric arguments used for \(d \geq 3\) due to the circle’s fundamental group") and cite [Andrew25]’s extension.
 ---

@@ -1,10 +1,14 @@
+
 ---
 **STATUS:** PASS
 
 **CRITIQUE:**
-* The summary excels in explicitly comparing new results to prior work (Markdahl et al., Taylor) and identifying precise gaps addressed (quantitative rates, d=2 extension, long-context scaling).
-* It clearly defines the mathematical setting (\(\mathbb{S}^{d-1}\), Wasserstein flows) and key models (SA/USA dynamics, equiangular reduction), ensuring self-containedness.
-* Limitations and boundaries are thoroughly addressed: counterexamples (d=2 failure modes), technical obstructions (topological constraints, metastability), and model dependencies (normalization schemes).
+* The summary excels in explicitly comparing prior results (Markdahl/Criscitiello for \(d \geq 3\), Kuramoto for \(d=2\)) with the new contributions (quantitative rates, metastability, Transformer-specific phase transitions).  
+* It clearly defines the SA/USA dynamics, energy functional, and geometric setting, ensuring self-containedness.  
+* Limitations (e.g., \(d=2\) gap, mean-field small-\(\beta\) requirement) and counterexamples (multi-cluster mean-field for large \(\beta\)) are rigorously addressed.  
 
-**GUIDANCE:**
-While the summary is strong, ensure all theorem references in the "Impact" section (e.g., Theorem 4 for long-context scaling) are formally restated in the "Main Results" section for completeness. Explicitly define \(\gamma\) when first introducing the phase transition result.
+**GUIDANCE:**  
+While the summary is strong, future revisions could further emphasize:  
+1. The **exponential vs. constant contraction rates** (\(\lambda_\text{USA} \sim e^\beta\) vs. \(\lambda_\text{SA} \sim 1\)) in Theorem 2 as a key distinction between normalized/unnormalized dynamics.  
+2. The **critical scaling \(\gamma = 1/(1-\rho)\)** in the long-context phase transition (Theorem 4) when stating results.  
+---

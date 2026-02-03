@@ -1,0 +1,4 @@
+{
+  "research_directions": [],
+  "rationale": "The selected directions directly address core limitations highlighted in the paper (noise absence, qualitative metastability descriptions, single-head limitation) while tapping into mathematically rich areas (SDE theory, large deviations, coupled dynamical systems). Each direction is substantiated by specific technical obstacles in the original work and connects to practical Transformer behaviors."
+}

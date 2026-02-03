@@ -88,7 +88,6 @@ DONE_DECISION_PROMPT = """You are deciding whether a research proposal is ready 
 
 ## Iteration Information
 - Current iteration: {iteration} of {max_iterations}
-- This is {"the final iteration (must decide now)" if iteration >= max_iterations else f"iteration {iteration}"}
 
 """ + GOAL + """
 

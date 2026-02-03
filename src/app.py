@@ -158,7 +158,7 @@ async def on_message(message: cl.Message):
     ).send()
 
     await cl.Message(
-        content=f"**Phase 1 complete!** Files saved to `papers/{arxiv_id}/`"
+        content=f"**Phase 1 complete!** Files saved to `papers/{arxiv_id}/` (step1_ingest, step2_summary, step2_critique, step3_mechanism)"
     ).send()
 
     # Ask user if they want to proceed to Phase 2
@@ -236,6 +236,6 @@ async def on_message(message: cl.Message):
     ).send()
 
     await cl.Message(
-        content=f"**Phase 2 complete!** Files saved to `papers/{arxiv_id}/step4_phase2/`"
+        content=f"**Phase 2 complete!** Files saved to `papers/{arxiv_id}/step4_open_problems/`"
     ).send()
 
