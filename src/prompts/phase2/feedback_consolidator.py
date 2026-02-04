@@ -23,60 +23,37 @@ The consolidated feedback will directly guide proposal revision, so it must be:
 
 OUTPUT_FORMAT = """
 **OUTPUT FORMAT**
-Structure your consolidated feedback as follows:
+You MUST respond with a valid JSON object. No other text before or after the JSON.
 
-## Executive Summary
-2-3 sentences summarizing the overall state of the proposal and the most important findings.
+```json
+{{
+  "critical_issues": [
+    "Critical issue 1: Description and why it must be fixed",
+    "Critical issue 2: Description and why it must be fixed"
+  ],
+  "minor_issues": [
+    "Minor issue 1: Description",
+    "Minor issue 2: Description"
+  ],
+  "strengths": [
+    "Strength 1: Why this is valuable",
+    "Strength 2: Why this is valuable"
+  ],
+  "required_fixes": [
+    "Fix 1: Most important action to take",
+    "Fix 2: Second priority action",
+    "Fix 3: Third priority action"
+  ],
+  "overall_assessment": "2-3 sentences summarizing the proposal state, verdict (READY/NEEDS_REVISION/NEEDS_MAJOR_REVISION), and justification"
+}}
+```
 
-## Critical Issues (Must Fix)
-Issues that block approval. These MUST be addressed in the next revision.
-
-| # | Issue | Source | Why Critical | Recommended Fix |
-|---|-------|--------|--------------|-----------------|
-| 1 | [Issue description] | [Which critic(s)] | [Why blocking] | [Specific action] |
-| 2 | ... | ... | ... | ... |
-
-## Significant Issues (Should Fix)
-Important issues that should be addressed but don't block approval.
-
-| # | Issue | Source | Impact | Recommended Fix |
-|---|-------|--------|--------|-----------------|
-| 1 | [Issue description] | [Which critic(s)] | [Impact level] | [Specific action] |
-| 2 | ... | ... | ... | ... |
-
-## Minor Issues (Nice to Fix)
-Small improvements that would strengthen the proposal.
-- [Issue 1]: [Brief fix]
-- [Issue 2]: [Brief fix]
-
-## Identified Strengths (Preserve)
-What is working well—these should NOT be changed.
-- [Strength 1]: [Why valuable]
-- [Strength 2]: [Why valuable]
-
-## Contradictions Resolved
-If critics disagreed, explain your resolution.
-- [Contradiction]: [Resolution and reasoning]
-
-## Priority Action Items
-Numbered list of actions in priority order.
-1. [Most important action]
-2. [Second priority]
-3. [Third priority]
-...
-
-## Overall Assessment
-| Dimension | Status | Notes |
-|-----------|--------|-------|
-| Logical Soundness | ✓/⚠/✗ | [Brief note] |
-| Example Testing | ✓/⚠/✗ | [Brief note] |
-| Stress Testing | ✓/⚠/✗ | [Brief note] |
-| Feasibility | ✓/⚠/✗ | [Brief note] |
-
-## Verdict
-**READY_FOR_APPROVAL** / **NEEDS_REVISION** / **NEEDS_MAJOR_REVISION** / **FUNDAMENTAL_ISSUES**
-
-With justification for the verdict.
+IMPORTANT:
+- Your response must be ONLY the JSON object above, filled in with your actual content.
+- "critical_issues" are blocking problems that MUST be fixed.
+- "minor_issues" are nice-to-fix but not blocking.
+- "required_fixes" should be prioritized list of specific actions.
+- Use plain text, avoid special characters or LaTeX notation.
 """
 
 FEEDBACK_CONSOLIDATOR_SYSTEM = PERSONA.strip()

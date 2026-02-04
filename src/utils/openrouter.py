@@ -4,8 +4,13 @@ from typing import Dict, List
 import requests
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-# DEFAULT_MODEL = "google/gemini-2.5-pro"
-DEFAULT_MODEL = "tngtech/deepseek-r1t2-chimera:free"
+
+# Model options (set via OPENROUTER_MODEL env var or change default here):
+# - "tngtech/deepseek-r1t2-chimera:free"  # Free but unreliable for JSON
+# - "google/gemini-2.0-flash-001"         # Fast, good for JSON
+# - "anthropic/claude-3.5-sonnet"         # Best quality
+# - "openai/gpt-4o-mini"                  # Good balance
+DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "google/gemini-2.0-flash-001")
 
 def call_openrouter(messages: List[Dict[str, str]],
                     model: str = DEFAULT_MODEL,

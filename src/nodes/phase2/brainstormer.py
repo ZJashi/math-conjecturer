@@ -45,6 +45,7 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
                 "strengths": "\n".join(feedback.get("strengths", [])),
                 "paper_summary": state["summary"],
                 "mechanisms": state["mechanism"],
+                "agenda": "\n".join(state.get("agenda", [])),
                 "iteration": iteration,
                 "max_iterations": max_iterations,
             }

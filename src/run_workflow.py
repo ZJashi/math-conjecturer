@@ -37,7 +37,6 @@ def run_phase1(arxiv_id: str, max_revisions: int = 10):
         "summary": "",
         "iteration": 1,
     }
-
     print("Running initial pipeline: ingest → summarize → critic → mechanism...")
     state = phase1_app.invoke(initial_state)
 

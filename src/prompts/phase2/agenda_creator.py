@@ -21,11 +21,24 @@ Each direction should be:
 
 OUTPUT_FORMAT = """
 **OUTPUT FORMAT**
-For each research direction, provide:
-- A concise title (5-10 words)
-- A clear description of what makes this direction promising
-- The type of problem that might emerge (conjecture, algorithmic, structural, etc.)
-- Key concepts or results from the paper that support this direction
+You MUST respond with a valid JSON object. No other text before or after the JSON.
+
+```json
+{{
+  "research_directions": [
+    "Direction 1: Title and description of what makes this direction promising, the type of problem, and key supporting concepts",
+    "Direction 2: Title and description of what makes this direction promising, the type of problem, and key supporting concepts",
+    "Direction 3: Title and description of what makes this direction promising, the type of problem, and key supporting concepts"
+  ],
+  "rationale": "Brief explanation of why these directions are promising given the paper context"
+}}
+```
+
+IMPORTANT:
+- Your response must be ONLY the JSON object above, filled in with your actual content.
+- Provide exactly 3-5 research directions in the array.
+- Each direction should be a complete description (title + details) as a single string.
+- Use plain text, avoid special characters or LaTeX notation in JSON strings.
 """
 
 AGENDA_CREATOR_SYSTEM = PERSONA.strip()

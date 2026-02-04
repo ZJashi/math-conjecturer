@@ -19,41 +19,32 @@ CRITIC_SYSTEM = CRITIC_PERSONA.strip()
 
 CRITIQUE_OUTPUT_FORMAT = """
 **OUTPUT FORMAT**
-Structure your critique as follows:
+You MUST respond with a valid JSON object. No other text before or after the JSON.
 
-## Summary Assessment
-One paragraph summarizing your overall evaluation from your specific perspective.
+```json
+{{
+  "summary": "One paragraph summarizing your overall evaluation from your specific perspective",
+  "issues": [
+    "Issue 1: Description of the issue and why it matters",
+    "Issue 2: Description of the issue and why it matters"
+  ],
+  "strengths": [
+    "Strength 1: What is working well and why it's valuable",
+    "Strength 2: What is working well and why it's valuable"
+  ],
+  "suggestions": [
+    "Suggestion 1: Specific action to address an issue",
+    "Suggestion 2: Specific action to address an issue"
+  ],
+  "severity": "critical | moderate | minor"
+}}
+```
 
-## Issues Found
-
-### Critical Issues (Blocking)
-Issues that MUST be fixed. The proposal cannot proceed without addressing these.
-- [Issue 1]: Description and why it's critical
-- [Issue 2]: Description and why it's critical
-
-### Significant Issues (Important)
-Issues that should be fixed but are not blocking.
-- [Issue 1]: Description and impact
-- [Issue 2]: Description and impact
-
-### Minor Issues (Nice to Fix)
-Small improvements that would strengthen the proposal.
-- [Issue 1]: Brief description
-- [Issue 2]: Brief description
-
-## Strengths Identified
-What is working well (acknowledge genuine positives).
-- [Strength 1]: Why this is valuable
-- [Strength 2]: Why this is valuable
-
-## Recommended Actions
-Specific, prioritized action items to address the issues.
-1. [Action 1]: What to do and why
-2. [Action 2]: What to do and why
-
-## Verdict
-One of: STRONG_PASS | PASS | WEAK_PASS | NEEDS_REVISION | MAJOR_REVISION | REJECT
-With brief justification.
+IMPORTANT NOTES:
+- Your response must be ONLY the JSON object above, filled in with your actual content.
+- "issues" should list ALL problems found (critical, significant, and minor)
+- "severity" indicates the OVERALL severity: "critical" if any blocking issues exist, "moderate" if significant but non-blocking issues, "minor" if only small improvements needed
+- Use plain text, avoid special characters or LaTeX notation in JSON strings
 """
 
 # =============================================================================

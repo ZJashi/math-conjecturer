@@ -23,41 +23,20 @@ Your proposal MUST satisfy ALL of the following criteria:
 
 OUTPUT_FORMAT = """
 **OUTPUT FORMAT**
-Structure your proposal as follows:
+You MUST respond with a valid JSON object. No other text before or after the JSON.
 
-## Problem Title
-A concise, descriptive title (10-15 words)
+```json
+{{
+  "title": "A concise, descriptive title (10-15 words)",
+  "problem_statement": "A precise, formal statement of the main problem or conjecture. Use mathematical notation where appropriate. State all assumptions explicitly. Define all terms precisely.",
+  "motivation": "Why is this problem interesting? What would solving it enable or reveal? How does it connect to the broader research landscape?",
+  "approach_sketch": "What is the high-level strategy for attacking this problem? What tools or techniques seem most promising? What are the key intermediate goals?",
+  "connections": "Which results from the paper inform this proposal? What mechanisms or techniques are leveraged? What gaps or limitations does this address?",
+  "potential_impact": "What would solving this problem enable or reveal? What are the main technical obstacles and potential challenges?"
+}}
+```
 
-## Problem Statement
-A precise, formal statement of the main problem or conjecture.
-- Use mathematical notation where appropriate
-- State all assumptions explicitly
-- Define all terms precisely
-
-## Motivation
-- Why is this problem interesting?
-- What would solving it enable or reveal?
-- How does it connect to the broader research landscape?
-
-## Key Insights from Source Material
-- Which results from the paper inform this proposal?
-- What mechanisms or techniques are leveraged?
-- What gaps or limitations does this address?
-
-## Proposed Approach
-- What is the high-level strategy for attacking this problem?
-- What tools or techniques seem most promising?
-- What are the key intermediate goals?
-
-## Potential Challenges
-- What are the main technical obstacles?
-- What could go wrong or prove harder than expected?
-- What alternative approaches exist if the main strategy fails?
-
-## Success Criteria
-- How will we know if the problem is solved?
-- What constitutes partial progress?
-- What evidence would validate or refute the conjecture?
+IMPORTANT: Your response must be ONLY the JSON object above, filled in with your actual content. Do not include any text before or after the JSON.
 """
 
 BRAINSTORMER_SYSTEM = PERSONA.strip()
@@ -133,6 +112,9 @@ BRAINSTORMER_REVISION_PROMPT = """You are revising a research proposal based on 
 
 ### Key Mechanisms
 {mechanisms}
+
+### Research Agenda (Identified Directions)
+{agenda}
 
 ## Iteration Status
 Iteration {iteration} of {max_iterations}

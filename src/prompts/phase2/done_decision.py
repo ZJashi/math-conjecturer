@@ -26,54 +26,24 @@ This decision directly controls the workflow loop, so it must be:
 
 OUTPUT_FORMAT = """
 **OUTPUT FORMAT**
-Structure your decision as follows:
+You MUST respond with a valid JSON object. No other text before or after the JSON.
 
-## Criteria Evaluation
+```json
+{{
+  "is_done": true,
+  "clarity_met": true,
+  "feasibility_met": true,
+  "novelty_met": true,
+  "reasoning": "2-3 sentences explaining the decision based on criteria evaluation",
+  "recommendation": "What should happen next - either specific improvements needed OR why proposal is ready"
+}}
+```
 
-### 1. Clarity (Required: PASS)
-Is the problem clearly and precisely stated?
-- Problem statement assessment: [Clear/Somewhat Clear/Unclear]
-- Terms and definitions: [Well-defined/Some gaps/Poorly defined]
-- Scope boundaries: [Clear/Somewhat clear/Unclear]
-- **Status: PASS / FAIL**
-- **Evidence**: [Specific evidence from proposal]
-
-### 2. Feasibility (Required: PASS)
-Is the approach viable?
-- Blocking barriers: [None/Minor/Significant/Fundamental]
-- Path forward: [Clear/Plausible/Unclear/Blocked]
-- Resource requirements: [Reasonable/Challenging/Infeasible]
-- **Status: PASS / FAIL**
-- **Evidence**: [Specific evidence from proposal and feedback]
-
-### 3. Novelty (Required: PASS)
-Does the proposal offer genuine novelty?
-- Originality: [High/Moderate/Low/None]
-- Advancement over existing work: [Significant/Moderate/Incremental/None]
-- Not trivially known: [Confirmed/Likely/Uncertain/False]
-- **Status: PASS / FAIL**
-- **Evidence**: [Specific evidence from proposal]
-
-### 4. Critical Issues Resolved (Required: PASS)
-Have critical issues from feedback been addressed?
-- Outstanding critical issues: [None/Some remain/Many remain]
-- **Status: PASS / FAIL**
-- **Evidence**: [List any remaining critical issues]
-
-## Iteration Analysis
-- Current iteration: {iteration} of {max_iterations}
-- Progress from previous iterations: [Significant/Moderate/Minimal/None]
-- Likelihood of improvement with more iteration: [High/Medium/Low]
-- Risk of plateauing or cycling: [Low/Medium/High]
-
-## Decision
-
-**is_done**: [true/false]
-
-**Justification**: [2-3 sentences explaining the decision]
-
-**If CONTINUE**: What specific improvements are needed?
-**If DONE**: What makes this proposal ready for final reporting?
+IMPORTANT:
+- Your response must be ONLY the JSON object above, filled in with your actual assessment.
+- "is_done" should be true only if ALL criteria (clarity, feasibility, novelty) are met AND no critical issues remain.
+- "is_done" should be false if ANY criterion fails OR critical issues remain unresolved.
+- Use plain text for reasoning and recommendation, avoid special characters.
 """
 
 DONE_DECISION_SYSTEM = PERSONA.strip()
