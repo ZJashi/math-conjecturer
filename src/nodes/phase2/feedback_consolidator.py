@@ -49,7 +49,8 @@ def feedback_consolidator_node(state: Phase2State) -> Dict[str, Any]:
             "example_critique": _format_critique(example) if example else "No critique available",
             "reverse_critique": _format_critique(reverse) if reverse else "No critique available",
             "obstruction_critique": _format_critique(obstruction) if obstruction else "No critique available",
-        }
+        },
+        temperature=0.1,
     )
 
     consolidated = ConsolidatedFeedback(
@@ -65,8 +66,9 @@ def feedback_consolidator_node(state: Phase2State) -> Dict[str, Any]:
     # Save consolidated feedback to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
     iteration = state.get("phase2_iteration", 1)
+    proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
-        feedback_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4d_feedback"
+        feedback_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}" / "feedback"
         feedback_dir.mkdir(parents=True, exist_ok=True)
 
         feedback_md = f"""# Consolidated Feedback (Iteration {iteration})

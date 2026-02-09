@@ -33,7 +33,7 @@ def revision_node(state: GraphState) -> GraphState:
         },
     ]
 
-    revised_summary = call_openrouter(messages, temperature=0.0)
+    revised_summary = call_openrouter(messages, temperature=0.4)
 
     # Increment iteration for the new summary
     new_iteration = state.get("iteration", 1) + 1

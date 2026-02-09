@@ -27,6 +27,16 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
     current_proposal = state.get("current_proposal")
     feedback = state.get("consolidated_feedback")
 
+    # Build focused agenda string: highlight current_direction if set
+    current_direction = state.get("current_direction", "")
+    agenda_items = state.get("agenda", [])
+    if current_direction:
+        agenda_str = f"**FOCUS DIRECTION (you MUST base your proposal on this direction):**\n{current_direction}\n\nOther directions for context:\n" + "\n".join(
+            f"- {d}" for d in agenda_items if d != current_direction
+        )
+    else:
+        agenda_str = "\n".join(agenda_items)
+
     if current_proposal and feedback:
         # Revision mode
         prompt = ChatPromptTemplate.from_messages([
@@ -45,10 +55,11 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
                 "strengths": "\n".join(feedback.get("strengths", [])),
                 "paper_summary": state["summary"],
                 "mechanisms": state["mechanism"],
-                "agenda": "\n".join(state.get("agenda", [])),
+                "agenda": agenda_str,
                 "iteration": iteration,
                 "max_iterations": max_iterations,
-            }
+            },
+            temperature=0.5,
         )
     else:
         # Initial proposal mode
@@ -63,11 +74,12 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
             inputs={
                 "paper_summary": state["summary"],
                 "mechanisms": state["mechanism"],
-                "agenda": "\n".join(state.get("agenda", [])),
+                "agenda": agenda_str,
                 "feedback": "None - this is the first iteration.",
                 "iteration": iteration,
                 "max_iterations": max_iterations,
-            }
+            },
+            temperature=0.9,
         )
 
     # Format proposal as markdown
@@ -93,8 +105,9 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
 
     # Save proposal to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
+    proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
-        proposal_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4b_proposals"
+        proposal_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}" / "proposals"
         proposal_dir.mkdir(parents=True, exist_ok=True)
         proposal_path = proposal_dir / f"proposal_iteration_{iteration}.md"
         proposal_path.write_text(proposal_text, encoding="utf-8")

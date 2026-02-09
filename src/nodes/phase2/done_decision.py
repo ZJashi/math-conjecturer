@@ -20,6 +20,8 @@ def done_decision_node(state: Phase2State) -> Dict[str, Any]:
     max_iterations = state.get("max_iterations", 5)
     print(f"--- Done Decision: Evaluating proposal (iteration {iteration}/{max_iterations}) ---")
 
+    proposal_num = state.get("proposal_num", 1)
+
     # Force exit if we've hit max iterations
     if iteration >= max_iterations:
         print("Max iterations reached - forcing exit")
@@ -31,7 +33,7 @@ def done_decision_node(state: Phase2State) -> Dict[str, Any]:
         # Save decision
         arxiv_id = state.get("arxiv_id")
         if arxiv_id:
-            decision_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4e_decisions"
+            decision_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}" / "decisions"
             decision_dir.mkdir(parents=True, exist_ok=True)
             decision_path = decision_dir / f"decision_iteration_{iteration}.json"
             decision_path.write_text(json.dumps(decision_result, indent=2), encoding="utf-8")
@@ -62,7 +64,7 @@ def done_decision_node(state: Phase2State) -> Dict[str, Any]:
     # Save decision to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
     if arxiv_id:
-        decision_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4e_decisions"
+        decision_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}" / "decisions"
         decision_dir.mkdir(parents=True, exist_ok=True)
 
         decision_data = {

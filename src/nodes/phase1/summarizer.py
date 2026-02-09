@@ -29,7 +29,7 @@ def summarizer_node(state: GraphState) -> GraphState:
         },
     ]
 
-    summary = call_openrouter(messages, temperature=0.0)
+    summary = call_openrouter(messages, temperature=0.1)
 
     paper_id = state["arxiv_id"]
     iteration = state.get("iteration", 1)

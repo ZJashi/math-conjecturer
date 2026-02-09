@@ -43,22 +43,15 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
         verdict=result.verdict,
     )
 
-    # Calculate weighted score (0-100 scale)
-    weighted_score = (
-        result.clarity_score * 0.2 +
-        result.feasibility_score * 0.25 +
-        result.novelty_score * 0.3 +
-        result.rigor_score * 0.25
-    ) * 10
-
     print(f"Judge scores: clarity={result.clarity_score}, feasibility={result.feasibility_score}, "
           f"novelty={result.novelty_score}, rigor={result.rigor_score}")
-    print(f"Weighted score: {weighted_score:.1f}/100, Verdict: {result.verdict}")
+    print(f"Verdict: {result.verdict}")
 
     # Save assessment to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
+    proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
-        judge_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4g_assessment"
+        judge_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}"
         judge_dir.mkdir(parents=True, exist_ok=True)
 
         # Save as markdown
@@ -73,7 +66,6 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
 | Novelty | {result.novelty_score}/10 |
 | Rigor | {result.rigor_score}/10 |
 | **Overall** | **{result.overall_score}/10** |
-| **Weighted (0-100)** | **{weighted_score:.1f}** |
 
 ## Verdict: {result.verdict.upper()}
 
@@ -97,7 +89,6 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
             "novelty_score": result.novelty_score,
             "rigor_score": result.rigor_score,
             "overall_score": result.overall_score,
-            "weighted_score": weighted_score,
             "verdict": result.verdict,
             "justification": result.justification,
             "strengths": result.strengths,
@@ -108,6 +99,4 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
 
     return {
         "quality_assessment": assessment,
-        "quality_score": weighted_score,
-        "quality_category": result.verdict,
     }

@@ -29,7 +29,8 @@ def reverse_reasoner_node(state: Phase2State) -> Dict[str, Any]:
             "proposal": state["current_proposal"],
             "paper_summary": state["summary"],
             "mechanisms": state["mechanism"],
-        }
+        },
+        temperature=0.6,
     )
 
     print(f"Reverse Reasoner: Found {len(result.issues)} issues, {len(result.strengths)} strengths")
@@ -44,8 +45,9 @@ def reverse_reasoner_node(state: Phase2State) -> Dict[str, Any]:
     # Save critique to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
     iteration = state.get("phase2_iteration", 1)
+    proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
-        critique_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4c_critiques" / f"iteration_{iteration}"
+        critique_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}" / "critiques" / f"iteration_{iteration}"
         critique_dir.mkdir(parents=True, exist_ok=True)
 
         critique_md = f"""# Reverse Reasoner Critique (Iteration {iteration})

@@ -49,16 +49,18 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
 
     # Save final summary to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
+    proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
-        summary_dir = PAPERS_DIR / arxiv_id / "step4_open_problems"
+        summary_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}"
         summary_dir.mkdir(parents=True, exist_ok=True)
 
         # Save comprehensive summary
-        summary_md = f"""# Phase 2 Summary: Open Problem Formulation
+        summary_md = f"""# Proposal {proposal_num} Summary
 
 ## Process Overview
 - **Total Iterations:** {state.get('phase2_iteration', 'N/A')}
 - **Exit Reason:** {state.get('done_reason', 'N/A')}
+- **Research Direction:** {state.get('current_direction', 'N/A')}
 
 ## Quality Assessment
 
@@ -80,21 +82,22 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
 {assessment['justification']}
 
 ## Output Files
-- `4a_agenda/` - Research directions identified
-- `4b_proposals/` - Proposal iterations
-- `4c_critiques/` - Feedback from all critics per iteration
-- `4d_feedback/` - Consolidated feedback per iteration
-- `4e_decisions/` - Loop continuation decisions
-- `4f_report/` - Final polished report
-- `4g_assessment/` - Quality assessment details
+- `proposals/` - Proposal iterations
+- `critiques/` - Feedback from all critics per iteration
+- `feedback/` - Consolidated feedback per iteration
+- `decisions/` - Loop continuation decisions
+- `report.md` - Final polished report
+- `quality_assessment.md` - Quality assessment details
 """
-        summary_path = summary_dir / "SUMMARY.md"
+        summary_path = summary_dir / "summary.md"
         summary_path.write_text(summary_md, encoding="utf-8")
-        print(f"  > Saved Phase 2 summary to {summary_path}")
+        print(f"  > Saved proposal summary to {summary_path}")
 
         # Also save as JSON
         summary_json = {
             "arxiv_id": arxiv_id,
+            "proposal_num": proposal_num,
+            "direction": state.get("current_direction"),
             "total_iterations": state.get("phase2_iteration"),
             "exit_reason": state.get("done_reason"),
             "scores": {

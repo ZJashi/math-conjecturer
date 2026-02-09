@@ -30,7 +30,8 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
             "paper_summary": state["summary"],
             "mechanisms": state["mechanism"],
             "iterations": state.get("phase2_iteration", 1),
-        }
+        },
+        temperature=0.4,
     )
 
     # Format as markdown report
@@ -62,8 +63,9 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
 
     # Save report to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
+    proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
-        report_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4f_report"
+        report_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}"
         report_dir.mkdir(parents=True, exist_ok=True)
         report_path = report_dir / "final_report.md"
         report_path.write_text(report, encoding="utf-8")

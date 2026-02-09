@@ -60,6 +60,10 @@ class Phase2State(TypedDict):
     # === AGENDA CREATOR OUTPUT ===
     agenda: NotRequired[List[str]]  # High-level strategies/directions
 
+    # === MULTI-PROPOSAL STATE ===
+    current_direction: NotRequired[str]  # Specific research direction for this proposal
+    proposal_num: NotRequired[int]  # Which proposal (1, 2, 3) is being generated
+
     # === AGENT K LOOP STATE ===
     current_proposal: NotRequired[str]
     phase2_iteration: NotRequired[int]

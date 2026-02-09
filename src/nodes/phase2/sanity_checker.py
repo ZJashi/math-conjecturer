@@ -44,8 +44,9 @@ def sanity_checker_node(state: Phase2State) -> Dict[str, Any]:
     # Save critique to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
     iteration = state.get("phase2_iteration", 1)
+    proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
-        critique_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / "4c_critiques" / f"iteration_{iteration}"
+        critique_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}" / "critiques" / f"iteration_{iteration}"
         critique_dir.mkdir(parents=True, exist_ok=True)
 
         critique_md = f"""# Sanity Checker Critique (Iteration {iteration})

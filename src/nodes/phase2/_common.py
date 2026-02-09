@@ -172,6 +172,7 @@ def invoke_with_structured_output(
     inputs: Dict[str, Any],
     max_retries: int = 3,
     retry_delay: float = 2.0,
+    temperature: float = 0.0,
 ) -> T:
     """
     Invoke the model and parse response into structured output.
@@ -200,7 +201,7 @@ def invoke_with_structured_output(
     for attempt in range(max_retries):
         try:
             response_text = call_openrouter_direct(
-                messages, temperature=0.0, json_schema=schema
+                messages, temperature=temperature, json_schema=schema
             )
             data = extract_json_from_response(response_text)
             if data:
@@ -224,7 +225,7 @@ def invoke_with_structured_output(
     print(f"  Trying JSON object mode...")
     for attempt in range(max_retries):
         try:
-            response_text = call_openrouter_json_mode(messages, temperature=0.0)
+            response_text = call_openrouter_json_mode(messages, temperature=temperature)
             data = extract_json_from_response(response_text)
             if data:
                 return output_class.model_validate(data)
@@ -275,7 +276,7 @@ Output ONLY valid JSON, nothing else."""
                 json={
                     "model": MODEL_NAME,
                     "messages": messages,
-                    "temperature": 0.0,
+                    "temperature": temperature,
                 },
                 timeout=180,
             )

@@ -101,12 +101,12 @@ def run_phase1(arxiv_id: str, max_revisions: int = 10):
 
 
 def run_phase2(phase1_state: dict, max_iterations: int = 5):
-    """Run Phase 2 workflow."""
+    """Run Phase 2 workflow, generating 3 proposals."""
     print(f"\n{'='*60}")
-    print("PHASE 2: Open Problem Formulation")
+    print("PHASE 2: Open Problem Formulation (3 Proposals)")
     print(f"{'='*60}\n")
 
-    phase2_state = run_phase2_workflow(
+    result = run_phase2_workflow(
         summary=phase1_state["summary"],
         mechanism=phase1_state["mechanism"],
         arxiv_id=phase1_state.get("arxiv_id"),
@@ -116,11 +116,12 @@ def run_phase2(phase1_state: dict, max_iterations: int = 5):
     print(f"\n{'='*60}")
     print("PHASE 2 COMPLETE")
     print(f"{'='*60}")
-    print(f"Iterations: {phase2_state.get('phase2_iteration', 'N/A')}")
-    print(f"Quality Score: {phase2_state.get('quality_score', 'N/A')}")
-    print(f"Quality Category: {phase2_state.get('quality_category', 'N/A')}")
+    proposals = result.get("proposals", [])
+    for p in proposals:
+        score = p.get("quality_score", 0)
+        print(f"  Proposal {p['proposal_num']}: {score:.1f}/100 ({p.get('quality_category', 'N/A')})")
 
-    return phase2_state
+    return result
 
 
 def load_phase1_outputs(arxiv_id: str) -> dict:
@@ -203,24 +204,39 @@ def main():
             return
 
     # Run Phase 2
-    phase2_state = run_phase2(phase1_state)
+    phase2_result = run_phase2(phase1_state)
 
     # Print Phase 2 outputs
+    proposals = phase2_result.get("proposals", [])
+
+    for p in proposals:
+        print("\n" + "="*60)
+        print(f"PROPOSAL {p['proposal_num']} OUTPUT")
+        print("="*60)
+
+        print(f"\n--- Direction ---")
+        print(p.get("direction", "N/A"))
+
+        print(f"\n--- Report ---")
+        print(p.get("final_report", "No report"))
+
+        print(f"\n--- Quality Assessment ---")
+        assessment = p.get("quality_assessment", {})
+        print(f"Clarity: {assessment.get('clarity_score', 'N/A')}/10")
+        print(f"Feasibility: {assessment.get('feasibility_score', 'N/A')}/10")
+        print(f"Novelty: {assessment.get('novelty_score', 'N/A')}/10")
+        print(f"Rigor: {assessment.get('rigor_score', 'N/A')}/10")
+        score = p.get("quality_score", 0)
+        print(f"Overall: {score:.1f}/100")
+        print(f"Verdict: {assessment.get('verdict', 'N/A')}")
+
+    # Summary table
     print("\n" + "="*60)
-    print("PHASE 2 OUTPUTS")
+    print("SUMMARY")
     print("="*60)
-
-    print("\n--- FINAL REPORT ---")
-    print(phase2_state.get("final_report", "No report"))
-
-    print("\n--- QUALITY ASSESSMENT ---")
-    assessment = phase2_state.get("quality_assessment", {})
-    print(f"Clarity: {assessment.get('clarity_score', 'N/A')}/10")
-    print(f"Feasibility: {assessment.get('feasibility_score', 'N/A')}/10")
-    print(f"Novelty: {assessment.get('novelty_score', 'N/A')}/10")
-    print(f"Rigor: {assessment.get('rigor_score', 'N/A')}/10")
-    print(f"Overall: {phase2_state.get('quality_score', 'N/A')}/100")
-    print(f"Verdict: {assessment.get('verdict', 'N/A')}")
+    for p in proposals:
+        score = p.get("quality_score", 0)
+        print(f"  Proposal {p['proposal_num']}: {score:.1f}/100 ({p.get('quality_category', 'N/A')}) - {p.get('iterations', 0)} iterations")
 
     print(f"\nFiles saved to papers/{arxiv_id}/")
 

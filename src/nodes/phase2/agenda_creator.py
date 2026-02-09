@@ -2,9 +2,7 @@
 
 import json
 from typing import Any, Dict
-
 from langchain_core.prompts import ChatPromptTemplate
-
 from prompts.phase2 import AGENDA_CREATOR_SYSTEM, AGENDA_CREATOR_PROMPT
 from schema.phase2 import Phase2State, AgendaResult
 from ._common import PAPERS_DIR, invoke_with_structured_output
@@ -13,7 +11,6 @@ from ._common import PAPERS_DIR, invoke_with_structured_output
 def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
     """
     Node 2: Agenda Creator
-
     Generates high-level research directions based on the paper summary
     and mechanism from Phase 1.
     """
@@ -30,7 +27,8 @@ def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
         inputs={
             "paper_summary": state["summary"],
             "mechanisms": state["mechanism"],
-        }
+        },
+        temperature=0.8,
     )
 
     print(f"Generated {len(result.research_directions)} research directions")
