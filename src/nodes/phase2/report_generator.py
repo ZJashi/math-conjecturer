@@ -35,16 +35,8 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
     )
 
     # Format as markdown report
-    report = f"""# {result.title}
-
-## Executive Summary
-{result.executive_summary}
-
-## Problem Statement
+    report = f"""# Problem Statement
 {result.problem_statement}
-
-## Background and Motivation
-{result.background_and_motivation}
 
 ## Proposed Approach
 {result.proposed_approach}
@@ -54,12 +46,9 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
 
 ## Potential Impact
 {result.potential_impact}
-
-## References and Connections
-{result.references_and_connections}
 """
 
-    print(f"Generated report: {result.title}")
+    print(f"Generated report for proposal {state.get('proposal_num', '?')}")
 
     # Save report to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")

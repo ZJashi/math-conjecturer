@@ -20,6 +20,7 @@ from .feedback_consolidator import (
 )
 from .done_decision import DONE_DECISION_SYSTEM, DONE_DECISION_PROMPT
 from .report_generator import REPORT_GENERATOR_SYSTEM, REPORT_GENERATOR_PROMPT
+from .mechanism_updater import MECHANISM_UPDATER_SYSTEM, MECHANISM_UPDATER_PROMPT
 from .final_judge import JUDGE_SYSTEM, FINAL_JUDGE_PROMPT
 
 __all__ = [
@@ -47,6 +48,9 @@ __all__ = [
     # Report
     "REPORT_GENERATOR_SYSTEM",
     "REPORT_GENERATOR_PROMPT",
+    # Mechanism Updater
+    "MECHANISM_UPDATER_SYSTEM",
+    "MECHANISM_UPDATER_PROMPT",
     # Judge
     "JUDGE_SYSTEM",
     "FINAL_JUDGE_PROMPT",

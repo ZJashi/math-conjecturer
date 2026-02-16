@@ -36,6 +36,7 @@ from nodes.phase2 import (
     feedback_consolidator_node,
     done_decision_node,
     report_generator_node,
+    mechanism_updater_node,
     final_judge_node,
     quality_score_node,
 )
@@ -114,6 +115,7 @@ def create_proposal_workflow(
 
     # Finalization
     workflow.add_node("report_generator", report_generator_node)
+    workflow.add_node("mechanism_updater", mechanism_updater_node)
     workflow.add_node("final_judge", final_judge_node)
     workflow.add_node("quality_score", quality_score_node)
 
@@ -145,8 +147,9 @@ def create_proposal_workflow(
         }
     )
 
-    # Sequential: Report → Judge → Score → END
-    workflow.add_edge("report_generator", "final_judge")
+    # Sequential: Report → Mechanism Updater → Judge → Score → END
+    workflow.add_edge("report_generator", "mechanism_updater")
+    workflow.add_edge("mechanism_updater", "final_judge")
     workflow.add_edge("final_judge", "quality_score")
     workflow.add_edge("quality_score", END)
 

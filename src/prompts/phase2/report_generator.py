@@ -9,14 +9,13 @@ ensuring precision without sacrificing accessibility.
 
 GOAL = """
 **GOAL**
-Your task is to transform a refined research proposal into a polished, professional research
-report suitable for presentation to other researchers. The report must:
+Your task is to transform a refined research proposal into a focused, professional research
+report with exactly four sections. The report must:
 
-1. **Stand Alone**: Be understandable without access to the source materials
-2. **Be Professional**: Meet the standards of professional mathematical writing
-3. **Be Complete**: Cover all aspects of the research direction
-4. **Be Rigorous**: Maintain mathematical precision throughout
-5. **Be Actionable**: Provide clear guidance for researchers who might pursue this direction
+1. **Be Rigorous**: Maintain mathematical precision throughout
+2. **Be Actionable**: Provide clear guidance for researchers who might pursue this direction
+3. **Be Focused**: Cover only the essential aspects: problem, approach, challenges, and impact
+4. **Stand Alone**: Be understandable without access to the source materials
 """
 
 OUTPUT_FORMAT = """
@@ -25,14 +24,10 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
 
 ```json
 {{
-  "title": "Polished title for the research proposal",
-  "executive_summary": "1-2 paragraph high-level summary covering: what is the problem, why it matters, the proposed approach, and what success looks like",
-  "problem_statement": "Formal, rigorous statement of the problem including assumptions and definitions. Use clear notation.",
-  "background_and_motivation": "Context, related work, mathematical area, source paper description, and why this matters",
-  "proposed_approach": "Detailed approach including high-level strategy, technical components, and key steps",
-  "expected_challenges": "Known challenges, potential barriers, and mitigation strategies",
-  "potential_impact": "Theoretical impact, connections to other areas, and potential applications",
-  "references_and_connections": "Foundational work, related problems, and relevant techniques from the literature"
+  "problem_statement": "Formal, rigorous statement of the problem including assumptions, definitions, and clear notation. This should fully define what is being proposed.",
+  "proposed_approach": "Detailed approach including high-level strategy, technical components, key steps, and specific starting points for investigation.",
+  "expected_challenges": "Known challenges, potential barriers, technical difficulties, and strategies for addressing them.",
+  "potential_impact": "What solving this problem would enable or reveal, connections to other areas, and potential applications."
 }}
 ```
 

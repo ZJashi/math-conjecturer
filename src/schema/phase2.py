@@ -82,6 +82,9 @@ class Phase2State(TypedDict):
     # === REPORT GENERATOR OUTPUT ===
     final_report: NotRequired[str]
 
+    # === MECHANISM UPDATER OUTPUT ===
+    updated_mechanism: NotRequired[str]  # Updated mechanism XML with traceability
+
     # === FINAL JUDGE OUTPUT ===
     quality_assessment: NotRequired[QualityAssessment]
 
@@ -188,17 +191,8 @@ class DoneDecisionResult(BaseModel):
 
 class ReportResult(BaseModel):
     """Output from the Report Generator."""
-    title: str = Field(
-        description="Polished title for the research proposal."
-    )
-    executive_summary: str = Field(
-        description="1-2 paragraph high-level summary."
-    )
     problem_statement: str = Field(
         description="Formal, rigorous statement of the problem."
-    )
-    background_and_motivation: str = Field(
-        description="Context, related work, and why this matters."
     )
     proposed_approach: str = Field(
         description="Detailed approach and methodology."
@@ -208,9 +202,6 @@ class ReportResult(BaseModel):
     )
     potential_impact: str = Field(
         description="What success would mean and enable."
-    )
-    references_and_connections: str = Field(
-        description="Links to existing literature and related problems."
     )
 
 

@@ -28,41 +28,22 @@ Your assessment must be:
 
 OUTPUT_FORMAT = """
 **OUTPUT FORMAT**
-You MUST respond with a valid JSON object. No other text before or after the JSON.
+You MUST respond with a valid JSON object containing these fields:
+clarity_score, feasibility_score, novelty_score, rigor_score, overall_score (all integers 1-10),
+strengths (list of strings), weaknesses (list of strings), justification (string), verdict (string).
 
-```json
-{{
-  "clarity_score": 7,
-  "feasibility_score": 6,
-  "novelty_score": 8,
-  "rigor_score": 7,
-  "overall_score": 7,
-  "strengths": [
-    "Strength 1: Brief explanation",
-    "Strength 2: Brief explanation",
-    "Strength 3: Brief explanation"
-  ],
-  "weaknesses": [
-    "Weakness 1: Brief explanation",
-    "Weakness 2: Brief explanation"
-  ],
-  "justification": "Detailed explanation of the scores covering all four dimensions",
-  "verdict": "good"
-}}
-```
+SCORING RUBRICS — use the FULL range, do NOT default to middle values:
+- Clarity (1-10): 1-3 confusing/incoherent, 4-5 significant gaps in definitions, 6-7 clear with minor issues, 8-9 precise and well-organized, 10 exceptionally lucid
+- Feasibility (1-10): 1-3 fundamentally blocked or impossible, 4-5 major unknowns about whether solvable, 6-7 viable but needs work, 8-9 clear actionable path, 10 ready to execute
+- Novelty (1-10): 1-3 well-known or trivial variation, 4-5 incremental over existing work, 6-7 genuinely new angle, 8-9 highly original insight, 10 paradigm-shifting
+- Rigor (1-10): 1-3 hand-wavy or incorrect, 4-5 significant logical gaps, 6-7 solid foundations, 8-9 careful and thorough, 10 airtight
 
-SCORING RUBRICS:
-- Clarity (1-10): 1-3 confusing, 4-5 significant issues, 6-7 clear with minor issues, 8-9 well-organized, 10 exceptional
-- Feasibility (1-10): 1-3 blocked, 4-5 unclear if solvable, 6-7 viable, 8-9 clear path, 10 excellent
-- Novelty (1-10): 1-3 known/trivial, 4-5 incremental, 6-7 genuinely new, 8-9 highly original, 10 exceptional
-- Rigor (1-10): 1-3 sloppy, 4-5 significant gaps, 6-7 solid, 8-9 rigorous, 10 airtight
+VERDICT must match weighted score: "excellent" (85-100), "good" (70-84), "acceptable" (55-69), "needs_work" (40-54), "poor" (<40)
 
-VERDICT OPTIONS: "excellent" (85-100), "good" (70-84), "acceptable" (55-69), "needs_work" (40-54), "poor" (<40)
-
-IMPORTANT:
-- Your response must be ONLY the JSON object above, filled in with your actual scores and content.
-- All scores must be integers from 1 to 10.
-- Verdict must be one of: excellent, good, acceptable, needs_work, poor (lowercase).
+CRITICAL INSTRUCTIONS:
+- Evaluate EACH dimension independently based on the specific content of THIS proposal.
+- Different proposals MUST receive different scores reflecting their individual merits.
+- Do NOT assign the same scores to every proposal. Differentiate based on substance.
 - Use plain text, avoid special characters or LaTeX notation.
 """
 

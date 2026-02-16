@@ -10,6 +10,7 @@ from .obstruction_analyzer import obstruction_analyzer_node
 from .feedback_consolidator import feedback_consolidator_node
 from .done_decision import done_decision_node
 from .report_generator import report_generator_node
+from .mechanism_updater import mechanism_updater_node
 from .final_judge import final_judge_node
 from .quality_score import quality_score_node
 
@@ -24,6 +25,7 @@ __all__ = [
     "feedback_consolidator_node",
     "done_decision_node",
     "report_generator_node",
+    "mechanism_updater_node",
     "final_judge_node",
     "quality_score_node",
 ]

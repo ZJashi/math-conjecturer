@@ -30,7 +30,8 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
             "report": state["final_report"],
             "paper_summary": state["summary"],
             "mechanisms": state["mechanism"],
-        }
+        },
+        temperature=0.5,
     )
 
     assessment = QualityAssessment(
