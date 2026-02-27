@@ -33,14 +33,27 @@ class ConsolidatedFeedback(TypedDict):
 
 
 class QualityAssessment(TypedDict):
-    """Final quality assessment from the judge."""
-    clarity_score: int  # 1-10
-    feasibility_score: int  # 1-10
-    novelty_score: int  # 1-10
-    rigor_score: int  # 1-10
-    overall_score: int  # 1-10
-    justification: str  # Explanation of scores
-    verdict: Literal["excellent", "good", "acceptable", "needs_work", "poor"]
+    """Final quality assessment from the judge (aligned with evaluation form, 1-5 scale)."""
+    # Problem Statement (1-5 each)
+    ps_coherence: int       # Mathematical coherence / logical consistency
+    ps_motivation: int      # Derived from / motivated by original paper
+    ps_derivation: int      # Clearly derived / well-scoped from original paper
+    ps_depth: int           # Structural / conceptual depth
+    # Proposed Approach (1-5 each)
+    pa_coherence: int       # Internal mathematical coherence
+    pa_alignment: int       # Logical alignment with stated problem
+    pa_feasibility: int     # Technical feasibility with known tools
+    # Expected Challenges (1-5 each)
+    ec_identification: int  # Correctly identifies main obstacles
+    ec_technical_depth: int # Technical / structural depth of analysis
+    ec_complexity: int      # Realistic complexity calibration
+    ec_strategies: int      # Plausibility of mitigation strategies
+    # Potential Impact (1-5 each)
+    pi_novelty: int         # Genuinely novel vs known results
+    pi_advancement: int     # Would advance field understanding
+    pi_publication: int     # Publication potential
+    # Narrative
+    justification: str      # Explanation of scores
 
 
 class Phase2State(TypedDict):
@@ -88,9 +101,11 @@ class Phase2State(TypedDict):
     # === FINAL JUDGE OUTPUT ===
     quality_assessment: NotRequired[QualityAssessment]
 
-    # === QUALITY SCORE OUTPUT ===
-    quality_score: NotRequired[float]  # Final numerical score (0-100)
-    quality_category: NotRequired[Literal["excellent", "good", "acceptable", "needs_work", "poor"]]
+    # === SECTION SCORES (computed by quality_score_node, 1-5 averages) ===
+    ps_score: NotRequired[float]  # Problem Statement section avg
+    pa_score: NotRequired[float]  # Proposed Approach section avg
+    ec_score: NotRequired[float]  # Expected Challenges section avg
+    pi_score: NotRequired[float]  # Potential Impact section avg
 
 
 # =============================================================================
@@ -206,50 +221,26 @@ class ReportResult(BaseModel):
 
 
 class JudgeResult(BaseModel):
-    """Output from the Final Judge."""
-    clarity_score: int = Field(
-        ge=1, le=10,
-        description="How clear and well-defined is the proposal? (1-10)"
-    )
-    feasibility_score: int = Field(
-        ge=1, le=10,
-        description="How feasible is this research direction? (1-10)"
-    )
-    novelty_score: int = Field(
-        ge=1, le=10,
-        description="How novel and original is the proposal? (1-10)"
-    )
-    rigor_score: int = Field(
-        ge=1, le=10,
-        description="How rigorous and well-founded is the proposal? (1-10)"
-    )
-    overall_score: int = Field(
-        ge=1, le=10,
-        description="Overall quality score (1-10)"
-    )
-    strengths: List[str] = Field(
-        description="Key strengths of the proposal."
-    )
-    weaknesses: List[str] = Field(
-        description="Key weaknesses or areas for improvement."
-    )
-    justification: str = Field(
-        description="Detailed explanation of the scores."
-    )
-    verdict: Literal["excellent", "good", "acceptable", "needs_work", "poor"] = Field(
-        description="Final verdict on proposal quality."
-    )
-
-
-class QualityScoreResult(BaseModel):
-    """Final quality score output."""
-    numerical_score: float = Field(
-        ge=0, le=100,
-        description="Final quality score from 0-100."
-    )
-    category: Literal["excellent", "good", "acceptable", "needs_work", "poor"] = Field(
-        description="Quality category."
-    )
-    breakdown: str = Field(
-        description="Brief breakdown of how the score was computed."
-    )
+    """Output from the Final Judge (aligned with evaluation form, 1-5 scale)."""
+    # Problem Statement
+    ps_coherence: int = Field(ge=1, le=5, description="Mathematical coherence / logical consistency (1-5)")
+    ps_motivation: int = Field(ge=1, le=5, description="Derived from / motivated by original paper (1-5)")
+    ps_derivation: int = Field(ge=1, le=5, description="Clearly derived / well-scoped from original paper (1-5)")
+    ps_depth: int = Field(ge=1, le=5, description="Structural / conceptual depth vs surface-level (1-5)")
+    # Proposed Approach
+    pa_coherence: int = Field(ge=1, le=5, description="Internal mathematical coherence of the method (1-5)")
+    pa_alignment: int = Field(ge=1, le=5, description="Logical alignment with the stated problem (1-5)")
+    pa_feasibility: int = Field(ge=1, le=5, description="Technical feasibility with known/developable tools (1-5)")
+    # Expected Challenges
+    ec_identification: int = Field(ge=1, le=5, description="Correctly identifies main mathematical obstacles (1-5)")
+    ec_technical_depth: int = Field(ge=1, le=5, description="Technical / structural depth of difficulty analysis (1-5)")
+    ec_complexity: int = Field(ge=1, le=5, description="Realistic complexity calibration (1-5)")
+    ec_strategies: int = Field(ge=1, le=5, description="Plausibility of mitigation strategies (1-5)")
+    # Potential Impact
+    pi_novelty: int = Field(ge=1, le=5, description="Genuinely novel vs known / established results (1-5)")
+    pi_advancement: int = Field(ge=1, le=5, description="Would advance field understanding if solved (1-5)")
+    pi_publication: int = Field(ge=1, le=5, description="Publication potential in a strong venue (1-5)")
+    # Narrative
+    strengths: List[str] = Field(description="Key strengths of the proposal.")
+    weaknesses: List[str] = Field(description="Key weaknesses or areas for improvement.")
+    justification: str = Field(description="Detailed explanation of the scores.")

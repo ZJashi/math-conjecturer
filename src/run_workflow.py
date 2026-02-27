@@ -118,8 +118,11 @@ def run_phase2(phase1_state: dict, max_iterations: int = 5):
     print(f"{'='*60}")
     proposals = result.get("proposals", [])
     for p in proposals:
-        score = p.get("quality_score", 0)
-        print(f"  Proposal {p['proposal_num']}: {score:.1f}/100 ({p.get('quality_category', 'N/A')})")
+        print(
+            f"  Proposal {p['proposal_num']}: "
+            f"PS={p.get('ps_score', 0)}/5 | PA={p.get('pa_score', 0)}/5 | "
+            f"EC={p.get('ec_score', 0)}/5 | PI={p.get('pi_score', 0)}/5"
+        )
 
     return result
 
@@ -222,21 +225,23 @@ def main():
 
         print(f"\n--- Quality Assessment ---")
         assessment = p.get("quality_assessment", {})
-        print(f"Clarity: {assessment.get('clarity_score', 'N/A')}/10")
-        print(f"Feasibility: {assessment.get('feasibility_score', 'N/A')}/10")
-        print(f"Novelty: {assessment.get('novelty_score', 'N/A')}/10")
-        print(f"Rigor: {assessment.get('rigor_score', 'N/A')}/10")
-        score = p.get("quality_score", 0)
-        print(f"Overall: {score:.1f}/100")
-        print(f"Verdict: {assessment.get('verdict', 'N/A')}")
+        print(f"Problem Statement:  coherence={assessment.get('ps_coherence','N/A')} motivation={assessment.get('ps_motivation','N/A')} derivation={assessment.get('ps_derivation','N/A')} depth={assessment.get('ps_depth','N/A')}")
+        print(f"Proposed Approach:  coherence={assessment.get('pa_coherence','N/A')} alignment={assessment.get('pa_alignment','N/A')} feasibility={assessment.get('pa_feasibility','N/A')}")
+        print(f"Expected Challenges: identification={assessment.get('ec_identification','N/A')} tech_depth={assessment.get('ec_technical_depth','N/A')} complexity={assessment.get('ec_complexity','N/A')} strategies={assessment.get('ec_strategies','N/A')}")
+        print(f"Potential Impact:   novelty={assessment.get('pi_novelty','N/A')} advancement={assessment.get('pi_advancement','N/A')} publication={assessment.get('pi_publication','N/A')}")
+        print(f"Section scores: PS={p.get('ps_score',0)}/5 | PA={p.get('pa_score',0)}/5 | EC={p.get('ec_score',0)}/5 | PI={p.get('pi_score',0)}/5")
 
     # Summary table
     print("\n" + "="*60)
     print("SUMMARY")
     print("="*60)
     for p in proposals:
-        score = p.get("quality_score", 0)
-        print(f"  Proposal {p['proposal_num']}: {score:.1f}/100 ({p.get('quality_category', 'N/A')}) - {p.get('iterations', 0)} iterations")
+        print(
+            f"  Proposal {p['proposal_num']}: "
+            f"PS={p.get('ps_score',0)}/5 | PA={p.get('pa_score',0)}/5 | "
+            f"EC={p.get('ec_score',0)}/5 | PI={p.get('pi_score',0)}/5 "
+            f"- {p.get('iterations', 0)} iterations"
+        )
 
     print(f"\nFiles saved to papers/{arxiv_id}/")
 

@@ -14,7 +14,7 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
     """
     Node 5: Final Judge
 
-    Independently evaluates the report.
+    Evaluates the report on 14 criteria across 4 sections (1-5 scale each).
     """
     print("--- Final Judge: Evaluating report ---")
 
@@ -35,18 +35,30 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
     )
 
     assessment = QualityAssessment(
-        clarity_score=result.clarity_score,
-        feasibility_score=result.feasibility_score,
-        novelty_score=result.novelty_score,
-        rigor_score=result.rigor_score,
-        overall_score=result.overall_score,
+        ps_coherence=result.ps_coherence,
+        ps_motivation=result.ps_motivation,
+        ps_derivation=result.ps_derivation,
+        ps_depth=result.ps_depth,
+        pa_coherence=result.pa_coherence,
+        pa_alignment=result.pa_alignment,
+        pa_feasibility=result.pa_feasibility,
+        ec_identification=result.ec_identification,
+        ec_technical_depth=result.ec_technical_depth,
+        ec_complexity=result.ec_complexity,
+        ec_strategies=result.ec_strategies,
+        pi_novelty=result.pi_novelty,
+        pi_advancement=result.pi_advancement,
+        pi_publication=result.pi_publication,
         justification=result.justification,
-        verdict=result.verdict,
     )
 
-    print(f"Judge scores: clarity={result.clarity_score}, feasibility={result.feasibility_score}, "
-          f"novelty={result.novelty_score}, rigor={result.rigor_score}")
-    print(f"Verdict: {result.verdict}")
+    print(
+        f"Judge scores — "
+        f"PS: {result.ps_coherence}/{result.ps_motivation}/{result.ps_derivation}/{result.ps_depth} | "
+        f"PA: {result.pa_coherence}/{result.pa_alignment}/{result.pa_feasibility} | "
+        f"EC: {result.ec_identification}/{result.ec_technical_depth}/{result.ec_complexity}/{result.ec_strategies} | "
+        f"PI: {result.pi_novelty}/{result.pi_advancement}/{result.pi_publication}"
+    )
 
     # Save assessment to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
@@ -55,20 +67,39 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
         judge_dir = PAPERS_DIR / arxiv_id / "step4_open_problems" / f"proposal_{proposal_num}"
         judge_dir.mkdir(parents=True, exist_ok=True)
 
-        # Save as markdown
         assessment_md = f"""# Quality Assessment
 
-## Scores
+## Scores by Section
 
-| Dimension | Score |
+### Problem Statement
+| Criterion | Score |
 |-----------|-------|
-| Clarity | {result.clarity_score}/10 |
-| Feasibility | {result.feasibility_score}/10 |
-| Novelty | {result.novelty_score}/10 |
-| Rigor | {result.rigor_score}/10 |
-| **Overall** | **{result.overall_score}/10** |
+| Mathematical coherence | {result.ps_coherence}/5 |
+| Motivation from paper | {result.ps_motivation}/5 |
+| Clarity of formulation | {result.ps_derivation}/5 |
+| Conceptual depth | {result.ps_depth}/5 |
 
-## Verdict: {result.verdict.upper()}
+### Proposed Approach
+| Criterion | Score |
+|-----------|-------|
+| Internal coherence | {result.pa_coherence}/5 |
+| Alignment with problem | {result.pa_alignment}/5 |
+| Technical feasibility | {result.pa_feasibility}/5 |
+
+### Expected Challenges
+| Criterion | Score |
+|-----------|-------|
+| Obstacle identification | {result.ec_identification}/5 |
+| Technical depth of analysis | {result.ec_technical_depth}/5 |
+| Complexity calibration | {result.ec_complexity}/5 |
+| Strategy plausibility | {result.ec_strategies}/5 |
+
+### Potential Impact
+| Criterion | Score |
+|-----------|-------|
+| Novelty | {result.pi_novelty}/5 |
+| Field advancement | {result.pi_advancement}/5 |
+| Publication potential | {result.pi_publication}/5 |
 
 ## Justification
 {result.justification}
@@ -83,14 +114,29 @@ def final_judge_node(state: Phase2State) -> Dict[str, Any]:
         assessment_path.write_text(assessment_md, encoding="utf-8")
         print(f"  > Saved assessment to {assessment_path}")
 
-        # Also save as JSON for programmatic access
         assessment_json = {
-            "clarity_score": result.clarity_score,
-            "feasibility_score": result.feasibility_score,
-            "novelty_score": result.novelty_score,
-            "rigor_score": result.rigor_score,
-            "overall_score": result.overall_score,
-            "verdict": result.verdict,
+            "problem_statement": {
+                "ps_coherence": result.ps_coherence,
+                "ps_motivation": result.ps_motivation,
+                "ps_derivation": result.ps_derivation,
+                "ps_depth": result.ps_depth,
+            },
+            "proposed_approach": {
+                "pa_coherence": result.pa_coherence,
+                "pa_alignment": result.pa_alignment,
+                "pa_feasibility": result.pa_feasibility,
+            },
+            "expected_challenges": {
+                "ec_identification": result.ec_identification,
+                "ec_technical_depth": result.ec_technical_depth,
+                "ec_complexity": result.ec_complexity,
+                "ec_strategies": result.ec_strategies,
+            },
+            "potential_impact": {
+                "pi_novelty": result.pi_novelty,
+                "pi_advancement": result.pi_advancement,
+                "pi_publication": result.pi_publication,
+            },
             "justification": result.justification,
             "strengths": result.strengths,
             "weaknesses": result.weaknesses,

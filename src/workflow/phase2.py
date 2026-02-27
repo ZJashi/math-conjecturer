@@ -239,23 +239,34 @@ def run_phase2_workflow(
             "proposal_num": i,
             "direction": direction,
             "final_report": final_state.get("final_report", ""),
-            "quality_score": final_state.get("quality_score", 0),
-            "quality_category": final_state.get("quality_category", "N/A"),
+            "ps_score": final_state.get("ps_score", 0),
+            "pa_score": final_state.get("pa_score", 0),
+            "ec_score": final_state.get("ec_score", 0),
+            "pi_score": final_state.get("pi_score", 0),
             "quality_assessment": final_state.get("quality_assessment", {}),
             "iterations": final_state.get("phase2_iteration", 0),
         }
         all_proposals.append(proposal_result)
 
-        score = proposal_result["quality_score"]
-        print(f"\nProposal {i} complete: score={score:.1f}/100 ({proposal_result['quality_category']})")
+        print(
+            f"\nProposal {i} complete: "
+            f"PS={proposal_result['ps_score']}/5 | "
+            f"PA={proposal_result['pa_score']}/5 | "
+            f"EC={proposal_result['ec_score']}/5 | "
+            f"PI={proposal_result['pi_score']}/5"
+        )
 
     # === Print summary ===
     print("\n" + "=" * 60)
     print("PHASE 2 COMPLETE")
     print("=" * 60)
     for p in all_proposals:
-        score = p["quality_score"]
-        print(f"  Proposal {p['proposal_num']}: {score:.1f}/100 ({p['quality_category']}) - {p['iterations']} iterations")
+        print(
+            f"  Proposal {p['proposal_num']}: "
+            f"PS={p['ps_score']}/5 | PA={p['pa_score']}/5 | "
+            f"EC={p['ec_score']}/5 | PI={p['pi_score']}/5 "
+            f"({p['iterations']} iterations)"
+        )
     print("=" * 60 + "\n")
 
     return {
