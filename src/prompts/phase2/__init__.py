@@ -2,6 +2,15 @@
 
 from .base import BASE_SYSTEM_PROMPT
 from .agenda_creator import AGENDA_CREATOR_SYSTEM, AGENDA_CREATOR_PROMPT
+from .field_expert import (
+    FIELD_EXPERT_SYSTEM,
+    FIELD_EXPERT_R1_PROMPT,
+    FIELD_EXPERT_R2_PROMPT,
+)
+from .expert_consolidator import (
+    EXPERT_CONSOLIDATOR_SYSTEM,
+    EXPERT_CONSOLIDATOR_PROMPT,
+)
 from .brainstormer import (
     BRAINSTORMER_SYSTEM,
     BRAINSTORMER_PROMPT,
@@ -29,6 +38,13 @@ __all__ = [
     # Agenda Creator
     "AGENDA_CREATOR_SYSTEM",
     "AGENDA_CREATOR_PROMPT",
+    # Field Experts
+    "FIELD_EXPERT_SYSTEM",
+    "FIELD_EXPERT_R1_PROMPT",
+    "FIELD_EXPERT_R2_PROMPT",
+    # Expert Consolidator
+    "EXPERT_CONSOLIDATOR_SYSTEM",
+    "EXPERT_CONSOLIDATOR_PROMPT",
     # Brainstormer
     "BRAINSTORMER_SYSTEM",
     "BRAINSTORMER_PROMPT",

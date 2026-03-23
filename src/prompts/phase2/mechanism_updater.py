@@ -16,12 +16,6 @@ MECHANISM_UPDATER_PROMPT = """You are updating a mechanism XML knowledge base to
 ### Problem Statement
 {problem_statement}
 
-### Proposed Approach
-{proposed_approach}
-
-### Expected Challenges
-{expected_challenges}
-
 ### Potential Impact
 {potential_impact}
 
@@ -36,7 +30,6 @@ Each `<proposed_problem>` element MUST have:
 - A `title` attribute
 - A `source_refs` attribute listing the IDs of existing elements from `<context>` or `<motivation>` that this problem originates from (comma-separated, e.g. "thm:clustering,dis:clustering_fails_d2")
 - A `<statement>` child with the formal problem statement
-- An `<approach>` child with the proposed approach
 - An `<impact>` child explaining potential impact
 
 Rules:

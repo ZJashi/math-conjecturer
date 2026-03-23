@@ -34,8 +34,6 @@ def mechanism_updater_node(state: Phase2State) -> Dict[str, Any]:
     formatted = prompt.format_messages(
         mechanism=state["mechanism"],
         problem_statement=sections.get("problem_statement", ""),
-        proposed_approach=sections.get("proposed_approach", ""),
-        expected_challenges=sections.get("expected_challenges", ""),
         potential_impact=sections.get("potential_impact", ""),
         direction=state.get("current_direction", ""),
     )

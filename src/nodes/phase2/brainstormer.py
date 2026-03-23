@@ -37,6 +37,11 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
     else:
         agenda_str = "\n".join(agenda_items)
 
+    expert_context = state.get(
+        "consolidated_expert_context",
+        "No cross-field expert synthesis available.",
+    )
+
     if current_proposal and feedback:
         # Revision mode
         prompt = ChatPromptTemplate.from_messages([
@@ -56,6 +61,7 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
                 "paper_summary": state["summary"],
                 "mechanisms": state["mechanism"],
                 "agenda": agenda_str,
+                "expert_context": expert_context,
                 "iteration": iteration,
                 "max_iterations": max_iterations,
             },
@@ -75,6 +81,7 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
                 "paper_summary": state["summary"],
                 "mechanisms": state["mechanism"],
                 "agenda": agenda_str,
+                "expert_context": expert_context,
                 "feedback": "None - this is the first iteration.",
                 "iteration": iteration,
                 "max_iterations": max_iterations,

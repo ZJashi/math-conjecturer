@@ -25,9 +25,7 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
 ```json
 {{
   "problem_statement": "Formal, rigorous statement of the problem including assumptions, definitions, and clear notation. This should fully define what is being proposed.",
-  "proposed_approach": "Detailed approach including high-level strategy, technical components, key steps, and specific starting points for investigation.",
-  "expected_challenges": "Known challenges, potential barriers, technical difficulties, and strategies for addressing them.",
-  "potential_impact": "What solving this problem would enable or reveal, connections to other areas, and potential applications."
+  "potential_impact": "Address each of the following questions explicitly and in order: (1) Novelty — does this problem appear genuinely novel, or does it resemble known results or established open problems? Cite specific related work if applicable. (2) Publication potential — if solved, would this likely be publishable in a strong journal in the area, and which venues? (3) Advancement — would a successful solution advance understanding in the field or subfield, and how specifically?"
 }}
 ```
 

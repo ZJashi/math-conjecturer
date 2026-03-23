@@ -52,6 +52,9 @@ BRAINSTORMER_PROMPT = """You are generating a research proposal based on mathema
 ## Research Agenda (Identified Directions)
 {agenda}
 
+## Cross-Field Expert Synthesis
+{expert_context}
+
 ## Previous Feedback
 {feedback}
 
@@ -115,6 +118,9 @@ BRAINSTORMER_REVISION_PROMPT = """You are revising a research proposal based on 
 
 ### Research Agenda (Identified Directions)
 {agenda}
+
+### Cross-Field Expert Synthesis
+{expert_context}
 
 ## Iteration Status
 Iteration {iteration} of {max_iterations}

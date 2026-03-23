@@ -38,12 +38,6 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
     report = f"""# Problem Statement
 {result.problem_statement}
 
-## Proposed Approach
-{result.proposed_approach}
-
-## Expected Challenges
-{result.expected_challenges}
-
 ## Potential Impact
 {result.potential_impact}
 """

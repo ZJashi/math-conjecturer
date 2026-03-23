@@ -39,15 +39,6 @@ class QualityAssessment(TypedDict):
     ps_motivation: int      # Derived from / motivated by original paper
     ps_derivation: int      # Clearly derived / well-scoped from original paper
     ps_depth: int           # Structural / conceptual depth
-    # Proposed Approach (1-5 each)
-    pa_coherence: int       # Internal mathematical coherence
-    pa_alignment: int       # Logical alignment with stated problem
-    pa_feasibility: int     # Technical feasibility with known tools
-    # Expected Challenges (1-5 each)
-    ec_identification: int  # Correctly identifies main obstacles
-    ec_technical_depth: int # Technical / structural depth of analysis
-    ec_complexity: int      # Realistic complexity calibration
-    ec_strategies: int      # Plausibility of mitigation strategies
     # Potential Impact (1-5 each)
     pi_novelty: int         # Genuinely novel vs known results
     pi_advancement: int     # Would advance field understanding
@@ -72,6 +63,16 @@ class Phase2State(TypedDict):
 
     # === AGENDA CREATOR OUTPUT ===
     agenda: NotRequired[List[str]]  # High-level strategies/directions
+    subfields: NotRequired[List[str]]  # 4 mathematical subfields identified by agenda creator
+
+    # === FIELD EXPERT OUTPUTS — Round 1 (parallel fan-in) ===
+    expert_contributions_r1: Annotated[List[dict], operator.add]
+
+    # === FIELD EXPERT OUTPUTS — Round 2 discussion (parallel fan-in) ===
+    expert_contributions_r2: Annotated[List[dict], operator.add]
+
+    # === EXPERT CONSOLIDATOR OUTPUT ===
+    consolidated_expert_context: NotRequired[str]  # Rich cross-field context for brainstormer
 
     # === MULTI-PROPOSAL STATE ===
     current_direction: NotRequired[str]  # Specific research direction for this proposal
@@ -103,8 +104,6 @@ class Phase2State(TypedDict):
 
     # === SECTION SCORES (computed by quality_score_node, 1-5 averages) ===
     ps_score: NotRequired[float]  # Problem Statement section avg
-    pa_score: NotRequired[float]  # Proposed Approach section avg
-    ec_score: NotRequired[float]  # Expected Challenges section avg
     pi_score: NotRequired[float]  # Potential Impact section avg
 
 
@@ -117,8 +116,28 @@ class AgendaResult(BaseModel):
     research_directions: List[str] = Field(
         description="List of 3-5 high-level research directions or problem strategies to explore."
     )
+    subfields: List[str] = Field(
+        description="Exactly 4 mathematical subfields most relevant to this paper (e.g., spectral theory, random matrices, high-dimensional probability, free probability). These will be assigned to specialized expert agents."
+    )
     rationale: str = Field(
         description="Brief explanation of why these directions are promising given the context."
+    )
+
+
+class ExpertContributionResult(BaseModel):
+    """Output from a field expert agent."""
+    subfield: str = Field(description="The mathematical subfield this expert specializes in.")
+    relevant_context: str = Field(
+        description="Key concepts, tools, and results from this subfield that are relevant to the paper."
+    )
+    open_problems: List[str] = Field(
+        description="3-5 concrete open problems or conjectures this subfield suggests, grounded in the paper."
+    )
+    techniques: List[str] = Field(
+        description="Key techniques from this subfield that could be leveraged to attack these problems."
+    )
+    cross_connections: str = Field(
+        description="How this subfield connects to other relevant areas and what cross-pollination is possible."
     )
 
 
@@ -209,12 +228,6 @@ class ReportResult(BaseModel):
     problem_statement: str = Field(
         description="Formal, rigorous statement of the problem."
     )
-    proposed_approach: str = Field(
-        description="Detailed approach and methodology."
-    )
-    expected_challenges: str = Field(
-        description="Anticipated difficulties and how to address them."
-    )
     potential_impact: str = Field(
         description="What success would mean and enable."
     )
@@ -227,15 +240,6 @@ class JudgeResult(BaseModel):
     ps_motivation: int = Field(ge=1, le=5, description="Derived from / motivated by original paper (1-5)")
     ps_derivation: int = Field(ge=1, le=5, description="Clearly derived / well-scoped from original paper (1-5)")
     ps_depth: int = Field(ge=1, le=5, description="Structural / conceptual depth vs surface-level (1-5)")
-    # Proposed Approach
-    pa_coherence: int = Field(ge=1, le=5, description="Internal mathematical coherence of the method (1-5)")
-    pa_alignment: int = Field(ge=1, le=5, description="Logical alignment with the stated problem (1-5)")
-    pa_feasibility: int = Field(ge=1, le=5, description="Technical feasibility with known/developable tools (1-5)")
-    # Expected Challenges
-    ec_identification: int = Field(ge=1, le=5, description="Correctly identifies main mathematical obstacles (1-5)")
-    ec_technical_depth: int = Field(ge=1, le=5, description="Technical / structural depth of difficulty analysis (1-5)")
-    ec_complexity: int = Field(ge=1, le=5, description="Realistic complexity calibration (1-5)")
-    ec_strategies: int = Field(ge=1, le=5, description="Plausibility of mitigation strategies (1-5)")
     # Potential Impact
     pi_novelty: int = Field(ge=1, le=5, description="Genuinely novel vs known / established results (1-5)")
     pi_advancement: int = Field(ge=1, le=5, description="Would advance field understanding if solved (1-5)")

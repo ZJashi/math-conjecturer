@@ -90,6 +90,102 @@ MACRO_DEF_RE = re.compile(
     re.MULTILINE,
 )
 
+# Matches start of \[re]newcommand{\name} — used by expand_macros
+_NEWCMD_HDR_RE = re.compile(r'\\(?:re)?newcommand\s*\{\\([A-Za-z@]+)\}')
+
+
+def _brace_balanced(tex: str, start: int) -> tuple[str, int]:
+    """Extract content inside matching braces.
+    `start` must point to the opening '{'.
+    Returns (inner_content, index_after_closing_brace).
+    """
+    depth = 1
+    i = start + 1
+    while i < len(tex) and depth > 0:
+        if tex[i] == '{':
+            depth += 1
+        elif tex[i] == '}':
+            depth -= 1
+        i += 1
+    return tex[start + 1:i - 1], i
+
+
+def expand_macros(tex: str) -> str:
+    """Parse zero-argument \\newcommand definitions and substitute them throughout
+    the source so the LLM never sees undefined custom macros in its output.
+    Macros that take arguments are left untouched.
+    """
+    macros: dict[str, str] = {}
+
+    # --- pass 1: collect zero-arg macro definitions ---
+    scan = 0
+    while scan < len(tex):
+        m = _NEWCMD_HDR_RE.search(tex, scan)
+        if not m:
+            break
+        name = m.group(1)
+        p = m.end()
+        # skip whitespace
+        while p < len(tex) and tex[p] in ' \t\n':
+            p += 1
+        if p >= len(tex):
+            break
+        if tex[p] == '[':
+            # has argument count — skip
+            scan = p + 1
+            continue
+        if tex[p] != '{':
+            scan = p
+            continue
+        definition, end = _brace_balanced(tex, p)
+        macros[name] = definition
+        scan = end
+
+    if not macros:
+        return tex
+
+    # --- pass 2: remove definition statements for collected macros ---
+    parts: list[str] = []
+    pos = 0
+    while pos < len(tex):
+        m = _NEWCMD_HDR_RE.search(tex, pos)
+        if not m:
+            parts.append(tex[pos:])
+            break
+        name = m.group(1)
+        if name not in macros:
+            parts.append(tex[pos:m.end()])
+            pos = m.end()
+            continue
+        parts.append(tex[pos:m.start()])
+        p = m.end()
+        while p < len(tex) and tex[p] in ' \t\n':
+            p += 1
+        if p < len(tex) and tex[p] == '{':
+            _, p = _brace_balanced(tex, p)
+        pos = p
+
+    tex = ''.join(parts)
+
+    # --- pass 3: substitute uses, longest names first to avoid prefix clashes ---
+    for name in sorted(macros, key=len, reverse=True):
+        definition = macros[name]
+        # Use a lambda so the replacement is treated as a literal string,
+        # avoiding re.sub's backslash-escape interpretation of the replacement.
+        tex = re.sub(
+            rf'\\{re.escape(name)}(?![A-Za-z])',
+            lambda _, d=definition: d,
+            tex,
+        )
+
+    # Normalize text-mode font commands that don't render in math environments.
+    # \textsc{x} and {\rm x} are not supported by KaTeX/MathJax inside $...$;
+    # replace them with \mathrm{x} which is universally supported.
+    tex = re.sub(r'\\textsc\{([^}]*)\}', r'\\mathrm{\1}', tex)
+    tex = re.sub(r'\{\\rm\s+([^}]*)\}', r'{\\mathrm{\1}}', tex)
+    tex = re.sub(r'\\rm\s+', r'\\mathrm ', tex)
+
+    return tex
 
 
 def remove_comments(tex: str) -> str:
@@ -164,6 +260,7 @@ def clean_latex(tex: str) -> str:
     tex = remove_line_based_junk(tex)
     tex = remove_regex_junk(tex)
     tex = flatten_layout_environments(tex)
+    tex = expand_macros(tex)
     tex = remove_unused_macros(tex)
     tex = normalize_whitespace(tex)
     return tex

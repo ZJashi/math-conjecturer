@@ -35,6 +35,11 @@ def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
     for i, direction in enumerate(result.research_directions, 1):
         print(f"  {i}. {direction[:80]}...")
 
+    subfields = result.subfields[:4]  # Enforce exactly 4
+    print(f"Identified {len(subfields)} subfields for expert agents:")
+    for i, sf in enumerate(subfields, 1):
+        print(f"  {i}. {sf}")
+
     # Save agenda to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
     if arxiv_id:
@@ -47,6 +52,9 @@ def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
         agenda_md += "## Research Directions\n\n"
         for i, direction in enumerate(result.research_directions, 1):
             agenda_md += f"### Direction {i}\n{direction}\n\n"
+        agenda_md += "## Expert Subfields\n\n"
+        for i, sf in enumerate(subfields, 1):
+            agenda_md += f"{i}. {sf}\n"
 
         agenda_path = agenda_dir / "agenda.md"
         agenda_path.write_text(agenda_md, encoding="utf-8")
@@ -55,6 +63,7 @@ def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
         # Also save as JSON for programmatic access
         agenda_json = {
             "research_directions": result.research_directions,
+            "subfields": subfields,
             "rationale": result.rationale,
         }
         json_path = agenda_dir / "agenda.json"
@@ -62,4 +71,7 @@ def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
 
     return {
         "agenda": result.research_directions,
+        "subfields": subfields,
+        "expert_contributions_r1": [],
+        "expert_contributions_r2": [],
     }

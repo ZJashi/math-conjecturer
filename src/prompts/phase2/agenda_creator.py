@@ -30,6 +30,12 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
     "Direction 2: Title and description of what makes this direction promising, the type of problem, and key supporting concepts",
     "Direction 3: Title and description of what makes this direction promising, the type of problem, and key supporting concepts"
   ],
+  "subfields": [
+    "Subfield 1 (e.g., spectral theory of random matrices)",
+    "Subfield 2 (e.g., high-dimensional probability)",
+    "Subfield 3 (e.g., free probability theory)",
+    "Subfield 4 (e.g., operator algebras)"
+  ],
   "rationale": "Brief explanation of why these directions are promising given the paper context"
 }}
 ```
@@ -37,6 +43,8 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
 IMPORTANT:
 - Your response must be ONLY the JSON object above, filled in with your actual content.
 - Provide exactly 3-5 research directions in the array.
+- Provide EXACTLY 4 subfields — these will each be assigned to a specialized expert agent.
+- Subfields should be distinct mathematical areas most relevant to the paper (not just topic keywords).
 - Each direction should be a complete description (title + details) as a single string.
 - Use plain text, avoid special characters or LaTeX notation in JSON strings.
 """

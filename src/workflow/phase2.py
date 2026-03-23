@@ -28,6 +28,16 @@ from schema.phase2 import Phase2State
 from nodes.phase2 import (
     context_ingestion_node,
     agenda_creator_node,
+    field_expert_0_r1_node,
+    field_expert_1_r1_node,
+    field_expert_2_r1_node,
+    field_expert_3_r1_node,
+    r2_sync_node,
+    field_expert_0_r2_node,
+    field_expert_1_r2_node,
+    field_expert_2_r2_node,
+    field_expert_3_r2_node,
+    expert_consolidator_node,
     brainstormer_node,
     sanity_checker_node,
     example_tester_node,
@@ -65,22 +75,71 @@ def should_continue_loop(state: Phase2State) -> Literal["continue", "exit"]:
 
 def create_agenda_workflow() -> CompiledStateGraph:
     """
-    Creates the agenda-only workflow: context_ingestion → agenda_creator.
+    Creates the agenda + expert discussion workflow:
+      context_ingestion → agenda_creator
+        → [expert_0_r1, expert_1_r1, expert_2_r1, expert_3_r1]  (parallel)
+        → r2_sync
+        → [expert_0_r2, expert_1_r2, expert_2_r2, expert_3_r2]  (parallel, cross-field discussion)
+        → expert_consolidator
+        → END
 
     Returns:
-        Compiled LangGraph workflow that produces research directions.
+        Compiled LangGraph workflow that produces research directions + consolidated expert context.
     """
     workflow = StateGraph(Phase2State)
 
     workflow.add_node("context_ingestion", context_ingestion_node)
     workflow.add_node("agenda_creator", agenda_creator_node)
 
+    # Expert Round 1 (parallel)
+    workflow.add_node("expert_0_r1", field_expert_0_r1_node)
+    workflow.add_node("expert_1_r1", field_expert_1_r1_node)
+    workflow.add_node("expert_2_r1", field_expert_2_r1_node)
+    workflow.add_node("expert_3_r1", field_expert_3_r1_node)
+
+    # Round 1 → Round 2 barrier
+    workflow.add_node("r2_sync", r2_sync_node)
+
+    # Expert Round 2 (parallel cross-field discussion)
+    workflow.add_node("expert_0_r2", field_expert_0_r2_node)
+    workflow.add_node("expert_1_r2", field_expert_1_r2_node)
+    workflow.add_node("expert_2_r2", field_expert_2_r2_node)
+    workflow.add_node("expert_3_r2", field_expert_3_r2_node)
+
+    # Consolidation
+    workflow.add_node("expert_consolidator", expert_consolidator_node)
+
+    # Edges
     workflow.set_entry_point("context_ingestion")
     workflow.add_edge("context_ingestion", "agenda_creator")
-    workflow.add_edge("agenda_creator", END)
+
+    # Fan-out: agenda_creator → 4 parallel R1 experts
+    workflow.add_edge("agenda_creator", "expert_0_r1")
+    workflow.add_edge("agenda_creator", "expert_1_r1")
+    workflow.add_edge("agenda_creator", "expert_2_r1")
+    workflow.add_edge("agenda_creator", "expert_3_r1")
+
+    # Fan-in R1 → sync barrier
+    workflow.add_edge(
+        ["expert_0_r1", "expert_1_r1", "expert_2_r1", "expert_3_r1"],
+        "r2_sync",
+    )
+
+    # Fan-out: r2_sync → 4 parallel R2 experts (each sees all R1 outputs)
+    workflow.add_edge("r2_sync", "expert_0_r2")
+    workflow.add_edge("r2_sync", "expert_1_r2")
+    workflow.add_edge("r2_sync", "expert_2_r2")
+    workflow.add_edge("r2_sync", "expert_3_r2")
+
+    # Fan-in R2 → consolidator → END
+    workflow.add_edge(
+        ["expert_0_r2", "expert_1_r2", "expert_2_r2", "expert_3_r2"],
+        "expert_consolidator",
+    )
+    workflow.add_edge("expert_consolidator", END)
 
     compiled = workflow.compile()
-    print("--- Agenda Workflow compiled successfully ---")
+    print("--- Agenda + Expert Discussion Workflow compiled successfully ---")
     return compiled
 
 
@@ -197,10 +256,13 @@ def run_phase2_workflow(
         "arxiv_id": arxiv_id,
         "max_iterations": max_iterations,
         "critiques": [],
+        "expert_contributions_r1": [],
+        "expert_contributions_r2": [],
     }
 
     agenda_result = agenda_workflow.invoke(agenda_state)
     directions = agenda_result.get("agenda", [])
+    consolidated_expert_context = agenda_result.get("consolidated_expert_context", "")
 
     if not directions:
         print("ERROR: Agenda creator produced no research directions!")
@@ -229,8 +291,11 @@ def run_phase2_workflow(
             "max_iterations": max_iterations,
             "current_direction": direction,
             "proposal_num": i,
-            "agenda": directions,  # Pass full agenda for context
+            "agenda": directions,
+            "consolidated_expert_context": consolidated_expert_context,
             "critiques": [],
+            "expert_contributions_r1": [],
+            "expert_contributions_r2": [],
         }
 
         final_state = proposal_workflow.invoke(proposal_state)
@@ -240,8 +305,6 @@ def run_phase2_workflow(
             "direction": direction,
             "final_report": final_state.get("final_report", ""),
             "ps_score": final_state.get("ps_score", 0),
-            "pa_score": final_state.get("pa_score", 0),
-            "ec_score": final_state.get("ec_score", 0),
             "pi_score": final_state.get("pi_score", 0),
             "quality_assessment": final_state.get("quality_assessment", {}),
             "iterations": final_state.get("phase2_iteration", 0),
@@ -251,8 +314,6 @@ def run_phase2_workflow(
         print(
             f"\nProposal {i} complete: "
             f"PS={proposal_result['ps_score']}/5 | "
-            f"PA={proposal_result['pa_score']}/5 | "
-            f"EC={proposal_result['ec_score']}/5 | "
             f"PI={proposal_result['pi_score']}/5"
         )
 
@@ -263,8 +324,7 @@ def run_phase2_workflow(
     for p in all_proposals:
         print(
             f"  Proposal {p['proposal_num']}: "
-            f"PS={p['ps_score']}/5 | PA={p['pa_score']}/5 | "
-            f"EC={p['ec_score']}/5 | PI={p['pi_score']}/5 "
+            f"PS={p['ps_score']}/5 | PI={p['pi_score']}/5 "
             f"({p['iterations']} iterations)"
         )
     print("=" * 60 + "\n")

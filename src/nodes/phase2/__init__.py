@@ -2,6 +2,18 @@
 
 from .context_ingestion import context_ingestion_node
 from .agenda_creator import agenda_creator_node
+from .field_expert import (
+    field_expert_0_r1_node,
+    field_expert_1_r1_node,
+    field_expert_2_r1_node,
+    field_expert_3_r1_node,
+    r2_sync_node,
+    field_expert_0_r2_node,
+    field_expert_1_r2_node,
+    field_expert_2_r2_node,
+    field_expert_3_r2_node,
+)
+from .expert_consolidator import expert_consolidator_node
 from .brainstormer import brainstormer_node
 from .sanity_checker import sanity_checker_node
 from .example_tester import example_tester_node
@@ -17,6 +29,20 @@ from .quality_score import quality_score_node
 __all__ = [
     "context_ingestion_node",
     "agenda_creator_node",
+    # Field experts — Round 1
+    "field_expert_0_r1_node",
+    "field_expert_1_r1_node",
+    "field_expert_2_r1_node",
+    "field_expert_3_r1_node",
+    # Round 2 sync + discussion
+    "r2_sync_node",
+    "field_expert_0_r2_node",
+    "field_expert_1_r2_node",
+    "field_expert_2_r2_node",
+    "field_expert_3_r2_node",
+    # Consolidation
+    "expert_consolidator_node",
+    # Proposal loop
     "brainstormer_node",
     "sanity_checker_node",
     "example_tester_node",

@@ -11,27 +11,17 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
     """
     Node 6: Quality Score
 
-    Computes the four section-level average scores (1-5) from the judge's
-    14 criterion scores and saves a proposal summary.
+    Computes the two section-level average scores (1-5) from the judge's criteria.
     """
     print("--- Quality Score: Computing section averages ---")
 
     a = state["quality_assessment"]
 
     ps_score = round((a["ps_coherence"] + a["ps_motivation"] + a["ps_derivation"] + a["ps_depth"]) / 4, 2)
-    pa_score = round((a["pa_coherence"] + a["pa_alignment"] + a["pa_feasibility"]) / 3, 2)
-    ec_score = round((a["ec_identification"] + a["ec_technical_depth"] + a["ec_complexity"] + a["ec_strategies"]) / 4, 2)
     pi_score = round((a["pi_novelty"] + a["pi_advancement"] + a["pi_publication"]) / 3, 2)
 
-    print(
-        f"Section scores — "
-        f"Problem Statement: {ps_score}/5 | "
-        f"Proposed Approach: {pa_score}/5 | "
-        f"Expected Challenges: {ec_score}/5 | "
-        f"Potential Impact: {pi_score}/5"
-    )
+    print(f"Section scores — Problem Statement: {ps_score}/5 | Potential Impact: {pi_score}/5")
 
-    # Save final summary to file if arxiv_id is available
     arxiv_id = state.get("arxiv_id")
     proposal_num = state.get("proposal_num", 1)
     if arxiv_id:
@@ -51,8 +41,6 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
 | Section | Score |
 |---------|-------|
 | Problem Statement | {ps_score}/5 |
-| Proposed Approach | {pa_score}/5 |
-| Expected Challenges | {ec_score}/5 |
 | Potential Impact | {pi_score}/5 |
 
 ### Problem Statement Detail
@@ -62,21 +50,6 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
 | Motivation from paper | {a['ps_motivation']}/5 |
 | Clarity of formulation | {a['ps_derivation']}/5 |
 | Conceptual depth | {a['ps_depth']}/5 |
-
-### Proposed Approach Detail
-| Criterion | Score |
-|-----------|-------|
-| Internal coherence | {a['pa_coherence']}/5 |
-| Alignment with problem | {a['pa_alignment']}/5 |
-| Technical feasibility | {a['pa_feasibility']}/5 |
-
-### Expected Challenges Detail
-| Criterion | Score |
-|-----------|-------|
-| Obstacle identification | {a['ec_identification']}/5 |
-| Technical depth of analysis | {a['ec_technical_depth']}/5 |
-| Complexity calibration | {a['ec_complexity']}/5 |
-| Strategy plausibility | {a['ec_strategies']}/5 |
 
 ### Potential Impact Detail
 | Criterion | Score |
@@ -93,14 +66,15 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
 - `critiques/` - Feedback from all critics per iteration
 - `feedback/` - Consolidated feedback per iteration
 - `decisions/` - Loop continuation decisions
-- `report.md` - Final polished report
+- `final_report.md` - Final polished report
 - `quality_assessment.md` - Quality assessment details
 """
         summary_path = summary_dir / "summary.md"
         summary_path.write_text(summary_md, encoding="utf-8")
         print(f"  > Saved proposal summary to {summary_path}")
 
-        summary_json = {
+        json_path = summary_dir / "summary.json"
+        json_path.write_text(json.dumps({
             "arxiv_id": arxiv_id,
             "proposal_num": proposal_num,
             "direction": state.get("current_direction"),
@@ -108,8 +82,6 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
             "exit_reason": state.get("done_reason"),
             "section_scores": {
                 "problem_statement": ps_score,
-                "proposed_approach": pa_score,
-                "expected_challenges": ec_score,
                 "potential_impact": pi_score,
             },
             "criterion_scores": {
@@ -117,24 +89,13 @@ def quality_score_node(state: Phase2State) -> Dict[str, Any]:
                 "ps_motivation": a["ps_motivation"],
                 "ps_derivation": a["ps_derivation"],
                 "ps_depth": a["ps_depth"],
-                "pa_coherence": a["pa_coherence"],
-                "pa_alignment": a["pa_alignment"],
-                "pa_feasibility": a["pa_feasibility"],
-                "ec_identification": a["ec_identification"],
-                "ec_technical_depth": a["ec_technical_depth"],
-                "ec_complexity": a["ec_complexity"],
-                "ec_strategies": a["ec_strategies"],
                 "pi_novelty": a["pi_novelty"],
                 "pi_advancement": a["pi_advancement"],
                 "pi_publication": a["pi_publication"],
             },
-        }
-        json_path = summary_dir / "summary.json"
-        json_path.write_text(json.dumps(summary_json, indent=2), encoding="utf-8")
+        }, indent=2), encoding="utf-8")
 
     return {
         "ps_score": ps_score,
-        "pa_score": pa_score,
-        "ec_score": ec_score,
         "pi_score": pi_score,
     }
