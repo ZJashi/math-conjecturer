@@ -8,6 +8,23 @@ problems that advance the field. You are rigorous in your formulations but not a
 bold ideas grounded in solid foundations.
 """
 
+NOVELTY_GATE = """
+**NOVELTY GATE — CHECK BEFORE PROPOSING**
+Before writing your proposal, you MUST verify it passes ALL of the following checks. A proposal that fails any one is disqualified.
+
+1. **Paper's own results check:** Read the `<context>` layer of the mechanism XML (theorems, lemmas, propositions). Is the problem you intend to propose already proved by the paper itself, possibly under an equivalent formulation or different phrasing? If yes, do NOT propose it.
+
+2. **Cited-literature check:** Read the "Prior Work" section of the paper summary and the `<known_in_literature>` fields in the mechanism XML. If the problem is equivalent to a result established by any cited work, do NOT propose it.
+
+3. **Existing-literature check:** Use your knowledge of the broader mathematical literature. If the core claim is a known theorem, classical result, or easy corollary of well-known work — regardless of whether it is cited — do NOT propose it.
+
+4. **Conjecture skepticism:** Do NOT assume that a `<raised_conjecture>` in the mechanism XML is guaranteed to be open. Authors sometimes state conjectures that have already been resolved. Check `<known_in_literature>` on each conjecture and verify independently with your knowledge before building a proposal around it.
+
+If any mechanism XML element has `<known_in_literature>` marked as anything other than "Open.", do NOT try to address it — it is already handled.
+
+**Note on expert context:** The cross-field expert synthesis may still contain problems that slipped through novelty checks. Do NOT treat `top_problems` as guaranteed to be open. Apply checks 1–3 above to anything drawn from the expert synthesis.
+"""
+
 GOAL = """
 **GOAL**
 Your task is to generate a concrete, well-motivated research proposal based on the provided context.
@@ -16,7 +33,7 @@ The proposal must transform abstract research directions into specific, actionab
 Your proposal MUST satisfy ALL of the following criteria:
 1. **Precise Problem Statement**: Clearly define what needs to be proven, constructed, or computed
 2. **Grounded in Context**: Directly connected to the paper's results and mechanisms
-3. **Genuine Novelty**: Offers something new beyond incremental extensions
+3. **Genuine Novelty**: Offers something new beyond incremental extensions — not already solved in cited or existing literature (see Novelty Gate above)
 4. **Tractable**: Feasible to pursue with current or near-term techniques
 5. **Clear Impact**: Explains why solving this problem would matter
 """
@@ -61,24 +78,28 @@ BRAINSTORMER_PROMPT = """You are generating a research proposal based on mathema
 ## Iteration Status
 Iteration {iteration} of {max_iterations}
 
+""" + NOVELTY_GATE + """
+
 """ + GOAL + """
 
 ## Generation Guidelines
 
 ### If This Is Your First Proposal (No Feedback)
-- Choose the MOST promising direction from the research agenda
+- Apply the Novelty Gate first — eliminate any direction that corresponds to a known result
+- Choose the MOST promising OPEN direction from the research agenda
 - Focus on specificity: vague proposals will be criticized
 - Be ambitious but not impossible
 - Ground every claim in the source material
 
 ### If You Have Feedback to Address
 - Carefully analyze all feedback points
-- Address CRITICAL issues as top priority
+- Address CRITICAL issues as top priority (if "already known" was flagged, you MUST pivot to a different problem)
 - Preserve identified strengths
 - Don't overcorrect—maintain the proposal's core identity
 - Explain (briefly) how you've addressed major concerns
 
 ### Common Pitfalls to Avoid
+- Proposing results already established in cited or existing literature (check the Novelty Gate)
 - Overly vague problem statements ("study X" instead of "prove Y")
 - Unsupported claims or unjustified assumptions
 - Problems that are trivially easy or impossibly hard
@@ -124,6 +145,8 @@ BRAINSTORMER_REVISION_PROMPT = """You are revising a research proposal based on 
 
 ## Iteration Status
 Iteration {iteration} of {max_iterations}
+
+""" + NOVELTY_GATE + """
 
 ## Revision Instructions
 

@@ -2,13 +2,11 @@
 
 import json
 from typing import Any, Dict, List
-
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
-
 from prompts.phase2 import EXPERT_CONSOLIDATOR_SYSTEM, EXPERT_CONSOLIDATOR_PROMPT
 from schema.phase2 import Phase2State
-from ._common import PAPERS_DIR, invoke_with_structured_output
+from ._common import PAPERS_DIR, invoke_with_structured_output, get_latest_r1_contributions
 
 
 class ConsolidationResult(BaseModel):
@@ -63,8 +61,8 @@ def _format_r2_contributions(contributions: list) -> str:
         lines = [
             f"### Expert: {c.get('subfield', 'Unknown')}",
             "",
-            "**Discussion (responses to other experts):**",
-            *[f"- {d}" for d in c.get("discussion", [])],
+            "**Problem Verdicts (STRONG / WEAK / REJECT on other experts' problems):**",
+            *[f"- {d}" for d in c.get("problem_verdicts", [])],
             "",
             "**Synthesis Problems (cross-field):**",
             *[f"- {p}" for p in c.get("synthesis_problems", [])],
@@ -83,7 +81,7 @@ def expert_consolidator_node(state: Phase2State) -> Dict[str, Any]:
     Consolidation node: synthesizes all expert R1 + R2 outputs into a unified
     research context for the brainstormer.
     """
-    r1 = state.get("expert_contributions_r1", [])
+    r1 = get_latest_r1_contributions(state.get("expert_contributions_r1", []))
     r2 = state.get("expert_contributions_r2", [])
     print(f"--- Expert Consolidator: Synthesizing {len(r1)} R1 + {len(r2)} R2 contributions ---")
 
@@ -147,4 +145,7 @@ def expert_consolidator_node(state: Phase2State) -> Dict[str, Any]:
             encoding="utf-8",
         )
 
-    return {"consolidated_expert_context": consolidated_context}
+    return {
+        "consolidated_expert_context": consolidated_context,
+        "expert_top_problems": result.top_problems,
+    }

@@ -18,21 +18,42 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
     Node 3.1: Brainstormer
 
     Generates or revises a proposal based on context and feedback.
+    Supports pivot mode: when pivot_requested=True, switches to the next vetted problem
+    and starts fresh (resetting iteration count and prior proposal).
     """
-    iteration = state.get("phase2_iteration", 0) + 1
+    pivot_requested = state.get("pivot_requested", False)
+    vetted_problems = state.get("vetted_problems", [])
+    current_index = state.get("vetted_problem_index", 0)
     max_iterations = state.get("max_iterations", 5)
-    print(f"--- Brainstormer: Generating proposal (iteration {iteration}/{max_iterations}) ---")
 
-    # Check if we have existing proposal and feedback (revision case)
-    current_proposal = state.get("current_proposal")
-    feedback = state.get("consolidated_feedback")
+    if pivot_requested and vetted_problems:
+        # Advance to next vetted problem and start fresh
+        new_index = min(current_index + 1, len(vetted_problems) - 1)
+        new_direction = vetted_problems[new_index]
+        iteration = 1
+        current_proposal = None
+        feedback = None
+        print(f"--- Brainstormer: PIVOT to vetted problem {new_index + 1}/{len(vetted_problems)} "
+              f"(iteration {iteration}/{max_iterations}) ---")
+        print(f"  New problem: {new_direction[:120]}...")
+    else:
+        new_index = current_index
+        new_direction = None  # Use existing current_direction logic below
+        iteration = state.get("phase2_iteration", 0) + 1
+        current_proposal = state.get("current_proposal")
+        feedback = state.get("consolidated_feedback")
+        print(f"--- Brainstormer: Generating proposal (iteration {iteration}/{max_iterations}) ---")
 
-    # Build focused agenda string: highlight current_direction if set
-    current_direction = state.get("current_direction", "")
+    # Build focused agenda string
+    # On pivot, focus tightly on the new vetted problem; otherwise use current_direction
+    focus_direction = new_direction or state.get("current_direction", "")
     agenda_items = state.get("agenda", [])
-    if current_direction:
-        agenda_str = f"**FOCUS DIRECTION (you MUST base your proposal on this direction):**\n{current_direction}\n\nOther directions for context:\n" + "\n".join(
-            f"- {d}" for d in agenda_items if d != current_direction
+    if focus_direction:
+        agenda_str = (
+            f"**FOCUS PROBLEM (you MUST base your proposal on this specific problem):**\n"
+            f"{focus_direction}\n\n"
+            f"Research directions for context:\n" +
+            "\n".join(f"- {d}" for d in agenda_items)
         )
     else:
         agenda_str = "\n".join(agenda_items)
@@ -124,4 +145,10 @@ def brainstormer_node(state: Phase2State) -> Dict[str, Any]:
         "current_proposal": proposal_text,
         "phase2_iteration": iteration,
         "critiques": [],
+        "vetted_problem_index": new_index,
+        "pivot_requested": False,  # Clear the pivot flag after acting on it
+        # Update current_direction when pivoting so subsequent revisions stay on the new problem
+        **({"current_direction": new_direction} if new_direction else {}),
+        # Reset feedback history on pivot so stagnation detection starts fresh
+        **({"feedback_history": []} if pivot_requested else {}),
     }

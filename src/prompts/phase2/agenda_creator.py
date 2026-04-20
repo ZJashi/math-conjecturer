@@ -17,6 +17,12 @@ Each direction should be:
 2. **Specific**: Precise enough to guide concrete problem formulation
 3. **Promising**: Likely to yield interesting and tractable problems
 4. **Distinct**: Covering different aspects or approaches (no redundancy)
+5. **Genuinely open**: Before including a direction, verify it does not point at something already solved or already disproved. Check FOUR sources in order:
+   (a) **`<known_false>` in the mechanism XML (check first):** Scan every `<dissatisfaction>` node. If one has a `<known_false>` child, the corresponding `<desired_behavior>` is explicitly disproved by the paper — do NOT propose a direction aimed at proving it.
+   (b) The paper's own theorems in the `<context>` layer of the mechanism XML — a direction may already be answered by the paper itself.
+   (c) Any cited works mentioned in Prior Work — check `<known_in_literature>` fields on dissatisfactions and conjectures.
+   (d) Your knowledge of the broader mathematical literature.
+   Directions that lead only to known or disproved results waste the entire downstream pipeline.
 """
 
 OUTPUT_FORMAT = """
@@ -43,6 +49,7 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
 IMPORTANT:
 - Your response must be ONLY the JSON object above, filled in with your actual content.
 - Provide exactly 3-5 research directions in the array.
+- Every direction MUST point toward a genuinely open problem — not something already proved by this paper, by cited work, or known in the existing literature.
 - Provide EXACTLY 4 subfields — these will each be assigned to a specialized expert agent.
 - Subfields should be distinct mathematical areas most relevant to the paper (not just topic keywords).
 - Each direction should be a complete description (title + details) as a single string.

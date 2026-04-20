@@ -100,7 +100,7 @@ def run_phase1(arxiv_id: str, max_revisions: int = 10):
     return state
 
 
-def run_phase2(phase1_state: dict, max_iterations: int = 5):
+def run_phase2(phase1_state: dict, num_proposals: int = 3):
     """Run Phase 2 workflow, generating 3 proposals."""
     print(f"\n{'='*60}")
     print("PHASE 2: Open Problem Formulation (3 Proposals)")
@@ -110,7 +110,7 @@ def run_phase2(phase1_state: dict, max_iterations: int = 5):
         summary=phase1_state["summary"],
         mechanism=phase1_state["mechanism"],
         arxiv_id=phase1_state.get("arxiv_id"),
-        max_iterations=max_iterations,
+        num_proposals=num_proposals,
     )
 
     print(f"\n{'='*60}")

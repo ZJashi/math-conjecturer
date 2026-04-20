@@ -29,7 +29,6 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
             "proposal": state["current_proposal"],
             "paper_summary": state["summary"],
             "mechanisms": state["mechanism"],
-            "iterations": state.get("phase2_iteration", 1),
         },
         temperature=0.4,
     )
@@ -37,6 +36,12 @@ def report_generator_node(state: Phase2State) -> Dict[str, Any]:
     # Format as markdown report
     report = f"""# Problem Statement
 {result.problem_statement}
+
+## Motivation
+{result.motivation}
+
+## Connections to Existing Work
+{result.connections}
 
 ## Potential Impact
 {result.potential_impact}

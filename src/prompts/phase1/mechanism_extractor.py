@@ -42,6 +42,8 @@ Extract items from the "Boundaries," "Technical Obstructions," and "Sharpness" s
     * *Children:*
         * `<desired_behavior>`: What *should* be true? (e.g., "Should hold for n > 2").
         * `<heuristic>`: Why is this a limitation? (e.g., "Current proof relies on compactness").
+        * `<known_in_literature>` (REQUIRED — do not omit): Is the desired behavior already established? Check THREE sources in order: (1) The paper's own theorems in the `<context>` layer — a "desired behavior" may already be proved by the paper itself, perhaps stated differently or as an equivalent formulation; (2) any work cited in this paper's Prior Work; (3) well-known results in the broader mathematical literature. If yes to any, name the result and source precisely. Write "Open." only when confident it is not established anywhere.
+        * `<known_false>` (include only when applicable): If the paper explicitly states, proves, or gives a counterexample showing the desired behavior is FALSE or impossible, record that here with the precise reference (theorem number, remark, or section). This prevents downstream agents from proposing something the paper already disproves.
 * **Examples:** Use `<counterexample>` or `<example>` if the summary describes specific cases that show sharpness.
     * *Attributes:* `id`, `title`.
     * *Children:* `<structure>` (The setup), `<actual_behavior>` (The result), `<lesson>`.
@@ -50,7 +52,7 @@ Extract items from the "Boundaries," "Technical Obstructions," and "Sharpness" s
 Extract items from the "Explicit Conjectures" section.
 * **Existing Conjectures:** Use `<raised_conjecture>` for open problems *explicitly stated in the paper*.
     * *Attributes:* `id` (e.g., "conj:orig_1"), `title`.
-    * *Children:* `<content>`, `<heuristic>` (intuition provided by authors), `<impact>`.
+    * *Children:* `<content>`, `<heuristic>` (intuition provided by authors), `<impact>`, `<known_in_literature>` (REQUIRED — same check as for dissatisfactions: verify against the paper's own results, cited works, and broader literature; authors sometimes state conjectures that are already proved elsewhere).
 '''
 
 RULES = '''
@@ -59,6 +61,8 @@ RULES = '''
 2.  **Linking:** Ensure `source_refs` in `<dissatisfaction>` point to valid IDs in `<context>`.
 3.  **Fidelity:** Copy LaTeX math exactly from the summary. Do not summarize the math; transcribe it.
 4.  **Completeness:** If the summary lists "Technical Obstructions," you *must* create a corresponding `<dissatisfaction>` node.
+5.  **Known-in-literature:** Every `<dissatisfaction>` MUST include a `<known_in_literature>` child. Check in order: (a) the paper's own theorems — desired behaviors are often already proved by the paper itself under an equivalent formulation; (b) cited prior work; (c) your general knowledge of the field. Mathematical equivalences count: if "prove A ≤ B for all f" is the same as "prove the constant comparison C ≤ D" which is already a theorem, say so. Write "Open." only when you are confident.
+6.  **Known-false:** If the paper explicitly shows a desired behavior is false (counterexample, negative theorem, or remark), add `<known_false>` to that dissatisfaction. Do NOT add this element when the paper is merely silent or uncertain — only when it actively disproves the claim.
 
 '''
 

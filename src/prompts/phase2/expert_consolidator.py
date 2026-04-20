@@ -34,9 +34,13 @@ the generation of research proposals.
 
 Synthesize all expert contributions into a unified research context. Your synthesis should:
 
-1. **Identify the strongest problems**: Across all experts' proposals (R1 and R2), which 5-8 problems
-   are most compelling? Consider novelty, precision, feasibility, and impact. Prefer cross-field
-   synthesis problems when they are genuinely strong.
+1. **Filter then rank — novelty audit first (mandatory)**: Before evaluating any problem for inclusion, apply a strict novelty filter. Exclude any problem that:
+   - Is already proved by a theorem or lemma **in this paper** (check the paper summary carefully — an equivalent formulation still counts)
+   - Is already established by **any work cited** in this paper
+   - Is a known result or classical theorem in the **broader mathematical literature**
+   Only after filtering should you rank the surviving problems by novelty, precision, feasibility, and impact. The `top_problems` list you produce will be used directly by the brainstormer as authoritative guidance — a known result here will directly produce a bad proposal.
+
+   **Diversity requirement (mandatory)**: The 6 problems in `top_problems` MUST be substantively distinct from each other. Do NOT include multiple problems that are minor variants of the same core question (e.g., the same result for slightly different object classes, or the same conjecture under different phrasings). Each problem should represent a genuinely different direction, technique, or aspect of the paper. If multiple experts proposed essentially the same problem, include it ONCE (the best-formulated version) and use the remaining slots for problems from different directions. A researcher reading the list should encounter 6 different things to think about, not 6 variations of one thing.
 
 2. **Capture the key insights**: What are the most important mathematical observations that emerged
    from the cross-field discussion? What did seeing multiple perspectives together reveal?
@@ -60,7 +64,8 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
     "Problem 2: Another top problem",
     "Problem 3: Another top problem",
     "Problem 4: Another top problem",
-    "Problem 5: Another top problem"
+    "Problem 5: Another top problem",
+    "Problem 6: Another top problem"
   ],
   "key_insights": [
     "Insight 1: A major mathematical observation that emerged from the cross-field discussion",
@@ -79,6 +84,8 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
 
 IMPORTANT:
 - Your response must be ONLY the JSON object, no other text.
+- Provide EXACTLY 6 problems in `top_problems` — no more, no less. Use the R2 verdicts (STRONG/WEAK/REJECT) to guide selection: STRONG-endorsed problems rank higher, REJECT-flagged problems are excluded.
+- Every problem in `top_problems` MUST be genuinely open: not already proved by the paper itself, not established by cited work, and not a known result in the broader mathematical literature. This list is used directly by the brainstormer — a known result here produces a bad proposal.
 - Be specific and concrete — name mathematical objects, theorems, and techniques.
 - The synthesis_narrative should be rich and motivating, as it will directly inform proposal generation.
 - Use plain text — avoid special characters or LaTeX notation in JSON strings.

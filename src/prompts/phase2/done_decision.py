@@ -54,10 +54,24 @@ DONE_DECISION_PROMPT = """You are deciding whether a research proposal is ready 
 {proposal}
 
 ## Consolidated Feedback
-{feedback}
+
+### Critical Issues (must-fix — read these first)
+{critical_issues}
+
+### Required Fixes
+{required_fixes}
+
+### Minor Issues
+{minor_issues}
+
+### Overall Assessment
+{overall_assessment}
 
 ## Iteration Information
 - Current iteration: {iteration} of {max_iterations}
+
+## Iteration History (for stagnation detection)
+{feedback_history}
 
 """ + GOAL + """
 
@@ -77,11 +91,17 @@ The proposal is FEASIBLE if:
 - Required techniques exist or are within reach
 - Scope is realistic
 
+**If any Critical Issue states the problem is fundamentally intractable, reduces to an unsolvable
+problem, or has no viable approach → feasibility_met MUST be false.**
+
 ### Criterion 3: NOVELTY
 The proposal has NOVELTY if:
 - It is not already known (under any terminology)
 - It is not a trivial consequence of existing results
 - It offers genuine advancement over prior work
+
+**If any Critical Issue explicitly states the problem is already known, already proved, or equivalent
+to an existing result → novelty_met MUST be false.**
 
 ### Criterion 4: CRITICAL ISSUES RESOLVED
 Critical issues are RESOLVED if:
@@ -105,6 +125,11 @@ Critical issues are RESOLVED if:
 - If this is the FINAL iteration: Bias toward DONE unless fundamentally broken
 - If no progress in last 2 iterations: Consider DONE (plateaued)
 - If critical issues persist after 3+ iterations: May need to accept limitations
+
+**Stagnation Rule**: If the iteration history shows 2 or more consecutive assessments with the same
+verdict (e.g., repeatedly NEEDS_REVISION for the same type of issue) and the current iteration count
+is >= 3, set is_done = true and note in reasoning that the proposal has plateaued. Further revision
+is unlikely to resolve structural issues.
 
 """ + OUTPUT_FORMAT + """
 

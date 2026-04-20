@@ -29,7 +29,8 @@ def sanity_checker_node(state: Phase2State) -> Dict[str, Any]:
             "proposal": state["current_proposal"],
             "paper_summary": state["summary"],
             "mechanisms": state["mechanism"],
-        }
+        },
+        temperature=0.3,
     )
 
     print(f"Sanity Checker: Found {len(result.issues)} issues, {len(result.strengths)} strengths")

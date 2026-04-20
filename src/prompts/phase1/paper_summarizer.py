@@ -42,7 +42,7 @@ Follow the structure below and include as much detail as possible when applicabl
 ### 3. Main Results
 * **Formal Statements:** Provide the precise statements of the main Theorems/Propositions, including all quantifiers and conditions.
 * **Heuristics & Intuition:** Explain the underlying intuition or heuristics that guided the authors toward these results.
-* **Impact:** Explain the significance and implications of these results (e.g., "This improves the error term from $O(n)$ to $O(\log n)$").
+* **Impact:** Explain the significance and implications of these results (e.g., "This improves the error term from $O(n)$ to $O(\\log n)$").
 
 
 ### 4. Illustrations & Applications
@@ -62,16 +62,18 @@ This section is the primary fuel for open problems. Provide the following if dis
 * **Optimality & Counterexamples:**
     * Are the bounds/constants sharp? Can assumptions be weakened? What is the quantitative dependence on parameters?
     * Describe any counterexamples provided that demonstrate why the result cannot be improved or generalized.
-* **Technical Obstructions:** Why does the proof stop here? Identify the exact step where the technique breaks down if one tries to generalize (e.g., "The method fails in $d \geq 3$ because the Sobolev embedding becomes critical").
+* **Technical Obstructions:** Why does the proof stop here? Identify the exact step where the technique breaks down if one tries to generalize (e.g., "The method fails in $d \\geq 3$ because the Sobolev embedding becomes critical").
 * **Alternative Notions:** Discuss if the result holds for alternative objects or weaker notions (e.g., "The result is proven for Stratonovich integrals; it is unclear if it holds for Itô integrals").
+* **Prior Work Coverage (CRITICAL for novelty):** For each obstruction or desired generalization listed above, explicitly state whether it is already addressed — even partially — by any work cited in the paper. This prevents future proposal generators from re-proposing results that are established in the cited literature. For example: "The desired per-function inequality is equivalent to the constant comparison proved by [Author, Year], cited as [key]." If no cited work addresses it, explicitly state "Not addressed by any cited work."
 
 ### 7. The Frontier (Open Problems)
-* **Conjectures:** List any conjectures, natural generalizations, limitations, or future directions explicitly stated by the authors.
+* **Conjectures:** List any conjectures, natural generalizations, limitations, or future directions explicitly stated by the authors. For each, note whether it is already known to be true or false in the existing literature — authors sometimes state conjectures that have already been resolved elsewhere. If known, cite the source.
 
 **CONSTRAINTS**
 * **Fidelity:** Summarize only what is present. Do not hallucinate results.
-* **Rigor:** Maintain high mathematical precision. Quantifiers ($\forall, \exists$) must be precise. Notations must be defined before use and kept consistent.
+* **Rigor:** Maintain high mathematical precision. Quantifiers ($\\forall, \\exists$) must be precise. Notations must be defined before use and kept consistent.
 * **Dependencies:** If Theorem A relies on Lemma B, make that relationship explicit.
+* **Prior Work Coverage (CRITICAL):** In Section 6, for every obstruction or desired generalization, you MUST explicitly state whether it is already addressed by (a) any cited work in the paper's bibliography, or (b) well-known results in the broader literature. Note when a desired behavior is equivalent to a cited result, even if phrased differently. This is essential to prevent downstream stages from re-proposing already-solved problems.
 '''
 
 # ============================================================

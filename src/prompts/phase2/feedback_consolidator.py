@@ -19,6 +19,7 @@ The consolidated feedback will directly guide proposal revision, so it must be:
 3. **Actionable**: Provide specific, implementable fixes
 4. **Coherent**: Resolve contradictions and present unified guidance
 5. **Fair**: Acknowledge strengths alongside weaknesses
+6. **Attributed**: Preserve critic attribution so the brainstormer knows who flagged each issue
 """
 
 OUTPUT_FORMAT = """
@@ -54,11 +55,15 @@ IMPORTANT:
 - "minor_issues" are nice-to-fix but not blocking.
 - "required_fixes" should be prioritized list of specific actions.
 - Use plain text, avoid special characters or LaTeX notation.
+- In "critical_issues" and "minor_issues", prefix each item with the source in brackets, e.g.:
+  "[Reverse Reasoner] This problem appears to already be established by Theorem 4 of ..."
+  "[Sanity Checker] The term X is used without definition in the approach sketch."
+  This attribution is essential so the brainstormer knows which expert flagged each issue.
 """
 
 FEEDBACK_CONSOLIDATOR_SYSTEM = PERSONA.strip()
 
-FEEDBACK_CONSOLIDATOR_PROMPT = """You are consolidating feedback from four expert critics.
+FEEDBACK_CONSOLIDATOR_PROMPT = """You are consolidating feedback from multiple critics.
 
 ## Critiques to Consolidate
 
@@ -73,6 +78,9 @@ FEEDBACK_CONSOLIDATOR_PROMPT = """You are consolidating feedback from four exper
 
 ### 4. Obstruction Analyzer (Barriers & Feasibility)
 {obstruction_critique}
+
+### 5. Expert Critics (Subfield-Specific Domain Expertise)
+{expert_critiques}
 
 """ + GOAL + """
 

@@ -30,11 +30,23 @@ def feedback_consolidator_node(state: Phase2State) -> Dict[str, Any]:
 
     critiques = state.get("critiques", [])
 
-    # Find each critic's feedback
+    # Find each generic critic's feedback
     sanity = next((c for c in critiques if c["source"] == "sanity_checker"), None)
     example = next((c for c in critiques if c["source"] == "example_tester"), None)
     reverse = next((c for c in critiques if c["source"] == "reverse_reasoner"), None)
     obstruction = next((c for c in critiques if c["source"] == "obstruction_analyzer"), None)
+
+    # Collect expert critics (source starts with "expert_critic_")
+    expert_critiques = [c for c in critiques if c["source"].startswith("expert_critic_")]
+    if expert_critiques:
+        expert_section = "\n\n---\n\n".join(
+            f"### {c['source'].replace('expert_critic_', 'Expert ').replace('_', ' ').title()}\n"
+            f"[{c['source']}]\n"
+            + _format_critique(c)
+            for c in expert_critiques
+        )
+    else:
+        expert_section = "No expert critiques available."
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", FEEDBACK_CONSOLIDATOR_SYSTEM),
@@ -45,10 +57,11 @@ def feedback_consolidator_node(state: Phase2State) -> Dict[str, Any]:
         prompt=prompt,
         output_class=ConsolidatedFeedbackResult,
         inputs={
-            "sanity_critique": _format_critique(sanity) if sanity else "No critique available",
-            "example_critique": _format_critique(example) if example else "No critique available",
-            "reverse_critique": _format_critique(reverse) if reverse else "No critique available",
-            "obstruction_critique": _format_critique(obstruction) if obstruction else "No critique available",
+            "sanity_critique": f"### 1. Sanity Checker (Logical Consistency)\n[sanity_checker]\n" + (_format_critique(sanity) if sanity else "No critique available"),
+            "example_critique": f"### 2. Example Tester (Concrete Instances)\n[example_tester]\n" + (_format_critique(example) if example else "No critique available"),
+            "reverse_critique": f"### 3. Reverse Reasoner (Devil's Advocate)\n[reverse_reasoner]\n" + (_format_critique(reverse) if reverse else "No critique available"),
+            "obstruction_critique": f"### 4. Obstruction Analyzer (Barriers & Feasibility)\n[obstruction_analyzer]\n" + (_format_critique(obstruction) if obstruction else "No critique available"),
+            "expert_critiques": expert_section,
         },
         temperature=0.1,
     )
@@ -92,6 +105,8 @@ def feedback_consolidator_node(state: Phase2State) -> Dict[str, Any]:
         feedback_path.write_text(feedback_md, encoding="utf-8")
         print(f"  > Saved feedback to {feedback_path}")
 
+    existing_history = state.get("feedback_history", [])
     return {
         "consolidated_feedback": consolidated,
+        "feedback_history": existing_history + [result.overall_assessment],
     }

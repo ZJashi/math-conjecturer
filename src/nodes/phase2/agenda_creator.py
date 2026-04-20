@@ -72,6 +72,4 @@ def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
     return {
         "agenda": result.research_directions,
         "subfields": subfields,
-        "expert_contributions_r1": [],
-        "expert_contributions_r2": [],
     }

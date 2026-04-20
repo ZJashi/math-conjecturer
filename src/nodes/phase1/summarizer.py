@@ -2,10 +2,7 @@
 
 from pathlib import Path
 
-from prompts.phase1 import (
-    CONTEXT_EXTRACTOR_SYSTEM_PROMPT,
-    CONTEXT_EXTRACTOR_USER_PROMPT,
-)
+from prompts.phase1 import (CONTEXT_EXTRACTOR_SYSTEM_PROMPT, CONTEXT_EXTRACTOR_USER_PROMPT)
 from schema.phase1 import GraphState
 from utils.openrouter import call_openrouter
 

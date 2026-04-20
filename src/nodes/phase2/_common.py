@@ -299,6 +299,42 @@ Output ONLY valid JSON, nothing else."""
     return create_default_result(output_class)
 
 
+def get_latest_r2_proposals(proposals: list) -> list:
+    """Return latest proposal entry per expert_index."""
+    latest: dict = {}
+    for p in proposals:
+        idx = p.get("expert_index")
+        if idx is not None:
+            latest[idx] = p
+    return list(latest.values())
+
+
+def get_latest_r2_critiques(critiques: list) -> list:
+    """Return latest critique entry per expert_index."""
+    latest: dict = {}
+    for c in critiques:
+        idx = c.get("expert_index")
+        if idx is not None:
+            latest[idx] = c
+    return list(latest.values())
+
+
+def get_latest_r1_contributions(contributions: list) -> list:
+    """
+    Return the latest contribution per expert_index.
+
+    When experts revise their R1 outputs, the contributions list grows with both
+    original and revised entries. This returns only the last (most recent) entry
+    per expert_index so downstream nodes always see the best version.
+    """
+    latest: dict = {}
+    for c in contributions:
+        idx = c.get("expert_index")
+        if idx is not None:
+            latest[idx] = c  # Later entries overwrite earlier ones
+    return list(latest.values())
+
+
 def create_default_result(output_class: Type[T]) -> T:
     """Create a default/empty result for the given Pydantic class."""
     defaults = {}

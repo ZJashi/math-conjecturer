@@ -8,15 +8,12 @@ Schema package for state definitions and Pydantic models.
 from .phase1 import GraphState
 from .phase2 import (
     Phase2State,
-    Critique,
-    ConsolidatedFeedback,
     QualityAssessment,
     # Pydantic models
     AgendaResult,
-    ProposalResult,
-    CritiqueResult,
-    ConsolidatedFeedbackResult,
-    DoneDecisionResult,
+    ExpertSurveyResult,
+    ExpertProposalResult,
+    ExpertR2CritiqueResult,
     ReportResult,
     JudgeResult,
 )
@@ -26,15 +23,12 @@ __all__ = [
     "GraphState",
     # Phase 2 State
     "Phase2State",
-    "Critique",
-    "ConsolidatedFeedback",
     "QualityAssessment",
     # Pydantic models
     "AgendaResult",
-    "ProposalResult",
-    "CritiqueResult",
-    "ConsolidatedFeedbackResult",
-    "DoneDecisionResult",
+    "ExpertSurveyResult",
+    "ExpertProposalResult",
+    "ExpertR2CritiqueResult",
     "ReportResult",
     "JudgeResult",
 ]
