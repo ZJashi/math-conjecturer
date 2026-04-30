@@ -11,7 +11,7 @@ evaluate substance.
 GOAL = """
 **GOAL**
 Your task is to provide a final, authoritative quality assessment of a research proposal
-report across four sections, each scored on a 1–5 scale.
+report across two sections, each scored on a 1–5 scale.
 
 **SECTION 1 — Problem Statement** (4 criteria, 1-5 each):
 - `ps_coherence`: Is the problem mathematically coherent and logically consistent (free of contradictions or impossible assumptions)?

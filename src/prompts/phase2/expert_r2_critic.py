@@ -125,7 +125,7 @@ Is `problem_statement` a concrete mathematical claim?
 **Criterion 3 — Feasibility**
 
 Is the proposal grounded in the expert's own R1 survey?
-- Does motivation or connections reference specific techniques from `available_techniques`?
+- Does the problem_statement align with specific techniques from `available_techniques`?
 - Does it acknowledge the obstructions in `open_territory`, or does it ignore them?
 - This criterion rarely causes rejection alone — flag as a suggestion unless the proposal is
   entirely disconnected from the R1 analysis.

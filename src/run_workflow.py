@@ -216,8 +216,8 @@ def main():
         print(f"PROPOSAL {p['proposal_num']} OUTPUT")
         print("="*60)
 
-        print(f"\n--- Direction ---")
-        print(p.get("direction", "N/A"))
+        print(f"\n--- Title ---")
+        print(f"[{p.get('subfield', '?')}] {p.get('title', 'N/A')}")
 
         print(f"\n--- Report ---")
         print(p.get("final_report", "No report"))
@@ -235,8 +235,7 @@ def main():
     for p in proposals:
         print(
             f"  Proposal {p['proposal_num']}: "
-            f"PS={p.get('ps_score',0)}/5 | PI={p.get('pi_score',0)}/5 "
-            f"- {p.get('iterations', 0)} iterations"
+            f"PS={p.get('ps_score',0)}/5 | PI={p.get('pi_score',0)}/5"
         )
 
     print(f"\nFiles saved to papers/{arxiv_id}/")

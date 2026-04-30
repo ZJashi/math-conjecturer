@@ -11,8 +11,9 @@ OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 # - "google/gemini-2.0-flash-001"         # Fast, good for JSON
 # - "anthropic/claude-3.5-sonnet"         # Best quality
 # - "openai/gpt-4o-mini"                  # Good balance
-# - qwen/qwen3.5-9b
-DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "google/gemini-2.0-flash-001" )
+# - qwen/qwen3.5-9b\
+# - openai/gpt-5.3-chat
+DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-5.3-chat" )
 
 MAX_RETRIES = 5
 INITIAL_BACKOFF = 2  # seconds

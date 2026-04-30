@@ -90,6 +90,10 @@ from settled_claims is the most common source of downstream proposals that are a
 disproved or proved elsewhere.
 
 (b) What this paper proves or disproves directly (from the main theorems and results).
+    **Lower and upper bounds count:** if the paper proves a lower bound or presents a matching
+    family of examples showing a factor cannot be removed, then "removing that factor" is FALSE.
+    Similarly, if the paper proves a matching upper bound showing a constant or rate is already
+    tight, then "improving beyond that upper bound" is FALSE. Add both as FALSE entries.
 (c) What the paper MENTIONS as already known or already refuted (e.g., "the Peres-Tetali
     conjecture was shown to be false by...").
 (d) What you know from the broader mathematical literature to be resolved.
@@ -264,15 +268,11 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
     {{
       "title": "Concise title — precise enough that a specialist immediately knows what is being claimed.",
       "problem_statement": "The precise mathematical claim. State exact conditions, definitions, quantifiers, and the desired conclusion or construction. A researcher should be able to read this and begin working immediately.",
-      "motivation": "Why this problem matters. Ground every claim in your R1 survey: cite the open_territory, reference the landmark_results that make this natural, explain why known techniques fall short.",
-      "connections": "How this proposal connects to the paper's specific results (name them) and to the broader mathematical landscape. If it bridges to another expert's subfield, name that connection explicitly.",
       "potential_impact": "What solving this would unlock — for {subfield}, for adjacent areas, and for broader mathematical programs. Be specific: would this close a known open problem? Open new techniques?"
     }},
     {{
       "title": "...",
       "problem_statement": "...",
-      "motivation": "...",
-      "connections": "...",
       "potential_impact": "..."
     }}
   ]
@@ -285,7 +285,6 @@ IMPORTANT:
 - Each problem_statement must be a precise mathematical claim, not a direction.
 - The two proposals must be genuinely distinct from each other.
 - No approach_sketch field — omit it entirely.
-- Ground motivation in your R1 survey by referencing specific items.
 - NEVER propose anything from any `settled_claims` list — verified in STEP 0.
 - Use plain text — avoid special characters or LaTeX notation in JSON strings.
 """
@@ -376,15 +375,11 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
     {{
       "title": "...",
       "problem_statement": "...",
-      "motivation": "...",
-      "connections": "...",
       "potential_impact": "..."
     }},
     {{
       "title": "...",
       "problem_statement": "...",
-      "motivation": "...",
-      "connections": "...",
       "potential_impact": "..."
     }}
   ]

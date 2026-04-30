@@ -80,8 +80,6 @@ class SingleProposal(BaseModel):
     """One research proposal from an expert (no approach sketch)."""
     title: str = Field(description="Concise title.")
     problem_statement: str = Field(description="Precise, rigorous mathematical claim with exact conditions and goal.")
-    motivation: str = Field(description="Why this problem matters, grounded in the R1 literature survey.")
-    connections: str = Field(description="How this connects to the paper's specific results and the broader mathematical landscape.")
     potential_impact: str = Field(description="What solving this would unlock.")
 
 
@@ -107,8 +105,6 @@ class ExpertR2CritiqueResult(BaseModel):
 
 class ReportResult(BaseModel):
     problem_statement: str = Field(description="Formal, rigorous statement of the problem.")
-    motivation: str = Field(description="Why this problem is interesting and worth pursuing.")
-    connections: str = Field(description="How this connects to the paper's results and existing work.")
     potential_impact: str = Field(description="What success would mean and enable — novelty, field advancement, publication potential.")
 
 

@@ -12,158 +12,109 @@ from dotenv import find_dotenv, load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel
 
-# Load environment variables
-dotenv_path = find_dotenv()
-load_dotenv(dotenv_path)
+load_dotenv(find_dotenv())
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
-# Model configuration
-# Options (uncomment one):
-# MODEL_NAME = "tngtech/deepseek-r1t2-chimera:free"  # Free but unreliable for JSON
-# MODEL_NAME = "google/gemini-2.0-flash-001"         # Fast, good for JSON, ~$0.10/1M tokens
-# MODEL_NAME = "anthropic/claude-3.5-sonnet"         # Best quality, ~$3/1M tokens
-# MODEL_NAME = "openai/gpt-4o-mini"                  # Good balance, ~$0.15/1M tokens
+# Options: "tngtech/deepseek-r1t2-chimera:free" | "google/gemini-2.0-flash-001" | "anthropic/claude-3.5-sonnet"
 MODEL_NAME = os.getenv("OPENROUTER_MODEL", "google/gemini-2.0-flash-001")
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-# Project paths
 BASE_DIR = Path(__file__).resolve().parents[3]
 PAPERS_DIR = BASE_DIR / "papers"
 
 T = TypeVar('T', bound=BaseModel)
 
 
+# ---------------------------------------------------------------------------
+# JSON parsing
+# ---------------------------------------------------------------------------
+
 def try_parse_json(json_str: str) -> dict | None:
-    """Try various strategies to parse JSON with potential escape issues."""
-
-    # Strategy 1: Parse as-is
-    try:
-        return json.loads(json_str)
-    except json.JSONDecodeError:
-        pass
-
-    # Strategy 2: Escape single backslashes followed by letters (LaTeX commands)
-    # \alpha -> \\alpha, but \\alpha stays as \\alpha
-    try:
-        # Only escape single backslashes (not already escaped)
-        fixed = re.sub(r'(?<!\\)\\([a-zA-Z])', r'\\\\' + r'\1', json_str)
-        return json.loads(fixed)
-    except json.JSONDecodeError:
-        pass
-
-    # Strategy 3: Replace all backslashes with forward slashes (lose the math but get the structure)
-    try:
-        fixed = json_str.replace('\\', '/')
-        return json.loads(fixed)
-    except json.JSONDecodeError:
-        pass
-
-    # Strategy 4: Remove all backslashes
-    try:
-        fixed = json_str.replace('\\', '')
-        return json.loads(fixed)
-    except json.JSONDecodeError:
-        pass
-
+    for transform in [
+        lambda s: s,
+        lambda s: re.sub(r'(?<!\\)\\([a-zA-Z])', r'\\\\' + r'\1', s),
+        lambda s: s.replace('\\', '/'),
+        lambda s: s.replace('\\', ''),
+    ]:
+        try:
+            return json.loads(transform(json_str))
+        except json.JSONDecodeError:
+            pass
     return None
 
 
 def extract_json_from_response(response_text: str) -> dict | None:
-    """Extract and parse JSON from model response, handling various formats."""
-
-    # Try different patterns to find JSON
-    patterns = [
-        r'```json\s*([\s\S]*?)\s*```',  # ```json ... ```
-        r'```\s*([\s\S]*?)\s*```',       # ``` ... ```
-        r'(\{[\s\S]*\})',                 # Raw JSON object
-    ]
-
-    for pattern in patterns:
+    for pattern in [r'```json\s*([\s\S]*?)\s*```', r'```\s*([\s\S]*?)\s*```', r'(\{[\s\S]*\})']:
         match = re.search(pattern, response_text)
         if match:
-            json_str = match.group(1) if '```' in pattern else match.group(0)
-
-            # Try parsing with various escape handling strategies
-            result = try_parse_json(json_str)
+            result = try_parse_json(match.group(1) if '```' in pattern else match.group(0))
             if result:
                 return result
 
-    # Last resort: try to find any {...} and parse more aggressively
+    # Last resort: strip LaTeX and retry
     json_match = re.search(r'\{[\s\S]*\}', response_text)
     if json_match:
-        json_str = json_match.group(0)
-        # Replace LaTeX commands with placeholders before parsing
-        cleaned = re.sub(r'\\([a-zA-Z]+)', r'LATEX_\1', json_str)
-        result = try_parse_json(cleaned)
+        result = try_parse_json(re.sub(r'\\([a-zA-Z]+)', r'LATEX_\1', json_match.group(0)))
         if result:
             return result
 
     return None
 
 
-def call_openrouter_direct(
-    messages: list,
-    temperature: float = 0.0,
-    json_schema: dict | None = None,
-) -> str:
-    """Call OpenRouter API directly with optional JSON schema enforcement."""
-    if not OPENROUTER_API_KEY:
-        raise RuntimeError("OPENROUTER_API_KEY not set")
+# ---------------------------------------------------------------------------
+# OpenRouter API calls
+# ---------------------------------------------------------------------------
 
-    payload = {
-        "model": MODEL_NAME,
-        "messages": messages,
-        "temperature": temperature,
-    }
-
-    # Try structured output with JSON schema if provided
-    if json_schema:
-        # Method 1: OpenAI-compatible structured outputs (for supported models)
-        payload["response_format"] = {
-            "type": "json_schema",
-            "json_schema": {
-                "name": json_schema.get("title", "response"),
-                "strict": True,
-                "schema": json_schema,
-            }
-        }
-
+def _post(payload: dict) -> str:
     response = requests.post(
         OPENROUTER_API_URL,
-        headers={
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "Content-Type": "application/json",
-        },
+        headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
         json=payload,
         timeout=180,
     )
-
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
+
+
+def call_openrouter_direct(messages: list, temperature: float = 0.0, json_schema: dict | None = None) -> str:
+    if not OPENROUTER_API_KEY:
+        raise RuntimeError("OPENROUTER_API_KEY not set")
+    payload = {"model": MODEL_NAME, "messages": messages, "temperature": temperature}
+    if json_schema:
+        payload["response_format"] = {
+            "type": "json_schema",
+            "json_schema": {"name": json_schema.get("title", "response"), "strict": True, "schema": json_schema},
+        }
+    return _post(payload)
 
 
 def call_openrouter_json_mode(messages: list, temperature: float = 0.0) -> str:
-    """Call OpenRouter with basic JSON mode (simpler, more compatible)."""
     if not OPENROUTER_API_KEY:
         raise RuntimeError("OPENROUTER_API_KEY not set")
+    return _post({"model": MODEL_NAME, "messages": messages, "temperature": temperature,
+                  "response_format": {"type": "json_object"}})
 
-    response = requests.post(
-        OPENROUTER_API_URL,
-        headers={
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": MODEL_NAME,
-            "messages": messages,
-            "temperature": temperature,
-            "response_format": {"type": "json_object"},
-        },
-        timeout=180,
-    )
 
-    response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
+# ---------------------------------------------------------------------------
+# Structured output invocation with fallback strategies
+# ---------------------------------------------------------------------------
+
+def _try_invoke(call_fn, output_class: Type[T], max_retries: int, retry_delay: float,
+                break_on: tuple = ()) -> T | None:
+    """Retry call_fn, return parsed result or None. Breaks early if a known-unsupported error fires."""
+    for attempt in range(max_retries):
+        try:
+            data = extract_json_from_response(call_fn())
+            if data:
+                return output_class.model_validate(data)
+        except Exception as e:
+            msg = str(e)
+            if any(kw in msg for kw in break_on):
+                return None
+            print(f"  Attempt {attempt + 1} failed: {msg[:60]}")
+            if attempt < max_retries - 1:
+                time.sleep(retry_delay)
+    return None
 
 
 def invoke_with_structured_output(
@@ -174,133 +125,111 @@ def invoke_with_structured_output(
     retry_delay: float = 2.0,
     temperature: float = 0.0,
 ) -> T:
-    """
-    Invoke the model and parse response into structured output.
-
-    Tries multiple strategies:
-    1. JSON schema mode (strict structured output)
-    2. JSON object mode (basic JSON enforcement)
-    3. Prompt engineering fallback
-    """
-    # Get the schema for the output class
     schema = output_class.model_json_schema()
+    messages = [
+        {"role": "user" if msg.type == "human" else msg.type, "content": msg.content}
+        for msg in prompt.format_messages(**inputs)
+    ]
 
-    # Format the prompt messages
-    formatted_messages = prompt.format_messages(**inputs)
+    print("  Trying JSON schema mode...")
+    result = _try_invoke(
+        lambda: call_openrouter_direct(messages, temperature=temperature, json_schema=schema),
+        output_class, max_retries, retry_delay, break_on=("response_format", "json_schema"),
+    )
+    if result:
+        return result
 
-    # Convert to OpenRouter format
-    messages = []
-    for msg in formatted_messages:
-        role = "user" if msg.type == "human" else msg.type
-        if role == "human":
-            role = "user"
-        messages.append({"role": role, "content": msg.content})
+    print("  Trying JSON object mode...")
+    result = _try_invoke(
+        lambda: call_openrouter_json_mode(messages, temperature=temperature),
+        output_class, max_retries, retry_delay, break_on=("response_format", "json"),
+    )
+    if result:
+        return result
 
-    # Strategy 1: Try with JSON schema (strict mode)
-    print(f"  Trying JSON schema mode...")
-    for attempt in range(max_retries):
-        try:
-            response_text = call_openrouter_direct(
-                messages, temperature=temperature, json_schema=schema
-            )
-            data = extract_json_from_response(response_text)
-            if data:
-                return output_class.model_validate(data)
-        except requests.exceptions.RequestException as e:
-            if "response_format" in str(e) or "json_schema" in str(e):
-                print(f"  JSON schema not supported, trying JSON mode...")
-                break
-            print(f"  Schema attempt {attempt + 1} failed: {str(e)[:60]}")
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay)
-        except Exception as e:
-            if "response_format" in str(e) or "json_schema" in str(e):
-                print(f"  JSON schema not supported, trying JSON mode...")
-                break
-            print(f"  Schema attempt {attempt + 1} failed: {str(e)[:60]}")
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay)
+    print("  Trying prompt fallback...")
+    required = schema.get("required", [])
+    messages[-1]["content"] += (
+        f"\n\nCRITICAL: Respond with ONLY a valid JSON object. "
+        f"Required fields: {', '.join(required)}. No other text."
+    )
+    result = _try_invoke(
+        lambda: call_openrouter_direct(messages, temperature=temperature),
+        output_class, max_retries, retry_delay * 2,
+    )
+    if result:
+        return result
 
-    # Strategy 2: Try with basic JSON mode
-    print(f"  Trying JSON object mode...")
-    for attempt in range(max_retries):
-        try:
-            response_text = call_openrouter_json_mode(messages, temperature=temperature)
-            data = extract_json_from_response(response_text)
-            if data:
-                return output_class.model_validate(data)
-        except requests.exceptions.RequestException as e:
-            if "response_format" in str(e) or "json" in str(e).lower():
-                print(f"  JSON mode not supported, trying prompt fallback...")
-                break
-            print(f"  JSON mode attempt {attempt + 1} failed: {str(e)[:60]}")
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay)
-        except Exception as e:
-            print(f"  JSON mode attempt {attempt + 1} failed: {str(e)[:60]}")
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay)
-
-    # Strategy 3: Prompt engineering fallback
-    print(f"  Trying prompt engineering fallback...")
-    required_fields = schema.get("required", [])
-    properties = schema.get("properties", {})
-
-    field_descriptions = []
-    for field_name, field_info in properties.items():
-        field_type = field_info.get("type", "string")
-        desc = field_info.get("description", "")
-        if field_type == "array":
-            field_type = "list of strings"
-        field_descriptions.append(f'  - "{field_name}": ({field_type}) {desc}')
-
-    json_instruction = f"""
-
-CRITICAL: You MUST respond with ONLY a valid JSON object. No other text.
-
-Required fields:
-{chr(10).join(f'- {f}' for f in required_fields)}
-
-Output ONLY valid JSON, nothing else."""
-
-    messages[-1]["content"] += json_instruction
-
-    for attempt in range(max_retries):
-        try:
-            response = requests.post(
-                OPENROUTER_API_URL,
-                headers={
-                    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "model": MODEL_NAME,
-                    "messages": messages,
-                    "temperature": temperature,
-                },
-                timeout=180,
-            )
-            response.raise_for_status()
-            response_text = response.json()["choices"][0]["message"]["content"]
-
-            data = extract_json_from_response(response_text)
-            if data:
-                return output_class.model_validate(data)
-            else:
-                raise ValueError("No valid JSON found in response")
-
-        except Exception as e:
-            print(f"  Fallback attempt {attempt + 1} failed: {str(e)[:80]}")
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay * (attempt + 1))
-
-    # Last resort: return a default/empty result
     print("  WARNING: All strategies failed, returning default values")
     return create_default_result(output_class)
 
 
+# ---------------------------------------------------------------------------
+# Shared formatting helpers
+# ---------------------------------------------------------------------------
+
+def format_survey_as_text(survey: dict) -> str:
+    settled = survey.get("settled_claims", [])
+    return "\n".join([
+        f"**Subfield: {survey.get('subfield', 'Unknown')}**", "",
+        f"Paper Connections: {survey.get('paper_connections', '')}", "",
+        f"State of the Art: {survey.get('state_of_the_art', '')}", "",
+        "Landmark Results:",
+        *[f"  - {r}" for r in survey.get("landmark_results", [])], "",
+        "SETTLED CLAIMS (FORBIDDEN — do not propose anything on this list):",
+        *([f"  - {s}" for s in settled] if settled else ["  (none identified)"]), "",
+        f"Open Territory: {survey.get('open_territory', '')}", "",
+        "Available Techniques:",
+        *[f"  - {t}" for t in survey.get("available_techniques", [])], "",
+        f"Cross-Field Bridges: {survey.get('cross_field_bridges', '')}",
+    ])
+
+
+def format_proposals_as_text(proposals: list) -> str:
+    parts = []
+    for i, p in enumerate(proposals):
+        parts.append("\n".join([
+            f"Proposal {i + 1}:",
+            f"Title: {p.get('title', 'Untitled')}", "",
+            "Problem Statement:", p.get("problem_statement", ""), "",
+            "Potential Impact:", p.get("potential_impact", ""),
+        ]))
+    return "\n\n---\n\n".join(parts)
+
+
+# ---------------------------------------------------------------------------
+# File saving
+# ---------------------------------------------------------------------------
+
+def save_json(state: dict, rel_dir: str, filename: str, data: dict) -> Path | None:
+    arxiv_id = state.get("arxiv_id")
+    if not arxiv_id:
+        return None
+    out_dir = PAPERS_DIR / arxiv_id / rel_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / filename
+    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    print(f"  > Saved to {path}")
+    return path
+
+
+def save_text(state: dict, rel_dir: str, filename: str, text: str) -> Path | None:
+    arxiv_id = state.get("arxiv_id")
+    if not arxiv_id:
+        return None
+    out_dir = PAPERS_DIR / arxiv_id / rel_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / filename
+    path.write_text(text, encoding="utf-8")
+    print(f"  > Saved to {path}")
+    return path
+
+
+# ---------------------------------------------------------------------------
+# State helpers
+# ---------------------------------------------------------------------------
+
 def get_latest_r2_proposals(proposals: list) -> list:
-    """Return latest proposal entry per expert_index."""
     latest: dict = {}
     for p in proposals:
         idx = p.get("expert_index")
@@ -310,7 +239,6 @@ def get_latest_r2_proposals(proposals: list) -> list:
 
 
 def get_latest_r2_critiques(critiques: list) -> list:
-    """Return latest critique entry per expert_index."""
     latest: dict = {}
     for c in critiques:
         idx = c.get("expert_index")
@@ -319,42 +247,22 @@ def get_latest_r2_critiques(critiques: list) -> list:
     return list(latest.values())
 
 
-def get_latest_r1_contributions(contributions: list) -> list:
-    """
-    Return the latest contribution per expert_index.
-
-    When experts revise their R1 outputs, the contributions list grows with both
-    original and revised entries. This returns only the last (most recent) entry
-    per expert_index so downstream nodes always see the best version.
-    """
-    latest: dict = {}
-    for c in contributions:
-        idx = c.get("expert_index")
-        if idx is not None:
-            latest[idx] = c  # Later entries overwrite earlier ones
-    return list(latest.values())
-
-
 def create_default_result(output_class: Type[T]) -> T:
-    """Create a default/empty result for the given Pydantic class."""
     defaults = {}
     for field_name, field_info in output_class.model_fields.items():
         annotation = field_info.annotation
         if annotation == str:
             defaults[field_name] = "Unable to generate - model returned empty response"
         elif annotation == int:
-            defaults[field_name] = 5  # Middle value for scores
+            defaults[field_name] = 5
         elif annotation == float:
             defaults[field_name] = 50.0
         elif annotation == bool:
             defaults[field_name] = False
         elif hasattr(annotation, '__origin__') and annotation.__origin__ == list:
             defaults[field_name] = ["Unable to generate - model returned empty response"]
+        elif hasattr(annotation, '__args__'):
+            defaults[field_name] = annotation.__args__[0]
         else:
-            # For Literal types, try to get the first value
-            if hasattr(annotation, '__args__'):
-                defaults[field_name] = annotation.__args__[0]
-            else:
-                defaults[field_name] = None
-
+            defaults[field_name] = None
     return output_class.model_validate(defaults)
