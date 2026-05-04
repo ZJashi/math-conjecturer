@@ -11,8 +11,9 @@ OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 # - "google/gemini-2.0-flash-001"         # Fast, good for JSON
 # - "anthropic/claude-3.5-sonnet"         # Best quality
 # - "openai/gpt-4o-mini"                  # Good balance
-# - qwen/qwen3.5-9b
-DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "google/gemini-2.0-flash-001")
+# - qwen/qwen3.5-9b\
+# - openai/gpt-5.3-chat
+DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-5.3-chat" )
 
 MAX_RETRIES = 5
 INITIAL_BACKOFF = 2  # seconds
@@ -20,7 +21,8 @@ INITIAL_BACKOFF = 2  # seconds
 
 def call_openrouter(messages: List[Dict[str, str]],
                     model: str = DEFAULT_MODEL,
-                    temperature: float = 0.0) -> str:
+                    temperature: float = 0.0,
+                    json_mode: bool = False) -> str:
 
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
@@ -28,6 +30,14 @@ def call_openrouter(messages: List[Dict[str, str]],
 
     model_name = model.split("/")[-1]
     print(f"  [LLM] Calling {model_name}...", flush=True)
+
+    payload: Dict = {
+        "model": model,
+        "messages": messages,
+        "temperature": temperature,
+    }
+    if json_mode:
+        payload["response_format"] = {"type": "json_object"}
 
     last_error = None
     for attempt in range(MAX_RETRIES):
@@ -38,11 +48,7 @@ def call_openrouter(messages: List[Dict[str, str]],
                     "Authorization": f"Bearer {api_key}",
                     "Content-Type": "application/json",
                 },
-                json={
-                    "model": model,
-                    "messages": messages,
-                    "temperature": temperature,
-                },
+                json=payload,
                 timeout=180,
             )
 

@@ -1,11 +1,6 @@
-"""
-Prompts package for the Math Conjecturer pipeline.
-
-- phase1: Paper ingestion, summarization, critique, mechanism extraction
-- phase2: Open problem formulation workflow
-"""
+"""Prompts package."""
 
 from . import phase1
-from . import phase2
+from . import baseline
 
-__all__ = ["phase1", "phase2"]
+__all__ = ["phase1", "baseline"]

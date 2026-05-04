@@ -1,17 +1,5 @@
-"""
-Workflow package for LangGraph workflow definitions.
+"""Workflow package."""
 
-- phase1: Paper processing pipeline (ingest → summarize → critic → mechanism)
-- phase2: Open problem formulation workflow
-"""
+from .baseline import build_baseline_workflow
 
-from .phase1 import build_phase1_workflow
-from .phase2 import create_agenda_workflow, create_proposal_workflow, run_phase2_workflow, run_phase2_from_phase1_state
-
-__all__ = [
-    "build_phase1_workflow",
-    "create_agenda_workflow",
-    "create_proposal_workflow",
-    "run_phase2_workflow",
-    "run_phase2_from_phase1_state",
-]
+__all__ = ["build_baseline_workflow"]

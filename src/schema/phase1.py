@@ -20,3 +20,5 @@ class GraphState(TypedDict):
     user_wants_to_continue: NotRequired[bool]
     # Mechanism extraction
     mechanism: NotRequired[str]
+    # Baseline output
+    proposals: NotRequired[list]
