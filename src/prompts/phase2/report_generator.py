@@ -28,15 +28,14 @@ You MUST respond with a valid JSON object. No other text before or after the JSO
 ```json
 {{
   "problem_statement": "Formal, rigorous statement of the problem. Define all objects, state exact conditions, quantifiers, and the desired conclusion or construction. A researcher should be able to read this and begin working immediately.",
-  "potential_impact": "Address each of the following explicitly: (1) Novelty — does this problem appear genuinely novel? Cite specific related work or note if it extends known open problems. (2) Field advancement — would a successful solution advance understanding, and how specifically? (3) Publication potential — if solved, would this be publishable in a strong venue in the area, and which ones?"
+  "potential_impact": "Address each of the following explicitly: (1) Novelty — does this problem appear genuinely novel? Cite specific related work or note if it extends known open problems. (2) Field advancement — would a successful solution advance understanding, and how specifically? What new techniques or results would it unlock?"
 }}
 ```
 
 IMPORTANT:
 - Your response must be ONLY the JSON object above, filled in with your actual content.
 - Each field should be a comprehensive paragraph or multiple paragraphs as appropriate.
-- Use plain text formatting. For math notation, write it out (e.g., "n squared" or "sum over i").
-- Avoid special characters, backslashes, or LaTeX notation in JSON strings.
+- Use LaTeX notation for all mathematical expressions (e.g., $\\lambda$, $\\kappa > 0$, $\\log d$).
 - The report should stand alone and be understandable without the source materials.
 - Do NOT include an approach sketch — focus on the problem and its significance.
 """

@@ -55,7 +55,7 @@ SCORING RUBRICS — use the FULL range, do NOT default to middle values:
 
 CRITICAL INSTRUCTIONS:
 - Evaluate EACH criterion independently based on the specific content of THIS proposal.
-- Use plain text, avoid special characters or LaTeX notation.
+- Use LaTeX notation for all mathematical expressions (e.g., $\\lambda$, $\\kappa > 0$, $\\log d$).
 - Do NOT assign the same scores to every proposal. Differentiate based on substance.
 """
 

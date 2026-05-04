@@ -179,5 +179,5 @@ IMPORTANT:
 - `blocking_issues` must be empty for any approved proposal.
 - If you reject: name the specific result, criterion, or condition that causes the failure.
   "The problem may be known" is not a blocking issue — name the specific result.
-- Use plain text — avoid special characters or LaTeX notation in JSON strings.
+- Use LaTeX notation for all mathematical expressions (e.g., $\\lambda$, $\\kappa > 0$, $\\log d$).
 """

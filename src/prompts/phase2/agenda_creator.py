@@ -53,7 +53,7 @@ IMPORTANT:
 - Provide EXACTLY 4 subfields — these will each be assigned to a specialized expert agent.
 - Subfields should be distinct mathematical areas most relevant to the paper (not just topic keywords).
 - Each direction should be a complete description (title + details) as a single string.
-- Use plain text, avoid special characters or LaTeX notation in JSON strings.
+- Use LaTeX notation for all mathematical expressions (e.g., $\\lambda$, $\\kappa > 0$, $\\log d$).
 """
 
 AGENDA_CREATOR_SYSTEM = PERSONA.strip()

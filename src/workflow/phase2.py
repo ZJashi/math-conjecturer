@@ -26,7 +26,7 @@ from nodes.phase2 import (
     report_generator_node, mechanism_updater_node, final_judge_node,
 )
 
-NUM_PROPOSALS = 3
+NUM_PROPOSALS = 2
 
 _R1_NODES = [field_expert_0_r1_node, field_expert_1_r1_node, field_expert_2_r1_node, field_expert_3_r1_node]
 _R2_NODES = [field_expert_0_r2_node, field_expert_1_r2_node, field_expert_2_r2_node, field_expert_3_r2_node]

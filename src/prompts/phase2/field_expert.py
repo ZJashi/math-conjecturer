@@ -153,7 +153,7 @@ IMPORTANT:
   Include anything proved, disproved, or mentioned as known/refuted in the paper or literature.
 - Every claim must be grounded: name specific theorems, authors, and conjectures.
 - Generic descriptions ("spectral theory tools may apply") will be flagged as insufficient.
-- Use plain text — avoid special characters or LaTeX notation in JSON strings.
+- Use LaTeX notation for all mathematical expressions (e.g., $\\lambda$, $\\kappa > 0$, $\\log d$).
 """
 
 
@@ -286,7 +286,7 @@ IMPORTANT:
 - The two proposals must be genuinely distinct from each other.
 - No approach_sketch field — omit it entirely.
 - NEVER propose anything from any `settled_claims` list — verified in STEP 0.
-- Use plain text — avoid special characters or LaTeX notation in JSON strings.
+- Use LaTeX notation for all mathematical expressions (e.g., $\\lambda$, $\\kappa > 0$, $\\log d$).
 """
 
 
@@ -392,5 +392,5 @@ IMPORTANT:
 - Approved proposals must be reproduced verbatim (do not alter them).
 - Rejected proposals must be substantively revised, not merely rephrased.
 - NEVER propose anything from any `settled_claims` list.
-- Use plain text — avoid special characters or LaTeX notation in JSON strings.
+- Use LaTeX notation for all mathematical expressions (e.g., $\\lambda$, $\\kappa > 0$, $\\log d$).
 """

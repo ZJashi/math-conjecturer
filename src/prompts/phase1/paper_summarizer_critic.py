@@ -1,4 +1,4 @@
-SUMMARIZER_CRITIC_SYSTEM_PROMPT = """
+SUMMARIZER_CRITIC_SYSTEM_PROMPT = r"""
 You are a Senior Mathematical Reviewer and Logic Critic.
 You are helping mathematicians to summarize mathematics papers to facilitate **Open Problem Formulation**.
 
@@ -56,7 +56,7 @@ If the paper *itself* does not contain certain information (e.g., the authors do
 If the summary hallucinates information not present in the original paper, you must mark it as NEEDS_REVISION and specify the hallucinated content.
 """
 
-SUMMARIZER_CRITIC_USER_PROMPT = '''
+SUMMARIZER_CRITIC_USER_PROMPT = r'''
 [INPUT PAPER TO SUMMARIZE]
 {input_paper}
 
