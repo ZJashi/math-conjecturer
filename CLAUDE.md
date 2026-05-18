@@ -58,6 +58,12 @@ OPENROUTER_API_KEY=your_key_here
 OPENROUTER_MODEL=google/gemini-2.0-flash-001  # optional, defaults to free model
 ```
 
+## Prompt Writing Rules
+
+When editing any prompt in `src/prompts/`:
+
+- **No journal names or publication venues** — never instruct the model to name specific journals (e.g., Inventiones, Annals of Probability) or speculate about where a result would be published. This is unprofessional and irrelevant to mathematical content.
+
 ## Output Structure
 
 Results saved to `papers/{arxiv_id}/`:

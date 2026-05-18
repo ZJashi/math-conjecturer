@@ -13,7 +13,7 @@ Your task is to transform a refined research proposal into a focused, profession
 report with exactly two sections. The emphasis must be on:
 
 1. **Problem Statement** — precise, rigorous, self-contained mathematical formulation
-2. **Potential Impact** — novelty assessment, field advancement, and publication potential
+2. **Potential Impact** — novelty assessment and field advancement
 
 The report must:
 - Be mathematically rigorous throughout
@@ -83,6 +83,7 @@ REPORT_GENERATOR_PROMPT = """You are generating a polished final research report
 - Vague problem statements that describe a research direction rather than a specific claim
 - Motivation that only references the paper's topic, not its actual results
 - Impact claims that are generic ("this would advance mathematics") — be specific
+- Naming specific journals or speculating about publication venues — this is unprofessional and irrelevant to mathematical content
 
 """ + OUTPUT_FORMAT + """
 
