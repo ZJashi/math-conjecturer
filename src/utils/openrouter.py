@@ -49,7 +49,19 @@ def _call_with_retry(payload: dict) -> str:
                 time.sleep(wait_time)
                 continue
 
-            response.raise_for_status()
+            if 400 <= response.status_code < 500:
+                # Client errors are not transient — retrying the same payload will
+                # always fail. Read the body so callers can inspect the real reason
+                # (e.g. "response_format not supported") via their break_on logic.
+                try:
+                    error_detail = response.json().get("error", {}).get("message", "")
+                except Exception:
+                    error_detail = ""
+                raise RuntimeError(
+                    f"{response.status_code} Client Error: {error_detail or response.reason}"
+                )
+
+            response.raise_for_status()  # 5xx — transient, will be retried
 
             body = response.json()
             choices = body.get("choices") or []

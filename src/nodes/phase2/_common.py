@@ -92,8 +92,10 @@ def _try_invoke(call_fn, output_class: Type[T], max_retries: int, retry_delay: f
             msg = str(e)
             if any(kw in msg for kw in break_on):
                 return None
-            print(f"  Attempt {attempt + 1} failed: {msg[:60]}")
-            if attempt < max_retries - 1:
+            # 4xx client errors are permanent — no point sleeping before the next attempt
+            is_client_error = msg.startswith("4") and "Client Error" in msg
+            print(f"  Attempt {attempt + 1} failed: {msg[:80]}")
+            if attempt < max_retries - 1 and not is_client_error:
                 time.sleep(retry_delay)
     return None
 
@@ -112,7 +114,7 @@ def invoke_with_structured_output(
     print("  Trying JSON schema mode...")
     result = _try_invoke(
         lambda: call_openrouter_json_schema(messages, schema=schema, model=DEFAULT_MODEL, temperature=temperature),
-        output_class, max_retries, retry_delay, break_on=("response_format", "json_schema"),
+        output_class, max_retries, retry_delay, break_on=("response_format", "json_schema", "400 Client Error"),
     )
     if result:
         return result
@@ -120,7 +122,7 @@ def invoke_with_structured_output(
     print("  Trying JSON object mode...")
     result = _try_invoke(
         lambda: call_openrouter_json_mode(messages, model=DEFAULT_MODEL, temperature=temperature),
-        output_class, max_retries, retry_delay, break_on=("response_format", "json"),
+        output_class, max_retries, retry_delay, break_on=("response_format", "json", "400 Client Error"),
     )
     if result:
         return result
