@@ -6,12 +6,18 @@ Multi-agent LangGraph system that generates mathematical research proposals from
 
 ```bash
 cd src
-uv run python run_workflow.py <arxiv_id>
+uv run python run_workflow.py <arxiv_id> [arxiv_id ...] [--auto] [--phase2-only]
 
-# Example
+# Single paper, interactive
 uv run python run_workflow.py 2512.01868
 
-# Skip to Phase 2 (if Phase 1 already completed)
+# Single paper, fully automated (no prompts)
+uv run python run_workflow.py 2512.01868 --auto
+
+# Multiple papers, automated (one failure won't stop the batch)
+uv run python run_workflow.py 2512.01868 2501.00123 2412.09876 --auto
+
+# Skip Phase 1 (use existing outputs)
 uv run python run_workflow.py 2512.01868 --phase2-only
 ```
 
