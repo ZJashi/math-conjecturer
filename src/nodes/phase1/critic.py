@@ -1,7 +1,6 @@
 """Critic node for Phase 1: Evaluates summary quality."""
 
 import re
-from pathlib import Path
 
 from prompts.phase1 import (
     SUMMARIZER_CRITIC_SYSTEM_PROMPT,
@@ -9,10 +8,7 @@ from prompts.phase1 import (
 )
 from schema.phase1 import GraphState
 from utils.openrouter import call_openrouter
-
-# Project root directory (outside src/)
-BASE_DIR = Path(__file__).resolve().parents[3]
-PAPERS_DIR = BASE_DIR / "papers"
+from utils.io import save_text
 
 
 def critic_node(state: GraphState) -> GraphState:
@@ -38,24 +34,16 @@ def critic_node(state: GraphState) -> GraphState:
 
     critique_response = call_openrouter(messages, temperature=0.0)
 
-    # Parse the status from the critique response
-    # Look for **STATUS:** PASS or **STATUS:** NEEDS_REVISION
-    status = "NEEDS_REVISION"  # Default to needing revision
+    status = "NEEDS_REVISION"
     status_match = re.search(
         r"\*\*STATUS:\*\*\s*(PASS|NEEDS_REVISION)",
         critique_response,
-        re.IGNORECASE
+        re.IGNORECASE,
     )
     if status_match:
         status = status_match.group(1).upper()
 
-    # Save critique to papers/{arxiv_id}/step2_critique/iteration_X.md
-    paper_id = state["arxiv_id"]
-    critique_dir = PAPERS_DIR / paper_id / "step2_critique"
-    critique_dir.mkdir(parents=True, exist_ok=True)
-
-    critique_path = critique_dir / f"iteration_{iteration}.md"
-    critique_path.write_text(critique_response, encoding="utf-8")
+    save_text(state, "step2_critique", f"iteration_{iteration}.md", critique_response)
 
     return {
         **state,

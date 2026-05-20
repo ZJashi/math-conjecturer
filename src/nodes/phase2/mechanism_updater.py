@@ -7,7 +7,8 @@ from langchain_core.prompts import ChatPromptTemplate
 
 from prompts.phase2.mechanism_updater import MECHANISM_UPDATER_SYSTEM, MECHANISM_UPDATER_PROMPT
 from schema.phase2 import Phase2State
-from ._common import call_openrouter_direct, save_text
+from ._common import save_text, _ROLE_MAP
+from utils.openrouter import call_openrouter
 
 
 def _parse_report_sections(report: str) -> Dict[str, str]:
@@ -32,7 +33,7 @@ def mechanism_updater_node(state: Phase2State) -> Dict[str, Any]:
     sections = _parse_report_sections(state.get("final_report", ""))
     prompt = ChatPromptTemplate.from_messages([("system", MECHANISM_UPDATER_SYSTEM), ("human", MECHANISM_UPDATER_PROMPT)])
     messages = [
-        {"role": "user" if msg.type == "human" else msg.type, "content": msg.content}
+        {"role": _ROLE_MAP.get(msg.type, msg.type), "content": msg.content}
         for msg in prompt.format_messages(
             mechanism=state["mechanism"],
             problem_statement=sections.get("problem_statement", ""),
@@ -41,7 +42,7 @@ def mechanism_updater_node(state: Phase2State) -> Dict[str, Any]:
         )
     ]
 
-    response_text = call_openrouter_direct(messages, temperature=0.3)
+    response_text = call_openrouter(messages, temperature=0.3)
     updated_xml = re.sub(r'^```(?:xml)?\s*', '', response_text.strip())
     updated_xml = re.sub(r'\s*```$', '', updated_xml)
     print(f"  Updated mechanism XML ({len(updated_xml)} chars)")

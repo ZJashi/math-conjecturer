@@ -4,8 +4,8 @@ from pathlib import Path
 
 import requests
 
-BASE_DIR = Path(__file__).resolve().parents[3]   # project root (math-conjecturer/)
-PAPERS_DIR = BASE_DIR / "papers"
+from ..paths import PAPERS_DIR
+
 
 def fetch_arxiv_source(arxiv_id: str, out_dir=PAPERS_DIR) -> Path:
     url = f"https://arxiv.org/e-print/{arxiv_id}"

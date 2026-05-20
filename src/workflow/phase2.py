@@ -34,10 +34,10 @@ _CRITIC_NODES = [expert_r2_critic_0_node, expert_r2_critic_1_node, expert_r2_cri
 
 
 def should_continue_r2_loop(state: Phase2State) -> Literal["approved", "revise"]:
-    return "approved" if state.get("expert_r2_approved", True) else "revise"
+    return "approved" if state.get("expert_r2_approved", False) else "revise"
 
 
-def create_agenda_workflow() -> CompiledStateGraph:
+def _create_agenda_workflow() -> CompiledStateGraph:
     workflow = StateGraph(Phase2State)
 
     workflow.add_node("agenda_creator", agenda_creator_node)
@@ -81,7 +81,7 @@ def create_agenda_workflow() -> CompiledStateGraph:
     return compiled
 
 
-def create_finalization_workflow() -> CompiledStateGraph:
+def _create_finalization_workflow() -> CompiledStateGraph:
     workflow = StateGraph(Phase2State)
     workflow.add_node("report_generator", report_generator_node)
     workflow.add_node("final_judge", final_judge_node)
@@ -116,7 +116,7 @@ def run_phase2_workflow(
     print("=" * 60 + "\n")
 
     print("--- Phase 2 Step 1: Agenda, R1 surveys, R2 proposals, critic review ---")
-    agenda_result = create_agenda_workflow().invoke({
+    agenda_result = _create_agenda_workflow().invoke({
         "summary": summary, "mechanism": mechanism, "arxiv_id": arxiv_id,
         "expert_surveys_r1": [], "expert_proposals_r2": [], "expert_r2_critiques": [],
         "expert_r2_iteration": 0, "expert_r2_max_iterations": 2, "expert_r2_approved": False,
@@ -134,7 +134,7 @@ def run_phase2_workflow(
 
     print(f"\nAgenda workflow complete: {len(directions)} directions, {len(accepted_proposals)} accepted proposals")
 
-    finalization_workflow = create_finalization_workflow()
+    finalization_workflow = _create_finalization_workflow()
     selected = accepted_proposals[:num_proposals]
     print(f"\n--- Phase 2 Step 2: Finalizing {len(selected)} proposal(s) ---")
 
@@ -170,7 +170,7 @@ def run_phase2_workflow(
     return {"proposals": all_proposals, "agenda": directions}
 
 
-def run_phase2_from_phase1_state(phase1_state: dict, num_proposals: int = NUM_PROPOSALS) -> dict:
+def _run_phase2_from_phase1_state(phase1_state: dict, num_proposals: int = NUM_PROPOSALS) -> dict:
     return run_phase2_workflow(
         summary=phase1_state["summary"],
         mechanism=phase1_state["mechanism"],

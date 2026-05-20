@@ -3,9 +3,7 @@
 from typing import Any, Dict
 
 from schema.phase2 import Phase2State
-from ._common import PAPERS_DIR, get_latest_r2_proposals, get_latest_r2_critiques, save_json
-
-_EXPERTS_DIR = "step4_open_problems/4b_experts"
+from ._common import get_latest_r2_proposals, get_latest_r2_critiques, save_json, EXPERTS_DIR
 
 
 def _make_entry(expert_idx: int, subfield: str, i: int, p: dict) -> dict:
@@ -60,7 +58,7 @@ def expert_acceptance_node(state: Phase2State) -> Dict[str, Any]:
             accepted.extend(_make_entry(expert_idx, subfield, i, p)
                             for i, p in enumerate(entry.get("proposals", [])))
 
-    save_json(state, _EXPERTS_DIR, "acceptance_report.json", {
+    save_json(state, EXPERTS_DIR, "acceptance_report.json", {
         "total_proposals": total, "accepted_count": len(accepted),
         "accepted": [{"expert_index": p["expert_index"], "subfield": p["subfield"],
                       "proposal_index": p["proposal_index"], "title": p["title"]} for p in accepted],

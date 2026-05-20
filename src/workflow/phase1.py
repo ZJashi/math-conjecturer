@@ -42,7 +42,3 @@ def build_phase1_workflow():
     graph.add_edge("mechanism", END)
 
     return graph.compile()
-
-
-# Convenience alias
-build_app = build_phase1_workflow

@@ -6,6 +6,7 @@ Usage: python run_workflow.py <arxiv_id>
 
 import json
 import os
+import re
 import subprocess
 import sys
 from datetime import datetime
@@ -23,6 +24,7 @@ load_dotenv()
 from workflow.phase1 import build_phase1_workflow
 from workflow.phase2 import run_phase2_workflow
 from nodes.phase1 import critic_node, revision_node, mechanism_node
+from utils.paths import PAPERS_DIR
 
 
 def run_phase1(arxiv_id: str, max_revisions: int = 10):
@@ -106,7 +108,7 @@ def run_phase1(arxiv_id: str, max_revisions: int = 10):
 def run_phase2(phase1_state: dict, num_proposals: int = 2):
     """Run Phase 2 workflow, generating 2 proposals."""
     print(f"\n{'='*60}")
-    print("PHASE 2: Open Problem Formulation (3 Proposals)")
+    print("PHASE 2: Open Problem Formulation (2 Proposals)")
     print(f"{'='*60}\n")
 
     result = run_phase2_workflow(
@@ -131,7 +133,7 @@ def run_phase2(phase1_state: dict, num_proposals: int = 2):
 
 def load_phase1_outputs(arxiv_id: str) -> dict:
     """Load existing Phase 1 outputs from papers directory."""
-    papers_dir = Path(__file__).parent.parent / "papers" / arxiv_id
+    papers_dir = PAPERS_DIR / arxiv_id
 
     # Try to load summary
     summary_dir = papers_dir / "step2_summary"
@@ -242,7 +244,7 @@ def _wrap_loose_math(content: str) -> str:
 
 def generate_full_report(arxiv_id: str, phase2_proposals: list) -> Path:
     """Assemble all outputs into a single labelled full_report.md."""
-    papers_dir = Path(__file__).parent.parent / "papers" / arxiv_id
+    papers_dir = PAPERS_DIR / arxiv_id
     out_path = papers_dir / "full_report.md"
 
     lines = []
@@ -415,8 +417,6 @@ def generate_full_report(arxiv_id: str, phase2_proposals: list) -> Path:
                 lines += ["**Weaknesses:**", ""] + [f"- {w}" for w in weaknesses] + [""]
 
         lines += ["---", ""]
-
-    import re
 
     content = "\n".join(lines)
 

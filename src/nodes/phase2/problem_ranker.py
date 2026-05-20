@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 from prompts.phase2 import PROBLEM_RANKER_SYSTEM, PROBLEM_RANKER_PROMPT
 from schema.phase2 import Phase2State
-from ._common import invoke_with_structured_output, save_json
+from ._common import invoke_with_structured_output, save_json, EXPERTS_DIR
 
 
 class ProblemRankerResult(BaseModel):
@@ -47,7 +47,7 @@ def problem_ranker_node(state: Phase2State) -> Dict[str, Any]:
     print(f"  Top: {reordered[0].get('title', '?')[:80]}")
     print(f"  Rationale: {result.ranking_rationale[:150]}")
 
-    save_json(state, "step4_open_problems/4b_experts", "proposal_ranking.json", {
+    save_json(state, EXPERTS_DIR, "proposal_ranking.json", {
         "ranked_indices": result.ranked_indices,
         "ranking_rationale": result.ranking_rationale,
         "ranked_titles": [p.get("title") for p in reordered],

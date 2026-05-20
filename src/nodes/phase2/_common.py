@@ -1,26 +1,18 @@
 """Common utilities for Phase 2 nodes."""
 
-import os
 import json
 import re
 import time
-import requests
-from pathlib import Path
+import types as _types
 from typing import Any, Dict, Type, TypeVar
 
-from dotenv import find_dotenv, load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
-load_dotenv(find_dotenv())
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+from utils.openrouter import DEFAULT_MODEL, call_openrouter, call_openrouter_json_schema, call_openrouter_json_mode
+from utils.io import save_json, save_text  # noqa: F401 — re-exported for node convenience
 
-# Options: "tngtech/deepseek-r1t2-chimera:free" | "google/gemini-2.0-flash-001" | "anthropic/claude-3.5-sonnet"
-MODEL_NAME = os.getenv("OPENROUTER_MODEL", "google/gemini-2.0-flash-001")
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-
-BASE_DIR = Path(__file__).resolve().parents[3]
-PAPERS_DIR = BASE_DIR / "papers"
+EXPERTS_DIR = "step4_open_problems/4b_experts"
 
 T = TypeVar('T', bound=BaseModel)
 
@@ -62,51 +54,40 @@ def extract_json_from_response(response_text: str) -> dict | None:
 
 
 # ---------------------------------------------------------------------------
-# OpenRouter API calls
-# ---------------------------------------------------------------------------
-
-def _post(payload: dict) -> str:
-    response = requests.post(
-        OPENROUTER_API_URL,
-        headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
-        json=payload,
-        timeout=180,
-    )
-    response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
-
-
-def call_openrouter_direct(messages: list, temperature: float = 0.0, json_schema: dict | None = None) -> str:
-    if not OPENROUTER_API_KEY:
-        raise RuntimeError("OPENROUTER_API_KEY not set")
-    payload = {"model": MODEL_NAME, "messages": messages, "temperature": temperature}
-    if json_schema:
-        payload["response_format"] = {
-            "type": "json_schema",
-            "json_schema": {"name": json_schema.get("title", "response"), "strict": True, "schema": json_schema},
-        }
-    return _post(payload)
-
-
-def call_openrouter_json_mode(messages: list, temperature: float = 0.0) -> str:
-    if not OPENROUTER_API_KEY:
-        raise RuntimeError("OPENROUTER_API_KEY not set")
-    return _post({"model": MODEL_NAME, "messages": messages, "temperature": temperature,
-                  "response_format": {"type": "json_object"}})
-
-
-# ---------------------------------------------------------------------------
 # Structured output invocation with fallback strategies
 # ---------------------------------------------------------------------------
 
+_ROLE_MAP = {"human": "user", "ai": "assistant"}
+
+
+def _to_openrouter_messages(prompt: ChatPromptTemplate, inputs: dict) -> list[dict]:
+    return [
+        {"role": _ROLE_MAP.get(msg.type, msg.type), "content": msg.content}
+        for msg in prompt.format_messages(**inputs)
+    ]
+
+
 def _try_invoke(call_fn, output_class: Type[T], max_retries: int, retry_delay: float,
                 break_on: tuple = ()) -> T | None:
-    """Retry call_fn, return parsed result or None. Breaks early if a known-unsupported error fires."""
+    """Retry call_fn, return parsed result or None.
+
+    Breaks immediately on:
+    - known unsupported-feature errors (break_on keywords)
+    - Pydantic ValidationError: the response was valid JSON but wrong schema;
+      retrying the same payload at low temperature won't help.
+    """
     for attempt in range(max_retries):
         try:
             data = extract_json_from_response(call_fn())
             if data:
                 return output_class.model_validate(data)
+            # No JSON found in response — sleep before retry
+            if attempt < max_retries - 1:
+                print(f"  Attempt {attempt + 1}: no JSON in response, retrying in {retry_delay}s...")
+                time.sleep(retry_delay)
+        except ValidationError as e:
+            print(f"  Schema mismatch (not retrying): {str(e)[:120]}")
+            return None
         except Exception as e:
             msg = str(e)
             if any(kw in msg for kw in break_on):
@@ -126,14 +107,11 @@ def invoke_with_structured_output(
     temperature: float = 0.0,
 ) -> T:
     schema = output_class.model_json_schema()
-    messages = [
-        {"role": "user" if msg.type == "human" else msg.type, "content": msg.content}
-        for msg in prompt.format_messages(**inputs)
-    ]
+    messages = _to_openrouter_messages(prompt, inputs)
 
     print("  Trying JSON schema mode...")
     result = _try_invoke(
-        lambda: call_openrouter_direct(messages, temperature=temperature, json_schema=schema),
+        lambda: call_openrouter_json_schema(messages, schema=schema, model=DEFAULT_MODEL, temperature=temperature),
         output_class, max_retries, retry_delay, break_on=("response_format", "json_schema"),
     )
     if result:
@@ -141,7 +119,7 @@ def invoke_with_structured_output(
 
     print("  Trying JSON object mode...")
     result = _try_invoke(
-        lambda: call_openrouter_json_mode(messages, temperature=temperature),
+        lambda: call_openrouter_json_mode(messages, model=DEFAULT_MODEL, temperature=temperature),
         output_class, max_retries, retry_delay, break_on=("response_format", "json"),
     )
     if result:
@@ -149,12 +127,16 @@ def invoke_with_structured_output(
 
     print("  Trying prompt fallback...")
     required = schema.get("required", [])
-    messages[-1]["content"] += (
+    fallback_suffix = (
         f"\n\nCRITICAL: Respond with ONLY a valid JSON object. "
         f"Required fields: {', '.join(required)}. No other text."
     )
+    fallback_messages = [
+        *messages[:-1],
+        {**messages[-1], "content": messages[-1]["content"] + fallback_suffix},
+    ]
     result = _try_invoke(
-        lambda: call_openrouter_direct(messages, temperature=temperature),
+        lambda: call_openrouter(fallback_messages, model=DEFAULT_MODEL, temperature=temperature),
         output_class, max_retries, retry_delay * 2,
     )
     if result:
@@ -198,34 +180,6 @@ def format_proposals_as_text(proposals: list) -> str:
 
 
 # ---------------------------------------------------------------------------
-# File saving
-# ---------------------------------------------------------------------------
-
-def save_json(state: dict, rel_dir: str, filename: str, data: dict) -> Path | None:
-    arxiv_id = state.get("arxiv_id")
-    if not arxiv_id:
-        return None
-    out_dir = PAPERS_DIR / arxiv_id / rel_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / filename
-    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    print(f"  > Saved to {path}")
-    return path
-
-
-def save_text(state: dict, rel_dir: str, filename: str, text: str) -> Path | None:
-    arxiv_id = state.get("arxiv_id")
-    if not arxiv_id:
-        return None
-    out_dir = PAPERS_DIR / arxiv_id / rel_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / filename
-    path.write_text(text, encoding="utf-8")
-    print(f"  > Saved to {path}")
-    return path
-
-
-# ---------------------------------------------------------------------------
 # State helpers
 # ---------------------------------------------------------------------------
 
@@ -251,7 +205,12 @@ def create_default_result(output_class: Type[T]) -> T:
     defaults = {}
     for field_name, field_info in output_class.model_fields.items():
         annotation = field_info.annotation
-        if annotation == str:
+        origin = getattr(annotation, '__origin__', None)
+        # Optional[X] is Union[X, None] — use None
+        is_optional = origin is _types.UnionType or str(origin) in ("<class 'typing.Union'>", "typing.Union")
+        if is_optional:
+            defaults[field_name] = None
+        elif annotation == str:
             defaults[field_name] = "Unable to generate - model returned empty response"
         elif annotation == int:
             defaults[field_name] = 5
@@ -259,10 +218,8 @@ def create_default_result(output_class: Type[T]) -> T:
             defaults[field_name] = 50.0
         elif annotation == bool:
             defaults[field_name] = False
-        elif hasattr(annotation, '__origin__') and annotation.__origin__ == list:
+        elif origin is list:
             defaults[field_name] = ["Unable to generate - model returned empty response"]
-        elif hasattr(annotation, '__args__'):
-            defaults[field_name] = annotation.__args__[0]
         else:
             defaults[field_name] = None
     return output_class.model_validate(defaults)

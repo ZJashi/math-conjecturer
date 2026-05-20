@@ -1,6 +1,5 @@
 """Field Expert nodes for Phase 2 — two-round expert-driven proposal generation."""
 
-import json
 from typing import Any, Dict
 
 from langchain_core.prompts import ChatPromptTemplate
@@ -14,10 +13,8 @@ from prompts.phase2 import (
 from schema.phase2 import Phase2State, ExpertSurveyResult, ExpertProposalResult
 from ._common import (
     invoke_with_structured_output, get_latest_r2_proposals, get_latest_r2_critiques,
-    format_survey_as_text, format_proposals_as_text, save_json,
+    format_survey_as_text, format_proposals_as_text, save_json, EXPERTS_DIR,
 )
-
-_EXPERTS_DIR = "step4_open_problems/4b_experts"
 
 
 def _format_agenda(state: Phase2State) -> str:
@@ -68,7 +65,7 @@ def _field_expert_r1(state: Phase2State, expert_index: int) -> Dict[str, Any]:
     }
     print(f"  [{subfield}] R1 complete: {len(result.landmark_results)} landmark results, "
           f"{len(result.available_techniques)} techniques.")
-    save_json(state, _EXPERTS_DIR, f"expert_{expert_index}_r1_survey.json", survey_dict)
+    save_json(state, EXPERTS_DIR, f"expert_{expert_index}_r1_survey.json", survey_dict)
     return {"expert_surveys_r1": [survey_dict]}
 
 
@@ -134,18 +131,25 @@ def _field_expert_r2(state: Phase2State, expert_index: int) -> Dict[str, Any]:
                       for p in result.proposals],
     }
     print(f"  [{subfield}] R2 complete: {[p.title[:60] for p in result.proposals]}")
-    save_json(state, _EXPERTS_DIR, f"expert_{expert_index}_r2_proposal.json", proposal_dict)
+    save_json(state, EXPERTS_DIR, f"expert_{expert_index}_r2_proposal.json", proposal_dict)
     return {"expert_proposals_r2": [proposal_dict]}
 
 
 def r2_critic_aggregate_node(state: Phase2State) -> Dict[str, Any]:
     latest_critiques = get_latest_r2_critiques(state.get("expert_r2_critiques", []))
-    all_approved = all(c.get("overall_approved", False) for c in latest_critiques)
     new_iteration = state.get("expert_r2_iteration", 0) + 1
     max_iterations = state.get("expert_r2_max_iterations", 2)
     force_approved = new_iteration >= max_iterations
-    if force_approved and not all_approved:
+
+    # all() on empty iterable returns True — explicitly require at least one critique
+    all_approved = bool(latest_critiques) and all(c.get("overall_approved", False) for c in latest_critiques)
+
+    if not latest_critiques:
+        print(f"--- R2 Critic Aggregate: no critiques received — forcing approval to avoid infinite loop ---")
+        force_approved = True
+    elif force_approved and not all_approved:
         print(f"--- R2 Critic Aggregate: iteration {new_iteration}/{max_iterations} — forcing approval ---")
+
     not_approved = [c["expert_index"] for c in latest_critiques if not c.get("overall_approved", False)]
     print(f"--- R2 Critic Aggregate: iteration={new_iteration}, approved={all_approved or force_approved} "
           f"(needing revision: {not_approved}) ---")
@@ -159,12 +163,23 @@ def expert_r2_revision_dispatch_node(state: Phase2State) -> Dict[str, Any]:
     return {}
 
 
-def field_expert_0_r1_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r1(state, 0)
-def field_expert_1_r1_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r1(state, 1)
-def field_expert_2_r1_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r1(state, 2)
-def field_expert_3_r1_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r1(state, 3)
+def _make_r1_node(i: int):
+    def node(state: Phase2State) -> Dict[str, Any]:
+        return _field_expert_r1(state, i)
+    node.__name__ = f"field_expert_{i}_r1_node"
+    return node
 
-def field_expert_0_r2_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r2(state, 0)
-def field_expert_1_r2_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r2(state, 1)
-def field_expert_2_r2_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r2(state, 2)
-def field_expert_3_r2_node(state: Phase2State) -> Dict[str, Any]: return _field_expert_r2(state, 3)
+
+def _make_r2_node(i: int):
+    def node(state: Phase2State) -> Dict[str, Any]:
+        return _field_expert_r2(state, i)
+    node.__name__ = f"field_expert_{i}_r2_node"
+    return node
+
+
+field_expert_0_r1_node, field_expert_1_r1_node, field_expert_2_r1_node, field_expert_3_r1_node = (
+    _make_r1_node(i) for i in range(4)
+)
+field_expert_0_r2_node, field_expert_1_r2_node, field_expert_2_r2_node, field_expert_3_r2_node = (
+    _make_r2_node(i) for i in range(4)
+)

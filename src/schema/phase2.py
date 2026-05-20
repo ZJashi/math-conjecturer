@@ -105,7 +105,7 @@ class ExpertR2CritiqueResult(BaseModel):
 
 class ReportResult(BaseModel):
     problem_statement: str = Field(description="Formal, rigorous statement of the problem.")
-    potential_impact: str = Field(description="What success would mean and enable — novelty, field advancement, publication potential.")
+    potential_impact: str = Field(description="What success would mean and enable — novelty and field advancement.")
 
 
 class JudgeResult(BaseModel):

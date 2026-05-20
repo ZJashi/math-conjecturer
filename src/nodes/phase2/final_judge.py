@@ -1,6 +1,5 @@
 """Final Judge node for Phase 2."""
 
-import json
 from typing import Any, Dict
 
 from langchain_core.prompts import ChatPromptTemplate
