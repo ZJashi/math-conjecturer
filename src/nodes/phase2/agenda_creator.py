@@ -14,7 +14,8 @@ def agenda_creator_node(state: Phase2State) -> Dict[str, Any]:
 
     prompt = ChatPromptTemplate.from_messages([("system", AGENDA_CREATOR_SYSTEM), ("human", AGENDA_CREATOR_PROMPT)])
     result = invoke_with_structured_output(
-        prompt=prompt, output_class=AgendaResult,
+        prompt=prompt,
+        output_class=AgendaResult,
         inputs={"paper_summary": state["summary"], "mechanisms": state["mechanism"]},
         temperature=0.8,
     )

@@ -25,7 +25,8 @@ def _expert_r2_critic_node(state: Phase2State, expert_index: int) -> Dict[str, A
         msg = f"Missing {missing} for expert {expert_index} ({subfield})."
         print(f"  WARNING: {msg} Auto-rejecting.")
         critique_dict = {
-            "expert_index": expert_index, "subfield": subfield,
+            "expert_index": expert_index,
+            "subfield": subfield,
             "verdicts": [
                 {"proposal_index": i, "approved": False, "blocking_issues": [f"Cannot evaluate: {msg}"], "suggestions": []}
                 for i in range(2)
@@ -41,7 +42,8 @@ def _expert_r2_critic_node(state: Phase2State, expert_index: int) -> Dict[str, A
 
     prompt = ChatPromptTemplate.from_messages([("system", EXPERT_R2_CRITIC_SYSTEM), ("human", EXPERT_R2_CRITIC_PROMPT)])
     result = invoke_with_structured_output(
-        prompt=prompt, output_class=ExpertR2CritiqueResult,
+        prompt=prompt,
+        output_class=ExpertR2CritiqueResult,
         inputs={
             "subfield": subfield,
             "r1_survey": format_survey_as_text(r1_survey),
@@ -54,8 +56,10 @@ def _expert_r2_critic_node(state: Phase2State, expert_index: int) -> Dict[str, A
 
     critique_dict = {
         "expert_index": expert_index, "subfield": subfield,
-        "verdicts": [{"proposal_index": v.proposal_index, "approved": v.approved,
-                      "blocking_issues": v.blocking_issues, "suggestions": v.suggestions}
+        "verdicts": [{"proposal_index": v.proposal_index,
+                      "approved": v.approved,
+                      "blocking_issues": v.blocking_issues,
+                      "suggestions": v.suggestions}
                      for v in result.verdicts],
         "overall_approved": result.overall_approved,
         "summary": result.summary,

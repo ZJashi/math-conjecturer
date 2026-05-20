@@ -221,7 +221,12 @@ def create_default_result(output_class: Type[T]) -> T:
         elif annotation == bool:
             defaults[field_name] = False
         elif origin is list:
-            defaults[field_name] = ["Unable to generate - model returned empty response"]
+            args = getattr(annotation, '__args__', None)
+            item_type = args[0] if args else None
+            if item_type is not None and isinstance(item_type, type) and issubclass(item_type, BaseModel):
+                defaults[field_name] = [create_default_result(item_type)]
+            else:
+                defaults[field_name] = ["Unable to generate - model returned empty response"]
         else:
             defaults[field_name] = None
     return output_class.model_validate(defaults)
