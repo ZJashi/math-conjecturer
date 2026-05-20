@@ -3,10 +3,11 @@
 Baseline: single few-shot API call for research proposal generation.
 
 Usage:
-    uv run python run_workflow.py <arxiv_id>
+    uv run python run_workflow.py <arxiv_id> [arxiv_id2 ...]
 
 Example:
     uv run python run_workflow.py 2512.01868
+    uv run python run_workflow.py 2512.01868 2501.00001 2501.00002
 """
 
 import os
@@ -22,18 +23,11 @@ load_dotenv()
 from workflow.baseline import build_baseline_workflow
 
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python run_workflow.py <arxiv_id>")
-        print("Example: python run_workflow.py 2512.01868")
-        sys.exit(1)
-
-    arxiv_id = sys.argv[1]
+def run_one(workflow, arxiv_id: str) -> None:
     print(f"\n{'='*60}")
     print(f"BASELINE: Processing arXiv paper {arxiv_id}")
     print(f"{'='*60}\n")
 
-    workflow = build_baseline_workflow()
     state = workflow.invoke({"arxiv_id": arxiv_id, "tex": "", "summary": "", "iteration": 1})
 
     proposals = state.get("proposals", [])
@@ -45,6 +39,31 @@ def main():
         print(f"  {p.get('problem_statement', '')[:200]}...")
 
     print(f"\nFiles saved to papers/{arxiv_id}/baseline/")
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python run_workflow.py <arxiv_id> [arxiv_id2 ...]")
+        print("Example: python run_workflow.py 2512.01868 2501.00001")
+        sys.exit(1)
+
+    arxiv_ids = sys.argv[1:]
+    workflow = build_baseline_workflow()
+
+    failed = []
+    for arxiv_id in arxiv_ids:
+        try:
+            run_one(workflow, arxiv_id)
+        except Exception as e:
+            print(f"\nERROR processing {arxiv_id}: {e}")
+            failed.append(arxiv_id)
+
+    if len(arxiv_ids) > 1:
+        print(f"\n{'='*60}")
+        print(f"Processed {len(arxiv_ids) - len(failed)}/{len(arxiv_ids)} papers successfully")
+        if failed:
+            print(f"Failed: {', '.join(failed)}")
+        print(f"{'='*60}")
 
 
 if __name__ == "__main__":
