@@ -17,9 +17,7 @@ from pathlib import Path
 os.environ["LANGCHAIN_TRACING_V2"] = "false"
 sys.path.insert(0, str(Path(__file__).parent))
 
-from dotenv import load_dotenv
-load_dotenv()
-
+import settings  # loads .env and exposes all config
 from workflow.baseline import build_baseline_workflow
 
 

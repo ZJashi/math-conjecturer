@@ -1,31 +1,21 @@
-import os
 import time
 from typing import Dict, List
 
 import requests
 
+from settings import OPENROUTER_API_KEY, OPENROUTER_MODEL
+
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-
-# Model options (set via OPENROUTER_MODEL env var or change default here):
-# - "tngtech/deepseek-r1t2-chimera:free"  # Free but unreliable for JSON
-# - "google/gemini-2.0-flash-001"         # Fast, good for JSON
-# - "anthropic/claude-3.5-sonnet"         # Best quality
-# - "openai/gpt-4o-mini"                  # Good balance
-# - qwen/qwen3.5-9b\
-# - openai/gpt-5.3-chat
-DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-5.3-chat" )
-
 MAX_RETRIES = 5
-INITIAL_BACKOFF = 2  # seconds
+INITIAL_BACKOFF = 2
 
 
 def call_openrouter(messages: List[Dict[str, str]],
-                    model: str = DEFAULT_MODEL,
+                    model: str = OPENROUTER_MODEL,
                     temperature: float = 0.0,
                     json_mode: bool = False) -> str:
 
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
+    if not OPENROUTER_API_KEY:
         raise RuntimeError("OPENROUTER_API_KEY not set. Add it to src/.env")
 
     model_name = model.split("/")[-1]
@@ -45,7 +35,7 @@ def call_openrouter(messages: List[Dict[str, str]],
             response = requests.post(
                 OPENROUTER_API_URL,
                 headers={
-                    "Authorization": f"Bearer {api_key}",
+                    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
                     "Content-Type": "application/json",
                 },
                 json=payload,

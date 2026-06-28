@@ -1,27 +1,21 @@
-"""Few-shot prompt for the baseline single-call proposer."""
+from settings import NUM_PROPOSALS
 
-BASELINE_SYSTEM = """You are a world-class research mathematician specializing in formulating open problems.
-Given the full LaTeX source of a mathematics paper, you produce exactly 2 novel, precisely stated,
+BASELINE_SYSTEM = f"""You are a world-class research mathematician specializing in formulating open problems.
+Given the full LaTeX source of a mathematics paper, you produce exactly {NUM_PROPOSALS} novel, precisely stated,
 genuinely open research proposals that extend or generalize the paper's results.
 
 Each proposal must be:
 - A concrete mathematical claim (a conjecture, existence result, or construction task) — not a
   research direction or vague program.
-- Genuinely open: do not propose anything the paper itself already proves, disproves, or cites
-  as known in the literature.
-- Precisely formulated: exact objects, conditions, quantifiers, and a definite goal. A researcher
-  should be able to sit down and begin working on it immediately.
-- Grounded: traceable to a specific result, construction, or obstruction in the paper.
+- Genuinely open: do not propose anything the paper itself already proves, disproves, or is
+  known in the literature.
+- Precisely formulated: exact objects, conditions, quantifiers, and a definite goal.
+- Grounded: paper and existing literature should make the proposal traceable. 
 
 Respond with ONLY a valid JSON object. No text before or after it."""
 
 
-# ---------------------------------------------------------------------------
-# Few-shot example
-# The example is drawn from a prototypical spectral graph theory paper that
-# proves an O(d / spectral-gap) mixing-time bound for random walks on
-# d-regular expander graphs and shows the d factor is necessary.
-# ---------------------------------------------------------------------------
+
 
 _EXAMPLE_INPUT = """
 [EXAMPLE PAPER — truncated for illustration]
@@ -80,7 +74,7 @@ BASELINE_PROMPT = """Below is a worked example showing the expected input and ou
 
 === END OF EXAMPLE ===
 
-Now generate 2 research proposals for the following paper. Apply the same standards:
+Now generate {num_proposals} research proposals for the following paper. Apply the same standards:
 concrete mathematical claims, genuinely open, precisely formulated, grounded in the paper's
 specific results. Do NOT repeat or paraphrase anything from the example above.
 
@@ -89,4 +83,4 @@ You may use LaTeX notation for mathematical expressions (e.g., $\\lambda$, $O(n^
 
 === PAPER ===
 {{paper}}
-""".format(example_input=_EXAMPLE_INPUT.strip(), example_output=_EXAMPLE_OUTPUT.strip())
+""".format(example_input=_EXAMPLE_INPUT.strip(), example_output=_EXAMPLE_OUTPUT.strip(), num_proposals=NUM_PROPOSALS)
