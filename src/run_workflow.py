@@ -40,8 +40,7 @@ def run_one(workflow, arxiv_id: str) -> None:
         print(f"\n  Eval {e.get('proposal_index', '?')}: "
               f"TS={e.get('technical_soundness', {}).get('score', '?')} "
               f"G={e.get('grounding', {}).get('score', '?')} "
-              f"CD={e.get('conceptual_depth', {}).get('score', '?')} "
-              f"→ {e.get('overall', '?')}/5")
+              f"CD={e.get('conceptual_depth', {}).get('score', '?')}")
 
     print(f"\nFiles saved to papers/{arxiv_id}/baseline/")
 

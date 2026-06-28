@@ -64,8 +64,7 @@ _EXAMPLE_OUTPUT = """{
       "conceptual_depth": {
         "score": 4,
         "justification": "Identifying backtracking as the structural cause of the d factor is a meaningful insight, though it addresses a single parameter rather than a broader structural phenomenon."
-      },
-      "overall": 4.67
+      }
     },
     {
       "proposal_index": 2,
@@ -81,8 +80,7 @@ _EXAMPLE_OUTPUT = """{
       "conceptual_depth": {
         "score": 4,
         "justification": "Replacing worst-case degree with local conductance geometry is a structurally meaningful move with implications beyond the specific setting."
-      },
-      "overall": 3.67
+      }
     }
   ]
 }"""
@@ -102,7 +100,6 @@ EVALUATOR_PROMPT = """Below is a worked example showing the expected input and o
 === END OF EXAMPLE ===
 
 Now evaluate the proposals below. Score each independently on the three criteria.
-Compute overall as the mean of the three scores, rounded to 2 decimal places.
 
 Respond with ONLY a valid JSON object in the same format as the example output.
 

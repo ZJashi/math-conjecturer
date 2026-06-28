@@ -40,7 +40,7 @@ def save_evaluations(arxiv_id: str, evaluations: list) -> None:
         ]:
             c = e.get(criterion, {})
             md += f"**{label}**: {c.get('score', '?')}/5\n{c.get('justification', '')}\n\n"
-        md += f"**Overall**: {e.get('overall', '?')}/5\n\n---\n\n"
+        md += "---\n\n"
     (out_dir / "evaluations.md").write_text(md, encoding="utf-8")
 
     print(f"  > Saved to papers/{arxiv_id}/baseline/")
