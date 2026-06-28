@@ -1,14 +1,13 @@
 """Baseline proposer: single few-shot API call → 2 research proposals."""
 
-from typing import Any, Dict
-
 from prompts import BASELINE_SYSTEM, BASELINE_PROMPT
+from schema.state import GraphState
 from utils.openrouter import call_openrouter
 from utils.parse import extract_json
 from utils.output import save_proposals
 
 
-def baseline_proposer_node(state: Dict[str, Any]) -> Dict[str, Any]:
+def baseline_proposer_node(state: GraphState) -> dict:
     print("--- Baseline Proposer: Single few-shot API call ---")
 
     prompt = BASELINE_PROMPT.replace("{paper}", state["tex"])
@@ -27,4 +26,4 @@ def baseline_proposer_node(state: Dict[str, Any]) -> Dict[str, Any]:
 
     save_proposals(state["arxiv_id"], proposals)
 
-    return {**state, "proposals": proposals}
+    return {"proposals": proposals}
