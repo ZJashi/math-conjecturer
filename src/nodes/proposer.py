@@ -5,10 +5,10 @@ import re
 from pathlib import Path
 from typing import Any, Dict
 
-from prompts.baseline import BASELINE_SYSTEM, BASELINE_PROMPT
+from prompts import BASELINE_SYSTEM, BASELINE_PROMPT
 from utils.openrouter import call_openrouter
 
-BASE_DIR = Path(__file__).resolve().parents[3]
+BASE_DIR = Path(__file__).resolve().parents[2]
 PAPERS_DIR = BASE_DIR / "papers"
 
 

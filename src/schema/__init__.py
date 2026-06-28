@@ -1,5 +1,5 @@
 """Schema package for state definitions."""
 
-from .phase1 import GraphState
+from .state import GraphState
 
 __all__ = ["GraphState"]

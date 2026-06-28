@@ -2,9 +2,8 @@
 
 from langgraph.graph import END, START, StateGraph
 
-from schema.phase1 import GraphState
-from nodes.phase1 import ingestion_node
-from nodes.baseline import baseline_proposer_node
+from schema.state import GraphState
+from nodes import ingestion_node, baseline_proposer_node
 
 
 def build_baseline_workflow():

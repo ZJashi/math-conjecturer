@@ -1,6 +1,6 @@
 """Nodes package."""
 
-from . import phase1
-from . import baseline
+from .ingestion import ingestion_node
+from .proposer import baseline_proposer_node
 
-__all__ = ["phase1", "baseline"]
+__all__ = ["ingestion_node", "baseline_proposer_node"]

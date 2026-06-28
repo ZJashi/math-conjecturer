@@ -1,5 +1,5 @@
 """Prompts package."""
 
-from . import baseline
+from .proposer import BASELINE_SYSTEM, BASELINE_PROMPT
 
-__all__ = ["baseline"]
+__all__ = ["BASELINE_SYSTEM", "BASELINE_PROMPT"]

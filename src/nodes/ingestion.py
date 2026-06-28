@@ -1,7 +1,7 @@
-"""Ingestion node for Phase 1: Downloads and processes LaTeX from arXiv."""
+"""Ingestion node: Downloads and processes LaTeX from arXiv."""
 
 from utils.ingest.ingestion_pipeline import pipeline
-from schema.phase1 import GraphState
+from schema.state import GraphState
 
 
 def ingestion_node(state: GraphState) -> GraphState:
