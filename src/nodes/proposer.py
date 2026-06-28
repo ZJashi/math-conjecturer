@@ -17,7 +17,7 @@ def baseline_proposer_node(state: Dict[str, Any]) -> Dict[str, Any]:
         {"role": "user",   "content": prompt},
     ]
 
-    response = call_openrouter(messages, temperature=1.2, json_mode=True)
+    response = call_openrouter(messages, temperature=0.8, json_mode=True)
     data = extract_json(response)
 
     if data is None:
@@ -25,8 +25,6 @@ def baseline_proposer_node(state: Dict[str, Any]) -> Dict[str, Any]:
     proposals = data.get("proposals", []) if data else []
     print(f"  Received {len(proposals)} proposal(s)")
 
-    arxiv_id = state.get("arxiv_id")
-    if arxiv_id:
-        save_proposals(arxiv_id, proposals)
+    save_proposals(state["arxiv_id"], proposals)
 
     return {**state, "proposals": proposals}
