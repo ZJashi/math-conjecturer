@@ -5,3 +5,4 @@ class GraphState(TypedDict):
     arxiv_id: str
     tex: NotRequired[str]
     proposals: NotRequired[list]
+    evaluations: NotRequired[list]
