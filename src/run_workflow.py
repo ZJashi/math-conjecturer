@@ -29,12 +29,19 @@ def run_one(workflow, arxiv_id: str) -> None:
     state = workflow.invoke({"arxiv_id": arxiv_id})
 
     proposals = state.get("proposals", [])
+    evaluations = state.get("evaluations", [])
     print(f"\n{'='*60}")
-    print(f"DONE — {len(proposals)} proposal(s) generated")
+    print(f"DONE — {len(proposals)} proposal(s), {len(evaluations)} evaluation(s)")
     print(f"{'='*60}")
     for i, p in enumerate(proposals, 1):
         print(f"\n  Proposal {i}: {p.get('title', 'Untitled')}")
         print(f"  {p.get('problem_statement', '')[:200]}...")
+    for e in evaluations:
+        print(f"\n  Eval {e.get('proposal_index', '?')}: "
+              f"TS={e.get('technical_soundness', {}).get('score', '?')} "
+              f"G={e.get('grounding', {}).get('score', '?')} "
+              f"CD={e.get('conceptual_depth', {}).get('score', '?')} "
+              f"→ {e.get('overall', '?')}/5")
 
     print(f"\nFiles saved to papers/{arxiv_id}/baseline/")
 

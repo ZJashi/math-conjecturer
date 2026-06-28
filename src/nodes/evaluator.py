@@ -9,9 +9,10 @@ from utils.parse import extract_json
 def baseline_evaluator_node(state: GraphState) -> dict:
     print("--- Baseline Evaluator ---")
 
+    proposals = state.get("proposals") or []
     prompt = (EVALUATOR_PROMPT
               .replace("{paper}", state["tex"])
-              .replace("{proposals}", format_proposals(state["proposals"])))
+              .replace("{proposals}", format_proposals(proposals)))
     messages = [
         {"role": "system", "content": EVALUATOR_SYSTEM},
         {"role": "user",   "content": prompt},
