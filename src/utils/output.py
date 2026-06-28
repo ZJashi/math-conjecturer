@@ -17,7 +17,6 @@ def save_proposals(arxiv_id: str, proposals: list) -> None:
     for i, p in enumerate(proposals, 1):
         md += f"## Proposal {i}: {p.get('title', 'Untitled')}\n\n"
         md += f"### Problem Statement\n{p.get('problem_statement', '')}\n\n"
-        md += f"### Potential Impact\n{p.get('potential_impact', '')}\n\n"
     (out_dir / "proposals.md").write_text(md, encoding="utf-8")
 
     print(f"  > Saved to papers/{arxiv_id}/baseline/")
