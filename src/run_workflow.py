@@ -4,10 +4,12 @@ Baseline: single few-shot API call for research proposal generation.
 
 Usage:
     uv run python run_workflow.py <arxiv_id> [arxiv_id2 ...]
+    uv run python run_workflow.py papers.txt
 
 Example:
     uv run python run_workflow.py 2512.01868
     uv run python run_workflow.py 2512.01868 2501.00001 2501.00002
+    uv run python run_workflow.py list_of_papers.txt
 """
 
 import os
@@ -45,13 +47,20 @@ def run_one(workflow, arxiv_id: str) -> None:
     print(f"\nFiles saved to papers/{arxiv_id}/baseline/")
 
 
+def load_ids(args: list[str]) -> list[str]:
+    if len(args) == 1 and Path(args[0]).suffix in (".txt", ".md"):
+        lines = Path(args[0]).read_text().splitlines()
+        return [l.strip() for l in lines if l.strip() and not l.strip().startswith("#")]
+    return args
+
+
 def main():
     if len(sys.argv) < 2:
         print("Usage: python run_workflow.py <arxiv_id> [arxiv_id2 ...]")
-        print("Example: python run_workflow.py 2512.01868 2501.00001")
+        print("       python run_workflow.py list_of_papers.txt")
         sys.exit(1)
 
-    arxiv_ids = sys.argv[1:]
+    arxiv_ids = load_ids(sys.argv[1:])
     workflow = build_baseline_workflow()
 
     failed = []
