@@ -28,7 +28,7 @@ def run_one(workflow, arxiv_id: str) -> None:
     print(f"BASELINE: Processing arXiv paper {arxiv_id}")
     print(f"{'='*60}\n")
 
-    state = workflow.invoke({"arxiv_id": arxiv_id, "tex": "", "summary": "", "iteration": 1})
+    state = workflow.invoke({"arxiv_id": arxiv_id})
 
     proposals = state.get("proposals", [])
     print(f"\n{'='*60}")
